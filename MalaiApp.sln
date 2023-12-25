@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34018.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{7BCC1BFC-45EB-41F9-B84B-19324E92FB7D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImportData", "ImportData\ImportData.csproj", "{3AD9192A-3621-4EA9-B887-CCE57BE4BBBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7BCC1BFC-45EB-41F9-B84B-19324E92FB7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BCC1BFC-45EB-41F9-B84B-19324E92FB7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BCC1BFC-45EB-41F9-B84B-19324E92FB7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BCC1BFC-45EB-41F9-B84B-19324E92FB7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AD9192A-3621-4EA9-B887-CCE57BE4BBBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AD9192A-3621-4EA9-B887-CCE57BE4BBBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AD9192A-3621-4EA9-B887-CCE57BE4BBBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AD9192A-3621-4EA9-B887-CCE57BE4BBBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C12D834-35C9-415F-AA17-929F490368E4}
+	EndGlobalSection
+EndGlobal
