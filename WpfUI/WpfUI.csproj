@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Images\ItIsInTheDetails.png" />
+	  <None Remove="Images\MalaiEffinciency.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Images\ItIsInTheDetails.png" />
+	  <Resource Include="Images\MalaiEffinciency.png" />
+	</ItemGroup>
+
+</Project>
