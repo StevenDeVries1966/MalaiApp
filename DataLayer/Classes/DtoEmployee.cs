@@ -4,23 +4,27 @@ namespace DataLayer.Classes
 {
     public class DtoEmployee
     {
-        public DtoEmployee(int id, int code, int firstName, int lastName, int email, int phone)
+        public DtoEmployee(int id, string code, string firstName, string lastName, string email, string phone)
         {
-            Id = id;
-            Code = code;
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            Phone = phone;
+            emp_id = id;
+            emp_code = code;
+            first_name = firstName;
+            last_name = lastName;
+            email = email;
+            phone = phone;
         }
 
+        public DtoEmployee()
+        {
+
+        }
         [Key]
-        public int Id { get; set; }
-        public int Code { get; set; }
-        public int FirstName { get; set; }
-        public int LastName { get; set; }
-        public int Email { get; set; }
-        public int Phone { get; set; }
+        public int emp_id { get; set; }
+        public string emp_code { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
+        public string email { get; set; }
+        public string phone { get; set; }
 
     }
 }

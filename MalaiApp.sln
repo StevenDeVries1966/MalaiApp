@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImportData", "ImportData\ImportData.csproj", "{3AD9192A-3621-4EA9-B887-CCE57BE4BBBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfUI", "WpfUI\WpfUI.csproj", "{B7B5F70C-1965-4D3A-9925-4A5244C1A5EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfUI", "WpfUI\WpfUI.csproj", "{B7B5F70C-1965-4D3A-9925-4A5244C1A5EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{30F87229-EF85-4765-8B52-D93DBFB6E998}"
 	ProjectSection(SolutionItems) = preProject
@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{51E870
 	ProjectSection(SolutionItems) = preProject
 		_SlnItems\Images\ItIsInTheDetails.png = _SlnItems\Images\ItIsInTheDetails.png
 		_SlnItems\Images\MalaiEffinciency.png = _SlnItems\Images\MalaiEffinciency.png
+		_SlnItems\Images\Testing.png = _SlnItems\Images\Testing.png
 	EndProjectSection
 EndProject
 Global

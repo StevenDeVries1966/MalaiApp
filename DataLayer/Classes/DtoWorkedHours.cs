@@ -1,28 +1,34 @@
-﻿namespace DataLayer.Classes
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DataLayer.Classes
 {
     public class DtoWorkedHours
     {
         public DtoWorkedHours(string employeeCode, string clientCode, DateTime start, DateTime end, string notes)
         {
-            EmployeeCode = employeeCode;
-            ClientCode = clientCode;
-            Start = start;
-            End = end;
-            Notes = notes;
+            emp_code = employeeCode;
+            clt_code = clientCode;
+            start_time = start;
+            end_time = end;
+            notes = notes;
         }
+        public DtoWorkedHours()
+        {
 
-        public int EmployeeId { get; set; }
-        public string EmployeeCode { get; set; }
-        public string ClientCode { get; set; }
-        public int Week { get; set; }
-        public int Month { get; set; }
-        public int Year { get; set; }
-        public string Notes { get; set; }
+        }
+        [Key]
+        public int entry_id { get; set; }
+        public string emp_code { get; set; }
+        public string clt_code { get; set; }
+        public int week { get; set; }
+        public int month { get; set; }
+        public int year { get; set; }
+        public string notes { get; set; }
 
-        public DateTime Start { get; set; }
+        public DateTime start_time { get; set; }
 
-        public DateTime End { get; set; }
+        public DateTime end_time { get; set; }
 
-        public double WorkedHours { get; set; }
+        public double worked_hours { get; set; }
     }
 }

@@ -5,16 +5,23 @@
 		<TargetFramework>net6.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
+		<AssemblyName>Malai App</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <None Remove="Images\ItIsInTheDetails.png" />
 	  <None Remove="Images\MalaiEffinciency.png" />
+	  <None Remove="Images\Testing.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Resource Include="Images\ItIsInTheDetails.png" />
 	  <Resource Include="Images\MalaiEffinciency.png" />
+	  <Resource Include="Images\Testing.png" />
 	</ItemGroup>
 
 </Project>

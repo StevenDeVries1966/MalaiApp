@@ -6,25 +6,28 @@ namespace DataLayer.Classes
     {
         public DtoClient(string code, string name, string address, string postalCode, string city, string country, string email, string phone)
         {
-            Code = code;
-            Name = name;
-            Address = address;
-            PostalCode = postalCode;
-            City = city;
-            Country = country;
-            Email = email;
-            Phone = phone;
+            clt_code = code;
+            clt_name = name;
+            address = address;
+            postalCode = postalCode;
+            city = city;
+            country = country;
+            email = email;
+            phone = phone;
         }
+        public DtoClient()
+        {
 
+        }
         [Key]
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string PostalCode { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
+        public string clt_code { get; set; }
+        public string clt_name { get; set; }
+        public string address { get; set; }
+        public string postalcode { get; set; }
+        public string city { get; set; }
+        public string country { get; set; }
+        public string email { get; set; }
+        public string phone { get; set; }
 
     }
 }

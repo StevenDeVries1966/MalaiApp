@@ -1,19 +1,90 @@
 ﻿using MySql.Data.MySqlClient;
+using System.Data;
+using System.Reflection;
 
 namespace DataLayer.Classes
 {
     public class MalaiContext
     {
         public ConnectionManager ConManager { get; set; }
+        public List<DtoClient> lstClients { get; set; }
+        public List<DtoJob> lstJobs { get; set; }
+        public List<DtoEmployee> lstEmployee { get; set; }
+        public List<DtoWorkedHours> lstWorkedHours { get; set; }
         public List<DtoWorkedHours> lst { get; set; }
 
 
         public MalaiContext(string server, string database, string username, string password)
         {
             ConManager = new ConnectionManager(server, database, username, password);
-
+            string message = "";
+            lstClients = GetRecords<DtoClient>("GetAllClients", out message);
+            lstJobs = GetRecords<DtoJob>("GetAllJobs", out message);
+            lstEmployee = GetRecords<DtoEmployee>("GetAllEmployees", out message);
+            lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
         }
+        public List<T> GetRecords<T>(string storedProcedure, out string message)
+        {
+            List<T> result = new List<T>();
+            message = "OK";
+            try
+            {
+                using (MySqlConnection con = ConManager.GetConnection())
+                {
+                    using (MySqlCommand cmd = new MySqlCommand(storedProcedure, con))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
+                        using (IDataReader reader = cmd.ExecuteReader())
+                        {
+                            result = DataReaderMapToList<T>(reader, out message);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+            }
+            return result;
+        }
+        public static List<T> DataReaderMapToList<T>(IDataReader dr, out string message)
+        {
+            message = "OK";
+            List<T> list = new List<T>();
+            T obj = default(T);
+            try
+            {
+                while (dr.Read())
+                {
+                    obj = Activator.CreateInstance<T>();
+                    foreach (PropertyInfo prop in obj.GetType().GetProperties())
+                    {
+                        try
+                        {
+                            if (!object.Equals(dr[prop.Name], DBNull.Value))
+                            {
+                                prop.SetValue(obj, dr[prop.Name], null);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            if (!e.Message.StartsWith("Could not find specified column in results"))
+                            {
+                                message = message + e.Message + Environment.NewLine;
+                            }
+                            continue;
+                        }
+                    }
+                    list.Add(obj);
+                }
+            }
+            catch (Exception e)
+            {
+                message = message + e.Message + Environment.NewLine;
+            }
+            return list;
+        }
         public bool AddWorkedHours(List<DtoWorkedHours> workedHours, out string message)
         {
             bool result = false;
@@ -29,11 +100,11 @@ namespace DataLayer.Classes
                             cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                             // Add parameters if your stored procedure has any
-                            cmd.Parameters.AddWithValue("_emp_code", item.EmployeeCode);
-                            cmd.Parameters.AddWithValue("_clt_code", item.ClientCode);
-                            cmd.Parameters.AddWithValue("_notes", item.Notes);
-                            cmd.Parameters.AddWithValue("_start_time", item.Start);
-                            cmd.Parameters.AddWithValue("_end_time", item.End);
+                            cmd.Parameters.AddWithValue("_emp_code", item.emp_code);
+                            cmd.Parameters.AddWithValue("_clt_code", item.clt_code);
+                            cmd.Parameters.AddWithValue("_notes", item.notes);
+                            cmd.Parameters.AddWithValue("_start_time", item.start_time);
+                            cmd.Parameters.AddWithValue("_end_time", item.end_time);
 
                             int rowsAffected = cmd.ExecuteNonQuery();
 
@@ -56,7 +127,7 @@ namespace DataLayer.Classes
             bool result = false;
             try
             {
-                lst = new List<DtoWorkedHours>();
+                lstWorkedHours = new List<DtoWorkedHours>();
                 // Open the file with a StreamReader
                 using (StreamReader reader = new StreamReader(csvPath))
                 {
@@ -92,6 +163,7 @@ namespace DataLayer.Classes
                             message += line + Environment.NewLine;
                             continue;
                         }
+
 
                         DtoWorkedHours wh = new DtoWorkedHours(values[2], values[3], start, end, values[5]);
                         lst.Add(wh);

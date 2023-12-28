@@ -6,16 +6,20 @@ namespace DataLayer.Classes
     {
         public DtoJob(string name, string clientCode)
         {
-            Name = name;
-            ClientCode = clientCode;
+            job_name = name;
+            clt_code = clientCode;
         }
 
+        public DtoJob()
+        {
+
+        }
         [Key]
-        public int Id { get; set; }
+        public int job_id { get; set; }
 
-        public string Name { get; set; }
+        public string job_name { get; set; }
 
-        public string ClientCode { get; set; }
+        public string clt_code { get; set; }
 
     }
 }
