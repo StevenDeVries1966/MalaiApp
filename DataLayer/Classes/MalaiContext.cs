@@ -13,15 +13,41 @@ namespace DataLayer.Classes
         public List<DtoWorkedHours> lstWorkedHours { get; set; }
         public List<DtoWorkedHours> lst { get; set; }
 
-
-        public MalaiContext(string server, string database, string username, string password)
+        public MalaiContext(string server, string database, string username, string password, bool allData = false)
         {
             ConManager = new ConnectionManager(server, database, username, password);
             string message = "";
+            if (allData)
+            {
+                lstClients = GetRecords<DtoClient>("GetAllClients", out message);
+                lstJobs = GetRecords<DtoJob>("GetAllJobs", out message);
+                lstEmployee = GetRecords<DtoEmployee>("GetAllEmployees", out message);
+                lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
+            }
+        }
+        public string GetAllClients()
+        {
+            string message = "";
             lstClients = GetRecords<DtoClient>("GetAllClients", out message);
+            return message;
+        }
+        public string GetAllJobs()
+        {
+            string message = "";
             lstJobs = GetRecords<DtoJob>("GetAllJobs", out message);
+            return message;
+        }
+        public string GetAllEmployees()
+        {
+            string message = "";
             lstEmployee = GetRecords<DtoEmployee>("GetAllEmployees", out message);
+            return message;
+        }
+        public string GetAllWorkedHours()
+        {
+            string message = "";
             lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
+            return message;
         }
         public List<T> GetRecords<T>(string storedProcedure, out string message)
         {
@@ -127,7 +153,7 @@ namespace DataLayer.Classes
             bool result = false;
             try
             {
-                lstWorkedHours = new List<DtoWorkedHours>();
+                lst = new List<DtoWorkedHours>();
                 // Open the file with a StreamReader
                 using (StreamReader reader = new StreamReader(csvPath))
                 {

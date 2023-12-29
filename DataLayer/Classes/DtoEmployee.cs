@@ -26,5 +26,9 @@ namespace DataLayer.Classes
         public string email { get; set; }
         public string phone { get; set; }
 
+        public string display_name()
+        {
+            return $"{emp_code} {first_name} {last_name}";
+        }
     }
 }

@@ -2,16 +2,32 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFramework>net7.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<AssemblyName>Malai App</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="appsettings.Development.json" />
+	  <None Remove="appsettings.json" />
 	  <None Remove="Images\ItIsInTheDetails.png" />
 	  <None Remove="Images\MalaiEffinciency.png" />
 	  <None Remove="Images\Testing.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="appsettings.Development.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

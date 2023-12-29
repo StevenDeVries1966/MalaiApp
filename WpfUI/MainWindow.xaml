@@ -11,17 +11,22 @@
     <Grid ShowGridLines="false">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto" ></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu>
             <MenuItem Header="_WorkedHours"></MenuItem>
+            <MenuItem Header="_Employees"></MenuItem>
             <MenuItem Header="_Clients"></MenuItem>
+            <MenuItem Header="_Jobs"></MenuItem>
         </Menu>
         <controls:HeaderControl Grid.Row="1" Grid.Column="0"   ></controls:HeaderControl>
         <views:ClientsView Grid.Row="2" Grid.ColumnSpan="2"></views:ClientsView>
-        <StatusBar Grid.Column="0" Grid.Row="3">
+        <!--<views:EmployeesView Grid.Row="3" Grid.ColumnSpan="2"></views:EmployeesView>-->
+        <views:WorkedHoursView Grid.Row="3" Grid.ColumnSpan="2"></views:WorkedHoursView>
+        <StatusBar Grid.Column="0" Grid.Row="4">
             <StatusBarItem 
                 Content="(c) MalaiApp"
                 HorizontalAlignment="Center">

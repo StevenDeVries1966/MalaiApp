@@ -15,6 +15,7 @@ namespace WpfUI.ViewModel
             _malaiDataProvider = malaiDataProvider;
         }
         public ObservableCollection<DtoEmployee> Employees { get; } = new();
+
         public ObservableCollection<DtoClient> Clients { get; } = new();
         public ObservableCollection<DtoJob> Jobs { get; } = new();
         public ObservableCollection<DtoWorkedHours> WorkedHours { get; } = new();

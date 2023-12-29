@@ -18,6 +18,7 @@ namespace DataLayer.Classes
         }
         [Key]
         public int entry_id { get; set; }
+        public int emp_id { get; set; }
         public string emp_code { get; set; }
         public string clt_code { get; set; }
         public int week { get; set; }
@@ -29,6 +30,18 @@ namespace DataLayer.Classes
 
         public DateTime end_time { get; set; }
 
-        public double worked_hours { get; set; }
+        public double hours_worked { get; set; }
+
+        public string hours_worked_display
+        {
+            get
+            {
+                //if (hours_worked == null) return "nvt";
+                int hours = (int)hours_worked;
+                int minutes = (int)((hours_worked - hours) * 60);
+                string strminutes = hours < 10 ? $"0{minutes}" : Convert.ToString(minutes);
+                return $"{hours}:{strminutes}";
+            }
+        }
     }
 }
