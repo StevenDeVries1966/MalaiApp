@@ -8,7 +8,8 @@ namespace WpfUI.Data
     public interface IMalaiDataProvider
     {
         Task<MalaiContext?> GetDataContextAsync();
-        Task<List<DtoEmployee>?> GetEmployeeAsync();
+        Task<List<DtoEmployee>?> GetEmployeesAsync();
+        List<DtoEmployee> GetEmployees();
         Task<List<DtoClient>?> GetClientsAsync();
         Task<List<DtoJob>?> GetJobsAsync();
         Task<List<DtoWorkedHours>?> GetWorkedHoursAsync();
@@ -22,9 +23,14 @@ namespace WpfUI.Data
             MalaiContext ctx = new MalaiContext(Globals.Server, Globals.Database, Globals.Username, Globals.Password, true);
             return ctx;
         }
-        public async Task<List<DtoEmployee>?> GetEmployeeAsync()
+        public async Task<List<DtoEmployee>?> GetEmployeesAsync()
         {
             await Task.Delay(1);
+            return GetEmployees();
+        }
+
+        public List<DtoEmployee> GetEmployees()
+        {
             MalaiContext ctx = new MalaiContext(Globals.Server, Globals.Database, Globals.Username, Globals.Password);
             ctx.GetAllEmployees();
             return ctx.lstEmployee;

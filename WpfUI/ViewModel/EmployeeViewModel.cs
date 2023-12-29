@@ -23,7 +23,7 @@ namespace WpfUI.ViewModel
             {
                 return;
             }
-            List<DtoEmployee>? lst = await _malaiDataProvider.GetEmployeeAsync();
+            List<DtoEmployee>? lst = await _malaiDataProvider.GetEmployeesAsync();
             if (lst is not null)
             {
                 foreach (DtoEmployee emp in lst)

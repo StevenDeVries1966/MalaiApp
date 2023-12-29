@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DataLayer.Classes;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace WpfUI.Helpers
 {
@@ -8,6 +10,8 @@ namespace WpfUI.Helpers
         private static string _database;
         private static string _username;
         private static string _password;
+        public static List<DtoEmployee>? Employees { get; set; }
+        public static DtoEmployee? Employee_Current;
 
         public static string Server
         {
