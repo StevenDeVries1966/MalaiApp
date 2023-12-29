@@ -12,15 +12,15 @@ namespace WpfUI.ViewModel
     public class WorkedHoursViewModel : ViewModelBase
     {
         private readonly IMalaiDataProvider _malaiDataProvider;
-        private DtoWorkedHours? selectedWorkedHours;
+        private WorkedHoursItemViewModel? selectedWorkedHours;
 
         public WorkedHoursViewModel(IMalaiDataProvider malaiDataProvider)
         {
             _malaiDataProvider = malaiDataProvider;
         }
-        public ObservableCollection<DtoWorkedHours> WorkedHours { get; } = new();
+        public ObservableCollection<WorkedHoursItemViewModel> WorkedHours { get; } = new();
 
-        public DtoWorkedHours? SelectedWorkedHours
+        public WorkedHoursItemViewModel? SelectedWorkedHours
         {
             get => selectedWorkedHours;
             set
@@ -40,7 +40,7 @@ namespace WpfUI.ViewModel
             {
                 foreach (DtoWorkedHours emp in lst)
                 {
-                    WorkedHours.Add(emp);
+                    WorkedHours.Add(new WorkedHoursItemViewModel(emp));
                 }
             }
         }
@@ -62,8 +62,9 @@ namespace WpfUI.ViewModel
                 year = DateTime.Now.Year
 
             };
-            WorkedHours.Add(wh);
-            SelectedWorkedHours = wh;
+            var viewModel = new WorkedHoursItemViewModel(wh);
+            WorkedHours.Add(viewModel);
+            SelectedWorkedHours = viewModel;
         }
     }
 

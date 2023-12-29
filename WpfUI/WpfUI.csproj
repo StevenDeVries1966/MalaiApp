@@ -9,10 +9,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="ViewModel\WorkedHoursItemViewModel.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Remove="appsettings.Development.json" />
 	  <None Remove="appsettings.json" />
 	  <None Remove="Images\ItIsInTheDetails.png" />

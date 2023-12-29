@@ -12,8 +12,15 @@ namespace WpfUI.ViewModel
             _model = model;
         }
 
-        public int entry_id => _model.entry_id;
-
+        public int entry_id
+        {
+            get => _model.entry_id;
+            set
+            {
+                _model.entry_id = value;
+                RaisePropertyChanged();
+            }
+        }
         public int emp_id
         {
             get => _model.emp_id;
