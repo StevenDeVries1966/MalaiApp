@@ -26,7 +26,7 @@
         <views:ClientsView Grid.Row="2" Grid.ColumnSpan="2"></views:ClientsView>
         <!--<views:EmployeesView Grid.Row="3" Grid.ColumnSpan="2"></views:EmployeesView>-->
         <views:WorkedHoursView Grid.Row="3" Grid.ColumnSpan="2"></views:WorkedHoursView>
-        <StatusBar Grid.Column="0" Grid.Row="4">
+        <StatusBar Grid.Column="0" Grid.Row="4" Background="{StaticResource ColorMalaiOrange}" >
             <StatusBarItem 
                 Content="(c) MalaiApp"
                 HorizontalAlignment="Center">

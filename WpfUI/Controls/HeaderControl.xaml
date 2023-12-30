@@ -14,14 +14,9 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Rectangle  Grid.Column="0" Fill="#F5F6F8" />
-        <Rectangle  Grid.Column="1" Fill="#EA6834" />
+        <Rectangle  Grid.Column="0" Fill="{StaticResource ColorMalaiLightGrey}" />
+        <Rectangle  Grid.Column="1" Fill="{StaticResource ColorMalaiOrange}" />
         <Image  Grid.ColumnSpan="2" Grid.Column="0" Source="/Images/MalaiEffinciency.png"
                VerticalAlignment="Top" Height="25" HorizontalAlignment="Center"/>
-        <!-- Header -->
-        <!--<Rectangle Grid.Column="0" Fill="#FFFFFF" />
-        <Rectangle Grid.Column="2" Fill="#ED1C24" />
-        <Image Grid.ColumnSpan="3" Grid.Column="0" Source="/Images/Testing.png"
-               VerticalAlignment="Top" Height="55" HorizontalAlignment="Center"/>-->
     </Grid>
 </UserControl>

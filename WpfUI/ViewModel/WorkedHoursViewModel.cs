@@ -35,9 +35,11 @@ namespace WpfUI.ViewModel
             {
                 selectedWorkedHours = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(IsWorkedHoursSelected));
                 DeleteCommand.RaiseCanExecuteChanged();
             }
         }
+        public bool IsWorkedHoursSelected => SelectedWorkedHours is not null;
         public async Task LoadWorkedHoursAsync()
         {
             if (WorkedHours.Any())
