@@ -25,9 +25,5 @@ namespace WpfUI.Views
             await _viewModel.LoadWorkedHoursAsync();
         }
 
-        private void ButtonAdd_Click(object sender, RoutedEventArgs e)
-        {
-            _viewModel.Add();
-        }
     }
 }

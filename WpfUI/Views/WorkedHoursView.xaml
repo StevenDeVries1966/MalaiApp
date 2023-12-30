@@ -22,13 +22,14 @@
                     Content="Add" 
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Top"
-                    Click="ButtonAdd_Click"></Button>
+                    Command="{Binding AddCommand}"></Button>
             <Button Margin="10" 
                     Width="40" 
                     Height="20" 
                     Content="Del" 
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Top"></Button>
+                    VerticalAlignment="Top"
+                    Command="{Binding DeleteCommand}"></Button>
         </StackPanel>
         <ListView Grid.Column="0" Grid.Row="1"
                   ItemsSource="{Binding Path=WorkedHours}"

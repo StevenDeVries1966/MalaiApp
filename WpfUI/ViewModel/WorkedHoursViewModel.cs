@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using WpfUI.Command;
 using WpfUI.Data;
 using WpfUI.Helpers;
 
@@ -12,13 +13,20 @@ namespace WpfUI.ViewModel
     public class WorkedHoursViewModel : ViewModelBase
     {
         private readonly IMalaiDataProvider _malaiDataProvider;
+
+
         private WorkedHoursItemViewModel? selectedWorkedHours;
 
         public WorkedHoursViewModel(IMalaiDataProvider malaiDataProvider)
         {
             _malaiDataProvider = malaiDataProvider;
+            AddCommand = new DelegateCommand(Add);
+            DeleteCommand = new DelegateCommand(Delete, CanDelete);
         }
+
         public ObservableCollection<WorkedHoursItemViewModel> WorkedHours { get; } = new();
+        public DelegateCommand AddCommand { get; }
+        public DelegateCommand DeleteCommand { get; }
 
         public WorkedHoursItemViewModel? SelectedWorkedHours
         {
@@ -27,6 +35,7 @@ namespace WpfUI.ViewModel
             {
                 selectedWorkedHours = value;
                 RaisePropertyChanged();
+                DeleteCommand.RaiseCanExecuteChanged();
             }
         }
         public async Task LoadWorkedHoursAsync()
@@ -44,7 +53,7 @@ namespace WpfUI.ViewModel
                 }
             }
         }
-        internal void Add()
+        private void Add(object? parameter)
         {
             DateTime currentDate = DateTime.Today;
             // Set the desired time (8:00 AM)
@@ -66,6 +75,17 @@ namespace WpfUI.ViewModel
             WorkedHours.Add(viewModel);
             SelectedWorkedHours = viewModel;
         }
+
+        private void Delete(object? parameter)
+        {
+            if (SelectedWorkedHours is not null)
+            {
+                WorkedHours.Remove(SelectedWorkedHours);
+                SelectedWorkedHours = null;
+            }
+        }
+
+        private bool CanDelete(object? parameter) => SelectedWorkedHours is not null;
     }
 
 }
