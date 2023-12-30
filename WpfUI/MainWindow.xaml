@@ -6,7 +6,7 @@
         xmlns:controls="clr-namespace:WpfUI.Controls"
         xmlns:views="clr-namespace:WpfUI.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" FontSize="12">
+        Title="MainWindow" Height="450" Width="800" FontSize="12" Icon="/Images/MalaiEffinciency_200x200.ico">
     <!--Main-->
     <Grid ShowGridLines="false">
         <Grid.RowDefinitions>

@@ -6,6 +6,7 @@
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<AssemblyName>Malai App</AssemblyName>
+		<Version>$(VersionPrefix)1.0.1</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

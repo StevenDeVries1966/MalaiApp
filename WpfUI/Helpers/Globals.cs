@@ -1,6 +1,7 @@
 ﻿using DataLayer.Classes;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace WpfUI.Helpers
 {
@@ -12,6 +13,14 @@ namespace WpfUI.Helpers
         private static string _password;
         public static List<DtoEmployee>? Employees { get; set; }
         public static DtoEmployee? Employee_Current;
+        public static string? MainFormTitle
+        {
+            get
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                return $"{assembly.GetName().Name} - v{assembly.GetName()?.Version?.Build}.{assembly.GetName()?.Version?.Major}.{assembly.GetName()?.Version?.Minor}";
+            }
+        }
 
         public static string Server
         {

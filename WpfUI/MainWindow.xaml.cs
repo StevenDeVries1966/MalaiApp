@@ -23,6 +23,7 @@ namespace WpfUI
             Globals.Employees = new MalaiDataProvider().GetEmployees();
             Globals.Employee_Current =
                 Globals.Employees.Where(o => o.login.Equals(Environment.UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            Title = Globals.MainFormTitle;
         }
     }
 }
