@@ -4,10 +4,11 @@ namespace DataLayer.Classes
 {
     public class DtoWorkedHours
     {
-        public DtoWorkedHours(string employeeCode, string clientCode, DateTime start, DateTime end, string notes)
+        public DtoWorkedHours(string employeeCode, string clientCode, string clientJobCode, DateTime start, DateTime end, string notes)
         {
             emp_code = employeeCode;
             clt_code = clientCode;
+            clt_job_code = clientJobCode;
             start_time = start;
             end_time = end;
             notes = notes;
@@ -21,6 +22,7 @@ namespace DataLayer.Classes
         public int emp_id { get; set; }
         public string emp_code { get; set; }
         public string clt_code { get; set; }
+        public string clt_job_code { get; set; }
         public int week { get; set; }
         public int month { get; set; }
         public int year { get; set; }
@@ -39,9 +41,10 @@ namespace DataLayer.Classes
                 //if (hours_worked == null) return "nvt";
                 int hours = (int)hours_worked;
                 int minutes = (int)((hours_worked - hours) * 60);
-                string strminutes = hours < 10 ? $"0{minutes}" : Convert.ToString(minutes);
+                string strminutes = minutes < 10 ? $"0{minutes}" : Convert.ToString(minutes);
                 return $"{hours}:{strminutes}";
             }
+            set => hours_worked_display = value;
         }
     }
 }

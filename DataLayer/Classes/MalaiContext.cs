@@ -128,6 +128,7 @@ namespace DataLayer.Classes
                             // Add parameters if your stored procedure has any
                             cmd.Parameters.AddWithValue("_emp_code", item.emp_code);
                             cmd.Parameters.AddWithValue("_clt_code", item.clt_code);
+                            cmd.Parameters.AddWithValue("_clt_job_code", item.clt_job_code);
                             cmd.Parameters.AddWithValue("_notes", item.notes);
                             cmd.Parameters.AddWithValue("_start_time", item.start_time);
                             cmd.Parameters.AddWithValue("_end_time", item.end_time);
@@ -191,7 +192,7 @@ namespace DataLayer.Classes
                         }
 
 
-                        DtoWorkedHours wh = new DtoWorkedHours(values[2], values[3], start, end, values[5]);
+                        DtoWorkedHours wh = new DtoWorkedHours(values[2], values[3], values[4], start, end, values[5]);
                         lst.Add(wh);
                         ++addedRecords;
                     }

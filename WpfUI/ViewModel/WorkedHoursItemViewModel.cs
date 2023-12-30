@@ -103,6 +103,15 @@ namespace WpfUI.ViewModel
                 RaisePropertyChanged();
             }
         }
+        public string hours_worked_display
+        {
+            get => _model.hours_worked_display;
+            set
+            {
+                _model.hours_worked_display = value;
+                RaisePropertyChanged();
+            }
+        }
 
     }
 }
