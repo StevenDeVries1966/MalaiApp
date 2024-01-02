@@ -13,6 +13,9 @@
         <DataTemplate DataType="{x:Type viewModel:WorkedHoursViewModel}">
             <views:WorkedHoursView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:JobsViewModel}">
+            <views:JobsView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid ShowGridLines="false">
         <Grid.RowDefinitions>
@@ -23,10 +26,16 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu>
-            <MenuItem Header="_WorkedHours"></MenuItem>
-            <MenuItem Header="_Employees"></MenuItem>
-            <MenuItem Header="_Clients"></MenuItem>
-            <MenuItem Header="_Jobs"></MenuItem>
+            <MenuItem Header="_Views">
+                <MenuItem Header="_WorkedHours" 
+                          Command="{Binding SelectViewModelCommand}"
+                          CommandParameter="{Binding WorkedHoursViewModel}"></MenuItem>
+                <MenuItem Header="_Employees"></MenuItem>
+                <MenuItem Header="_Clients"></MenuItem>
+                <MenuItem Header="_Jobs" 
+                          Command="{Binding SelectViewModelCommand}"
+                          CommandParameter="{Binding JobsViewModel}"></MenuItem>
+            </MenuItem>
         </Menu>
         <controls:HeaderControl Grid.Row="1" Grid.Column="0"   ></controls:HeaderControl>
         <views:ClientsView Grid.Row="2" Grid.ColumnSpan="2"></views:ClientsView>

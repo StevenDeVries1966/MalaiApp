@@ -7,7 +7,7 @@ using WpfUI.Data;
 
 namespace WpfUI.ViewModel
 {
-    internal class EmployeeViewModel
+    public class EmployeeViewModel
     {
         private readonly IMalaiDataProvider _malaiDataProvider;
 
