@@ -16,13 +16,15 @@
         <DataTemplate DataType="{x:Type viewModel:JobsViewModel}">
             <views:JobsView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:EmployeeViewModel}">
+            <views:EmployeesView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid ShowGridLines="false">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu>
@@ -30,19 +32,23 @@
                 <MenuItem Header="_WorkedHours" 
                           Command="{Binding SelectViewModelCommand}"
                           CommandParameter="{Binding WorkedHoursViewModel}"></MenuItem>
-                <MenuItem Header="_Employees"></MenuItem>
-                <MenuItem Header="_Clients"></MenuItem>
+                <MenuItem Header="_Employees"
+                          Command="{Binding SelectViewModelCommand}"
+                          CommandParameter="{Binding EmployeesViewModel}"></MenuItem>
+                <MenuItem Header="_Clients"
+                          Command="{Binding SelectViewModelCommand}"
+                          CommandParameter="{Binding ClientsViewModel}"></MenuItem>
                 <MenuItem Header="_Jobs" 
                           Command="{Binding SelectViewModelCommand}"
                           CommandParameter="{Binding JobsViewModel}"></MenuItem>
             </MenuItem>
         </Menu>
         <controls:HeaderControl Grid.Row="1" Grid.Column="0"   ></controls:HeaderControl>
-        <views:ClientsView Grid.Row="2" Grid.ColumnSpan="2"></views:ClientsView>
+        <!--<views:ClientsView Grid.Row="2" Grid.ColumnSpan="2"></views:ClientsView>-->
         <!--<views:EmployeesView Grid.Row="3" Grid.ColumnSpan="2"></views:EmployeesView>-->
-        <ContentControl Grid.Row="3" Grid.ColumnSpan="2" Content="{Binding SelectedViewModel}"/>
+        <ContentControl Grid.Row="2" Grid.ColumnSpan="2" Content="{Binding SelectedViewModel}"/>
            
-        <StatusBar Grid.Column="0" Grid.Row="4" Background="{StaticResource ColorMalaiOrange}" >
+        <StatusBar Grid.Column="0" Grid.Row="3" Background="{StaticResource ColorMalaiOrange}" >
             <StatusBarItem 
                 Content="(c) MalaiApp"
                 HorizontalAlignment="Center">

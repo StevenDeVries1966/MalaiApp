@@ -9,11 +9,17 @@ namespace WpfUI.ViewModel
 
         private ViewModelBase? _selectedViewModel;
 
-        public MainViewModel(WorkedHoursViewModel workedHoursViewModel, JobsViewModel jobsViewModel)
+        public MainViewModel(
+            WorkedHoursViewModel workedHoursViewModel,
+            JobsViewModel jobsViewModel,
+            EmployeeViewModel employeeViewModel,
+            ClientsViewModel clientsViewModel)
         {
             WorkedHoursViewModel = workedHoursViewModel;
             JobsViewModel = jobsViewModel;
-            _selectedViewModel = WorkedHoursViewModel;
+            EmployeeViewModel = employeeViewModel;
+            ClientsViewModel = clientsViewModel;
+            _selectedViewModel = employeeViewModel;
             SelectViewModelCommand = new DelegateCommand(SelectViewModel);
         }
 
@@ -28,6 +34,8 @@ namespace WpfUI.ViewModel
         }
         public WorkedHoursViewModel WorkedHoursViewModel { get; }
         public JobsViewModel JobsViewModel { get; }
+        public EmployeeViewModel EmployeeViewModel { get; }
+        public ClientsViewModel ClientsViewModel { get; }
         public DelegateCommand SelectViewModelCommand { get; }
         public async override Task LoadAsync()
         {

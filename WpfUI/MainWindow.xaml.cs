@@ -14,7 +14,11 @@ namespace WpfUI
         public MainWindow()
         {
             InitializeComponent();
-            _viewModel = new MainViewModel(new WorkedHoursViewModel(new MalaiDataProvider()), new JobsViewModel());
+            _viewModel = new MainViewModel(
+                new WorkedHoursViewModel(new MalaiDataProvider()),
+                new JobsViewModel(),
+                new EmployeeViewModel(new MalaiDataProvider()),
+                new ClientsViewModel(new MalaiDataProvider()));
             DataContext = _viewModel;
             Loaded += MainWindow_Loaded;
 

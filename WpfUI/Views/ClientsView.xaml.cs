@@ -10,19 +10,19 @@ namespace WpfUI.Views
     /// </summary>
     public partial class ClientsView : UserControl
     {
-        private MalaiViewModel _viewModel;
+        private ClientsViewModel _viewModel;
 
         public ClientsView()
         {
             InitializeComponent();
-            _viewModel = new MalaiViewModel(new MalaiDataProvider());
+            _viewModel = new ClientsViewModel(new MalaiDataProvider());
             DataContext = _viewModel;
             Loaded += ClientsView_Loaded;
         }
 
         private async void ClientsView_Loaded(object sender, RoutedEventArgs e)
         {
-            await _viewModel.LoadDataContextAsync();
+            await _viewModel.LoadClientsAsync();
         }
     }
 }
