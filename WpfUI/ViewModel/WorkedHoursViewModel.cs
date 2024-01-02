@@ -14,9 +14,7 @@ namespace WpfUI.ViewModel
     {
         private readonly IMalaiDataProvider _malaiDataProvider;
         private WorkedHoursItemViewModel? _selectedWorkedHours;
-        public ObservableCollection<WorkedHoursItemViewModel> WorkedHours { get; } = new();
-        public DelegateCommand AddCommand { get; }
-        public DelegateCommand DeleteCommand { get; }
+
         public bool IsWorkedHoursSelected => SelectedWorkedHours is not null;
 
         public WorkedHoursViewModel(IMalaiDataProvider malaiDataProvider)
@@ -25,6 +23,9 @@ namespace WpfUI.ViewModel
             AddCommand = new DelegateCommand(Add);
             DeleteCommand = new DelegateCommand(Delete, CanDelete);
         }
+        public ObservableCollection<WorkedHoursItemViewModel> WorkedHours { get; } = new();
+        public DelegateCommand AddCommand { get; }
+        public DelegateCommand DeleteCommand { get; }
         public WorkedHoursItemViewModel? SelectedWorkedHours
         {
             get => _selectedWorkedHours;

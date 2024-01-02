@@ -17,7 +17,7 @@ namespace WpfUI.ViewModel
         {
             WorkedHoursViewModel = workedHoursViewModel;
             JobsViewModel = jobsViewModel;
-            EmployeeViewModel = employeeViewModel;
+            EmployeesViewModel = employeeViewModel;
             ClientsViewModel = clientsViewModel;
             _selectedViewModel = employeeViewModel;
             SelectViewModelCommand = new DelegateCommand(SelectViewModel);
@@ -34,7 +34,7 @@ namespace WpfUI.ViewModel
         }
         public WorkedHoursViewModel WorkedHoursViewModel { get; }
         public JobsViewModel JobsViewModel { get; }
-        public EmployeeViewModel EmployeeViewModel { get; }
+        public EmployeeViewModel EmployeesViewModel { get; }
         public ClientsViewModel ClientsViewModel { get; }
         public DelegateCommand SelectViewModelCommand { get; }
         public async override Task LoadAsync()

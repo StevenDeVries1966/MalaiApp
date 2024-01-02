@@ -10,14 +10,26 @@ namespace WpfUI.ViewModel
     public class EmployeeViewModel : ViewModelBase
     {
         private readonly IMalaiDataProvider _malaiDataProvider;
+        private EmployeeItemViewModel? _selectedEmployee;
+
+        public bool IsEmployeeSelected => SelectedEmployee is not null;
 
         public EmployeeViewModel(IMalaiDataProvider malaiDataProvider)
         {
             _malaiDataProvider = malaiDataProvider;
         }
-        public ObservableCollection<DtoEmployee> Employees { get; } = new();
-        public DtoEmployee? SelectedEmployee { get; set; }
-        public async Task LoadEmployeesAsync()
+        public ObservableCollection<EmployeeItemViewModel> Employees { get; } = new();
+        public EmployeeItemViewModel? SelectedEmployee
+        {
+            get => _selectedEmployee;
+            set
+            {
+                _selectedEmployee = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public async override Task LoadAsync()
         {
             if (Employees.Any())
             {
@@ -28,7 +40,7 @@ namespace WpfUI.ViewModel
             {
                 foreach (DtoEmployee emp in lst)
                 {
-                    Employees.Add(emp);
+                    Employees.Add(new EmployeeItemViewModel(emp));
                 }
             }
         }

@@ -22,7 +22,7 @@ namespace WpfUI.Views
 
         private async void EmployeesView_Loaded(object sender, RoutedEventArgs e)
         {
-            await _viewModel.LoadEmployeesAsync();
+            await _viewModel.LoadAsync();
         }
     }
 }
