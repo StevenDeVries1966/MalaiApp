@@ -10,7 +10,14 @@
 //string strminutes = hours < 10 ? $"0{minutes}" : Convert.ToString(minutes);
 //var test = $"{hours}:{strminutes}";
 
-//MalaiContext conMan = new MalaiContext("127.0.0.1", @"Malai_test", "root", "wqEQW5Ag/&6%JT+");
+using DataLayer.Classes;
+
+DateTime start = DateTime.Now;
+MalaiContext conMan = new MalaiContext("127.0.0.1", @"Malai_test", "root", "wqEQW5Ag/&6%JT+");
+conMan.GetAllWorkedHours();
+DateTime end = DateTime.Now;
+TimeSpan ts = end - start;
+Console.WriteLine($"Done {ts.TotalSeconds}");
 //string mesagge = "";
 
 //string filePath = @"C:\Prive\Malai\Docs\23_10.csv";
@@ -19,3 +26,4 @@
 //conMan.ReadCsv(filePath);
 Console.WriteLine("Done");
 Console.ReadLine();
+

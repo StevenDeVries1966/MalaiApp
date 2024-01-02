@@ -10,14 +10,10 @@ namespace WpfUI
     public partial class MainWindow : Window
     {
         private readonly MainViewModel _viewModel;
-        public MainWindow()
+        public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
-            _viewModel = new MainViewModel(
-                new WorkedHoursViewModel(new MalaiDataProvider()),
-                new JobsViewModel(new MalaiDataProvider()),
-                new EmployeeViewModel(new MalaiDataProvider()),
-                new ClientsViewModel(new MalaiDataProvider()));
+            _viewModel = viewModel;
             DataContext = _viewModel;
             Loaded += MainWindow_Loaded;
 

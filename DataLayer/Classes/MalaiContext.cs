@@ -1,6 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data;
-using System.Reflection;
 
 namespace DataLayer.Classes
 {
@@ -49,7 +48,37 @@ namespace DataLayer.Classes
             lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
             return message;
         }
-        public List<T> GetRecords<T>(string storedProcedure, out string message)
+        public static List<T> MapToList<T>(IDataReader reader) where T : new()
+        {
+            List<T> resultList = new List<T>();
+
+            while (reader.Read())
+            {
+                T obj = MapToObject<T>(reader);
+                resultList.Add(obj);
+            }
+            return resultList;
+        }
+
+        private static T MapToObject<T>(IDataRecord record) where T : new()
+        {
+            T obj = new T();
+
+            for (int i = 0; i < record.FieldCount; i++)
+            {
+                if (!record.IsDBNull(i))
+                {
+                    string propertyName = record.GetName(i);
+                    object value = record[i];
+
+                    // Use reflection to set the property value
+                    typeof(T).GetProperty(propertyName)?.SetValue(obj, value, null);
+                }
+            }
+
+            return obj;
+        }
+        public List<T> GetRecords<T>(string storedProcedure, out string message) where T : new()
         {
             List<T> result = new List<T>();
             message = "OK";
@@ -61,10 +90,18 @@ namespace DataLayer.Classes
                     {
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
+                        DateTime start = DateTime.Now;
                         using (IDataReader reader = cmd.ExecuteReader())
                         {
-                            result = DataReaderMapToList<T>(reader, out message);
+                            while (reader.Read())
+                            {
+                                T obj = MapToObject<T>(reader);
+                                result.Add(obj);
+                            }
                         }
+
+                        DateTime end = DateTime.Now;
+                        TimeSpan ts = end - start;
                     }
                 }
             }
@@ -73,43 +110,6 @@ namespace DataLayer.Classes
                 message = e.Message;
             }
             return result;
-        }
-        public static List<T> DataReaderMapToList<T>(IDataReader dr, out string message)
-        {
-            message = "OK";
-            List<T> list = new List<T>();
-            T obj = default(T);
-            try
-            {
-                while (dr.Read())
-                {
-                    obj = Activator.CreateInstance<T>();
-                    foreach (PropertyInfo prop in obj.GetType().GetProperties())
-                    {
-                        try
-                        {
-                            if (!object.Equals(dr[prop.Name], DBNull.Value))
-                            {
-                                prop.SetValue(obj, dr[prop.Name], null);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            if (!e.Message.StartsWith("Could not find specified column in results"))
-                            {
-                                message = message + e.Message + Environment.NewLine;
-                            }
-                            continue;
-                        }
-                    }
-                    list.Add(obj);
-                }
-            }
-            catch (Exception e)
-            {
-                message = message + e.Message + Environment.NewLine;
-            }
-            return list;
         }
         public bool AddWorkedHours(List<DtoWorkedHours> workedHours, out string message)
         {
