@@ -7,7 +7,6 @@ using WpfUI.ViewModel;
 
 namespace WpfUI
 {
-
     public partial class MainWindow : Window
     {
         private readonly MainViewModel _viewModel;
@@ -16,7 +15,7 @@ namespace WpfUI
             InitializeComponent();
             _viewModel = new MainViewModel(
                 new WorkedHoursViewModel(new MalaiDataProvider()),
-                new JobsViewModel(),
+                new JobsViewModel(new MalaiDataProvider()),
                 new EmployeeViewModel(new MalaiDataProvider()),
                 new ClientsViewModel(new MalaiDataProvider()));
             DataContext = _viewModel;

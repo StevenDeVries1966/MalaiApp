@@ -19,10 +19,9 @@ namespace WpfUI.Views
             DataContext = _viewModel;
             Loaded += ClientsView_Loaded;
         }
-
         private async void ClientsView_Loaded(object sender, RoutedEventArgs e)
         {
-            await _viewModel.LoadClientsAsync();
+            await _viewModel.LoadAsync();
         }
     }
 }

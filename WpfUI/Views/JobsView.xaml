@@ -6,9 +6,43 @@
              xmlns:local="clr-namespace:WpfUI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <DataTemplate x:Key="JobsDataTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding clt_code}" FontWeight="Bold"></TextBox>
+                <TextBox Text="{Binding job_name}" Margin="5 0 0 0"></TextBox>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
-        <TextBlock Text="Jobs" 
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ListView Grid.Column="0" Grid.Row="0"
+                  ItemsSource="{Binding Path=Jobs}"
+                  SelectedItem="{Binding Path=SelectedJob, Mode=TwoWay }"
+                  ItemTemplate="{StaticResource JobsDataTemplate}"/>
+        <Grid Grid.Column="1"  Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Grid.Row="0">Name :</Label>
+            <TextBox Grid.Column="1" Grid.Row="1" 
+                     Text="{Binding SelectedJob.job_name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Column="0" Grid.Row="1">Clients code :</Label>
+            <TextBox Grid.Column="1" Grid.Row="0" 
+                     Text="{Binding SelectedJob.clt_code, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+              </Grid>
     </Grid>
+
 </UserControl>

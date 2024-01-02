@@ -19,6 +19,9 @@
         <DataTemplate DataType="{x:Type viewModel:EmployeeViewModel}">
             <views:EmployeesView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ClientsViewModel}">
+            <views:ClientsView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid ShowGridLines="false">
         <Grid.RowDefinitions>

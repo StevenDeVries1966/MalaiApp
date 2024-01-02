@@ -10,14 +10,23 @@ namespace WpfUI.ViewModel
     public class ClientsViewModel : ViewModelBase
     {
         private readonly IMalaiDataProvider _malaiDataProvider;
+        private ClientsItemViewModel? _selectedClient;
 
         public ClientsViewModel(IMalaiDataProvider malaiDataProvider)
         {
             _malaiDataProvider = malaiDataProvider;
         }
-        public ObservableCollection<DtoClient> Clients { get; } = new();
-        public DtoEmployee? SelectedEmployee { get; set; }
-        public async Task LoadClientsAsync()
+        public ObservableCollection<ClientsItemViewModel> Clients { get; } = new();
+        public ClientsItemViewModel? SelectedClient
+        {
+            get => _selectedClient;
+            set
+            {
+                _selectedClient = value;
+                RaisePropertyChanged();
+            }
+        }
+        public async override Task LoadAsync()
         {
             if (Clients.Any())
             {
@@ -28,11 +37,10 @@ namespace WpfUI.ViewModel
             {
                 foreach (DtoClient clt in lst)
                 {
-                    Clients.Add(clt);
+                    Clients.Add(new ClientsItemViewModel(clt));
                 }
             }
         }
-
     }
 
 }

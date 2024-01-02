@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using WpfUI.Data;
+using WpfUI.ViewModel;
 
 namespace WpfUI.Views
 {
@@ -20,9 +10,19 @@ namespace WpfUI.Views
     /// </summary>
     public partial class JobsView : UserControl
     {
+        private JobsViewModel _viewModel;
+
         public JobsView()
         {
             InitializeComponent();
+            _viewModel = new JobsViewModel(new MalaiDataProvider());
+            DataContext = _viewModel;
+            Loaded += JobsView_Loaded;
+        }
+
+        private async void JobsView_Loaded(object sender, RoutedEventArgs e)
+        {
+            await _viewModel.LoadAsync();
         }
     }
 }

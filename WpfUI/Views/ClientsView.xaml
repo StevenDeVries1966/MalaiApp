@@ -14,17 +14,16 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="EmployeeListView"
-                  ItemsSource="{Binding Path=Clients}"
-                  DisplayMemberPath="clt_name"/>
+        <ListView  Grid.Column="0" Grid.Row="0"
+                   ItemsSource="{Binding Path=Clients}"
+                   SelectedItem="{Binding Path=SelectedClient, Mode=TwoWay }"
+                   DisplayMemberPath="clt_name"/>
         <StackPanel Grid.Column="1">
             <Label>FirstName :</Label>
             <TextBox Text="{Binding 
-                ElementName=EmployeeListView, 
-                Path=SelectedItem.clt_name,
+                SelectedClient.clt_name,
                 Mode=TwoWay,
                 UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
-     
     </Grid>
 </UserControl>
