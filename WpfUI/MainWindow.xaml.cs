@@ -7,23 +7,26 @@ using WpfUI.ViewModel;
 
 namespace WpfUI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : Window
     {
-        //private MalaiViewModel _viewModel;
-        private EmployeeViewModel _viewModel;
-
+        private readonly MainViewModel _viewModel;
         public MainWindow()
         {
             InitializeComponent();
-            _viewModel = new EmployeeViewModel(new MalaiDataProvider());
+            _viewModel = new MainViewModel(new WorkedHoursViewModel(new MalaiDataProvider()));
             DataContext = _viewModel;
+            Loaded += MainWindow_Loaded;
+
             Globals.Employees = new MalaiDataProvider().GetEmployees();
             Globals.Employee_Current =
                 Globals.Employees.Where(o => o.login.Equals(Environment.UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
             Title = Globals.MainFormTitle;
+        }
+
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            await _viewModel.LoadAsync();
         }
     }
 }

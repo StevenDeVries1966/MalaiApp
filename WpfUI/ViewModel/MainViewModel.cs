@@ -1,4 +1,6 @@
-﻿namespace WpfUI.ViewModel
+﻿using System.Threading.Tasks;
+
+namespace WpfUI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
@@ -21,12 +23,12 @@
             }
         }
 
-        //public async override Task LoadAsync()
-        //{
-        //    if (SelectedViewModel is not null)
-        //    {
-        //        await SelectedViewModel.LoadAsync();
-        //    }
-        //}
+        public async override Task LoadAsync()
+        {
+            if (SelectedViewModel is not null)
+            {
+                await SelectedViewModel.LoadAsync();
+            }
+        }
     }
 }

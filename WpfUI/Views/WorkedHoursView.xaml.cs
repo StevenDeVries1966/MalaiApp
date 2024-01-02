@@ -22,7 +22,7 @@ namespace WpfUI.Views
 
         private async void WorkedHoursView_Loaded(object sender, RoutedEventArgs e)
         {
-            await _viewModel.LoadWorkedHoursAsync();
+            await _viewModel.LoadAsync();
         }
 
     }

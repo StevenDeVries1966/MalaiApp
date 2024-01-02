@@ -37,7 +37,7 @@ namespace WpfUI.ViewModel
             }
         }
 
-        public async Task LoadWorkedHoursAsync()
+        public async override Task LoadAsync()
         {
             if (WorkedHours.Any())
             {
