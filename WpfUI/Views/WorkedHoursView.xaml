@@ -6,25 +6,13 @@
              xmlns:local="clr-namespace:WpfUI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <DataTemplate x:Key="WorkedHoursDataTemplate">
-            <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding week}" FontWeight="Bold"></TextBox>
-                <TextBox Text="{Binding start_time}" Margin="5 0 0 0"></TextBox>
-                <TextBox Text="{Binding end_time}" Margin="5 0 0 0"></TextBox>
-                <TextBox Text="{Binding emp_code}" Margin="5 0 0 0"></TextBox>
-                <TextBox Text="{Binding clt_code}" Margin="5 0 0 0"></TextBox>
-                <TextBox Text="{Binding clt_code}" Margin="5 0 0 0"></TextBox>
-            </StackPanel>
-        </DataTemplate>
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Grid.Row="0"  Orientation="Horizontal">
@@ -43,11 +31,14 @@
                     VerticalAlignment="Top"
                     Command="{Binding DeleteCommand}"></Button>
         </StackPanel>
-        <ListView Grid.Column="0" Grid.Row="1"
-                  ItemsSource="{Binding Path=WorkedHours}"
-                  SelectedItem="{Binding Path=SelectedWorkedHours, Mode=TwoWay }"
-                  ItemTemplate="{StaticResource WorkedHoursDataTemplate}"/>
-        <Grid Grid.Column="1"  Grid.Row="0" RowSpan="2" Visibility="{Binding IsWorkedHoursSelected, Converter={StaticResource BooleanToVisibilityConv}}">
+        <DataGrid  Grid.Column="0" Grid.Row="1" 
+                   ItemsSource="{Binding WorkedHours, ValidatesOnNotifyDataErrors=False}"
+                   SelectedItem="{Binding Path=SelectedWorkedHours, Mode=TwoWay}"
+                   Margin="10"
+                   IsReadOnly="True">
+        </DataGrid>
+       
+        <Grid Grid.Column="1"  Grid.Row="1" Visibility="{Binding IsWorkedHoursSelected, Converter={StaticResource BooleanToVisibilityConv}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -61,12 +52,10 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right">entry_id</Label>
-            <TextBox Margin="2" Grid.Column="1" Grid.Row="0" Text="{Binding SelectedWorkedHours.entry_id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right">emp_id</Label>
-            <TextBox Margin="2" Grid.Column="1" Grid.Row="1" Text="{Binding SelectedWorkedHours.emp_id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right">emp_code</Label>
+            <TextBox Margin="2" Grid.Column="1" Grid.Row="1" Text="{Binding SelectedWorkedHours.emp_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right">clt_code</Label>
             <TextBox Margin="2" Grid.Column="1" Grid.Row="2" Text="{Binding SelectedWorkedHours.clt_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right">week</Label>

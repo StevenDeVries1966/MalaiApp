@@ -3,32 +3,13 @@ using System;
 
 namespace WpfUI.ViewModel
 {
-    public class WorkedHoursItemViewModel : ViewModelBase
+    public class WorkedHoursItemViewModel : ValidationViewModelBase
     {
         public DtoWorkedHours _model;
 
         public WorkedHoursItemViewModel(DtoWorkedHours model)
         {
             _model = model;
-        }
-
-        public int entry_id
-        {
-            get => _model.entry_id;
-            set
-            {
-                _model.entry_id = value;
-                RaisePropertyChanged();
-            }
-        }
-        public int emp_id
-        {
-            get => _model.emp_id;
-            set
-            {
-                _model.emp_id = value;
-                RaisePropertyChanged();
-            }
         }
 
         public string emp_code
@@ -38,6 +19,7 @@ namespace WpfUI.ViewModel
             {
                 _model.emp_code = value;
                 RaisePropertyChanged();
+
             }
         }
         public string clt_code
@@ -47,6 +29,14 @@ namespace WpfUI.ViewModel
             {
                 _model.clt_code = value;
                 RaisePropertyChanged();
+                if (string.IsNullOrEmpty(_model.clt_code))
+                {
+                    AddError("Client code is required");
+                }
+                else
+                {
+                    ClearError();
+                }
             }
         }
         public string notes
