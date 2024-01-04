@@ -22,7 +22,7 @@ namespace WpfUI.ViewModel
 
             }
         }
-        public string clt_code
+        public string? clt_code
         {
             get => _model.clt_code;
             set
@@ -39,15 +39,7 @@ namespace WpfUI.ViewModel
                 }
             }
         }
-        public string notes
-        {
-            get => _model.notes;
-            set
-            {
-                _model.notes = value;
-                RaisePropertyChanged();
-            }
-        }
+
         public DateTime start_time
         {
             get => _model.start_time;
@@ -102,6 +94,14 @@ namespace WpfUI.ViewModel
                 RaisePropertyChanged();
             }
         }
-
+        public string notes
+        {
+            get => _model.notes;
+            set
+            {
+                _model.notes = value;
+                RaisePropertyChanged();
+            }
+        }
     }
 }

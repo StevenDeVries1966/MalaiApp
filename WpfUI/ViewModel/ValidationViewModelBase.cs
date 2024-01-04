@@ -44,7 +44,7 @@ namespace WpfUI.ViewModel
         protected void ClearError([CallerMemberName] string? propertyName = null)
         {
             if (propertyName is null) return;
-            if (!_errorsByPropertyname.ContainsKey(propertyName))
+            if (_errorsByPropertyname.ContainsKey(propertyName))
             {
                 _errorsByPropertyname.Remove(propertyName);
                 OnErrorsChanged(new DataErrorsChangedEventArgs(propertyName));

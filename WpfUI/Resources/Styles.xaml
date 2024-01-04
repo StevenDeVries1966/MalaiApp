@@ -7,12 +7,26 @@
         <Setter Property="Background" Value="{StaticResource ColorMalaiOrange}" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Padding" Value="5" />
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                        <AdornedElementPlaceholder x:Name="Placeholder"/>
+                        <TextBlock Foreground="red" 
+                                   Text="{Binding ElementName=Placeholder,
+                                                  Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
+                                   Margin="3 0 0 0"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Style.Triggers>
             <Trigger Property="IsFocused" Value="True">
                 <Setter Property="Background" Value="#FFB300"/>
             </Trigger>
             <Trigger  Property="Validation.HasError" Value="True">
                 <Setter Property="Background" Value="red"/>
+                <Setter Property="Margin" Value="0 0 0 15"/>
                 <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
                     Path=(Validation.Errors)[0].ErrorContent}"/>
             </Trigger>
