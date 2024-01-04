@@ -22,6 +22,16 @@ namespace WpfUI.ViewModel
 
             }
         }
+        public int emp_id
+        {
+            get => _model.emp_id;
+            set
+            {
+                _model.emp_id = value;
+                RaisePropertyChanged();
+
+            }
+        }
         public string? clt_code
         {
             get => _model.clt_code;
@@ -39,7 +49,6 @@ namespace WpfUI.ViewModel
                 }
             }
         }
-
         public DateTime start_time
         {
             get => _model.start_time;

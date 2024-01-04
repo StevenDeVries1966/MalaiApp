@@ -1,6 +1,5 @@
 ﻿using DataLayer.Classes;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +13,8 @@ namespace WpfUI.ViewModel
     {
         private readonly IMalaiDataProvider _malaiDataProvider;
         private WorkedHoursItemViewModel? _selectedWorkedHours;
+        private EmployeeItemViewModel? _selectedEmployee;
+        private int? _selectedEmployeeId;
 
         public bool IsWorkedHoursSelected => SelectedWorkedHours is not null;
 
@@ -23,7 +24,10 @@ namespace WpfUI.ViewModel
             AddCommand = new DelegateCommand(Add);
             DeleteCommand = new DelegateCommand(Delete, CanDelete);
         }
+
+        public MalaiContext? Ctx { get; set; }
         public ObservableCollection<WorkedHoursItemViewModel> WorkedHours { get; } = new();
+        public ObservableCollection<EmployeeItemViewModel> Employees { get; } = new();
         public DelegateCommand AddCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public WorkedHoursItemViewModel? SelectedWorkedHours
@@ -37,6 +41,24 @@ namespace WpfUI.ViewModel
                 DeleteCommand.RaiseCanExecuteChanged();
             }
         }
+        public EmployeeItemViewModel? SelectedEmployee
+        {
+            get => _selectedEmployee;
+            set
+            {
+                _selectedEmployee = value;
+                RaisePropertyChanged();
+            }
+        }
+        public int? SelectedEmployeeId
+        {
+            get => 2;
+            set
+            {
+                _selectedEmployeeId = ((int)value)!;
+                RaisePropertyChanged();
+            }
+        }
 
         public async override Task LoadAsync()
         {
@@ -44,13 +66,19 @@ namespace WpfUI.ViewModel
             {
                 return;
             }
-            List<DtoWorkedHours>? lst = await _malaiDataProvider.GetWorkedHoursAsync();
-            if (lst is not null)
+
+            Ctx = await _malaiDataProvider.GetDataContextAsync();
+            if (Ctx != null)
             {
-                foreach (DtoWorkedHours emp in lst)
+                foreach (DtoWorkedHours wh in Ctx.lstWorkedHours)
                 {
-                    WorkedHours.Add(new WorkedHoursItemViewModel(emp));
+                    WorkedHours.Add(new WorkedHoursItemViewModel(wh));
                 }
+                foreach (DtoEmployee emp in Ctx.lstEmployee)
+                {
+                    Employees.Add(new EmployeeItemViewModel(emp));
+                }
+                SelectedEmployee = Employees.FirstOrDefault(o => o.first_name.Equals("Steven"));
             }
         }
         private void Add(object? parameter)

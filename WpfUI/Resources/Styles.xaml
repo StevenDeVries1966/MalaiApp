@@ -32,4 +32,24 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="ComboBox">
+        <Setter Property="Background" Value="{StaticResource ColorMalaiOrange}" />
+        <Setter Property="Foreground" Value="blue" />
+        <Setter Property="Padding" Value="5" />
+        <Style.Triggers>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="Background" Value="#FFB300"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="Background" Value="{StaticResource ColorMalaiOrange}" />
+        <Setter Property="Foreground" Value="white" />
+        <Setter Property="Padding" Value="5" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseDirectlyOver" Value="True">
+                <Setter Property="Background" Value="#FFB300"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

@@ -73,10 +73,9 @@ namespace WpfUI.ViewModel
                 RaisePropertyChanged();
             }
         }
-
-        public string display_name()
+        public string display_name
         {
-            return $"{emp_code} {first_name} {last_name}";
+            get => $"{first_name} {last_name} ({emp_code})";
         }
     }
 }

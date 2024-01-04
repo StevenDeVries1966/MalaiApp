@@ -50,6 +50,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -57,7 +58,14 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right">emp_code</Label>
             <TextBox Margin="2" Grid.Column="1" Grid.Row="1" Text="{Binding SelectedWorkedHours.emp_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right">clt_code</Label>
+            <ComboBox Margin="2" Grid.Column="1" Grid.Row="10" 
+                      ItemsSource="{Binding Path=Employees, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="display_name" 
+                      SelectedValuePath="emp_id"
+                      SelectedItem="{Binding SelectedEmployee}">
+
+            </ComboBox>
+                <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right">clt_code</Label>
             <StackPanel Margin="2" Grid.Column="1" Grid.Row="2">
                 <TextBox  Text="{Binding SelectedWorkedHours.clt_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
@@ -76,6 +84,7 @@
             <TextBox Margin="2" Grid.Column="1" Grid.Row="8" Text="{Binding SelectedWorkedHours.end_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Grid.Column="0" Grid.Row="9" HorizontalAlignment="Right">hours_worked</Label>
             <TextBox Margin="2" Grid.Column="1" Grid.Row="9" Text="{Binding SelectedWorkedHours.hours_worked_display, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+           
         </Grid>
     </Grid>
 </UserControl>
