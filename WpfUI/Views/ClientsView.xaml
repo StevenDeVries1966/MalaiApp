@@ -14,10 +14,16 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ListView  Grid.Column="0" Grid.Row="0"
+        <!--<ListView  Grid.Column="0" Grid.Row="0"
                    ItemsSource="{Binding Path=Clients}"
                    SelectedItem="{Binding Path=SelectedClient, Mode=TwoWay }"
-                   DisplayMemberPath="clt_name"/>
+                   DisplayMemberPath="clt_name"/>-->
+        <DataGrid  Grid.Column="0" Grid.Row="0" 
+                   ItemsSource="{Binding Clients}"
+                   SelectedItem="{Binding Path=SelectedClient, Mode=TwoWay}"
+                   Margin="10"
+                   IsReadOnly="True">
+        </DataGrid>
         <StackPanel Grid.Column="1">
             <Label>FirstName :</Label>
             <TextBox Text="{Binding 
