@@ -112,7 +112,7 @@ namespace DataLayer.Classes
             return result;
         }
 
-        public List<T> GetDataClientMonth<T>(string storedProcedure, out string message) where T : new()
+        public List<T> GetDataClientMonth<T>(string storedProcedure, int month, int year, string clt_code, out string message) where T : new()
         {
             List<T> result = new List<T>();
             message = "OK";
@@ -123,8 +123,9 @@ namespace DataLayer.Classes
                     using (MySqlCommand cmd = new MySqlCommand(storedProcedure, con))
                     {
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("_month", 8);
-                        cmd.Parameters.AddWithValue("_clt_code", "IMC");
+                        cmd.Parameters.AddWithValue("_month", month);
+                        cmd.Parameters.AddWithValue("_year", year);
+                        cmd.Parameters.AddWithValue("_clt_code", clt_code);
                         DateTime start = DateTime.Now;
                         using (IDataReader reader = cmd.ExecuteReader())
                         {

@@ -10,10 +10,10 @@ namespace MalaiReport
             StringBuilder htmlBuilder = new StringBuilder();
 
             // Start HTML table
-            htmlBuilder.AppendLine("<table border='1'>");
+            htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
 
             // Create table header
-            htmlBuilder.AppendLine("<tr>");
+            htmlBuilder.AppendLine(@"<tr>");
             htmlBuilder.AppendLine("<th>Date</th>");
             htmlBuilder.AppendLine("<th>Desciption</th>");
             htmlBuilder.AppendLine("<th>Esther</th>");
@@ -26,21 +26,41 @@ namespace MalaiReport
             foreach (DtoWorkedHoursReport wh in whs)
             {
                 htmlBuilder.AppendLine("<tr>");
-                htmlBuilder.AppendLine($"<td>{wh.today.ToString("dd-MM-yyyy")}</td>");
-                htmlBuilder.AppendLine($"<td>{wh.job_total}</td>");
-                htmlBuilder.AppendLine($"<td>{wh.esther_minutes_total_string}</td>");
-                htmlBuilder.AppendLine($"<td>{wh.aisha_minutes_total_string}</td>");
-                htmlBuilder.AppendLine($"<td>{wh.minutes_total_string}</td>");
-                htmlBuilder.AppendLine($"<td>{wh.charge}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.Today.ToString("dd-MM-yyyy")}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.JobTotal}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.Es001MinutesTotalString}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.AS001MinutesTotalString}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.MinutesTotalString}</td>");
+                htmlBuilder.AppendLine($"<td>$ {wh.Charge}</td>");
                 htmlBuilder.AppendLine("</tr>");
             }
-
+            htmlBuilder.AppendLine(@"<tr>");
+            htmlBuilder.AppendLine("<th></th>");
+            htmlBuilder.AppendLine("<th></th>");
+            htmlBuilder.AppendLine("<th></th>");
+            htmlBuilder.AppendLine("<th></th>");
+            htmlBuilder.AppendLine("<th>Total Hours</th>");
+            htmlBuilder.AppendLine($"<th>$ {Math.Round(total_charge, 2)}</th>");
+            htmlBuilder.AppendLine("</tr>");
             // End HTML table
             htmlBuilder.AppendLine("</table>");
 
-            htmlBuilder.AppendLine($"<label>Total : {Math.Round(total_charge, 2)}</label>");
+            //htmlBuilder.AppendLine($"<label>Total : {Math.Round(total_charge, 2)}</label>");
 
             return htmlBuilder.ToString();
+        }
+
+        public static string GetHtmlResourceContent(string resourceName)
+        {
+            string content = "";
+
+            // Read the content of the embedded resource
+            using (StreamReader reader = new StreamReader(resourceName))
+            {
+                content = reader.ReadToEnd();
+            }
+
+            return content;
         }
         public static string GenerateHtmlTable(object[] data)
         {

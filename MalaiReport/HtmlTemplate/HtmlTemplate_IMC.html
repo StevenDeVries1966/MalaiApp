@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inline CSS Table Border</title>
+  <style>
+    table {
+      border: 1px solid black; /* Set the border to solid black */
+      border-collapse: collapse; /* Collapse the borders into a single border */
+	  font-family: Arial, sans-serif;
+    }
+    th, td {
+      border: 1px solid black; /* Set the border to solid black */
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background:#FFB300;
+	  color:#FFFFFF;	  
+    }
+	tr:nth-child(even) {
+      background-color: #D9D9D9; /* Light grey color for even rows */
+    }
+
+    tr:nth-child(odd) {
+      background-color: #ffffff; /* White color for odd rows */
+    }
+  </style>
+</head>
+<body>
+
+%Content%
+
+</body>
+</html>
