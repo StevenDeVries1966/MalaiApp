@@ -111,6 +111,72 @@ namespace DataLayer.Classes
             }
             return result;
         }
+
+        public List<T> GetDataClientMonth<T>(string storedProcedure, out string message) where T : new()
+        {
+            List<T> result = new List<T>();
+            message = "OK";
+            try
+            {
+                using (MySqlConnection con = ConManager.GetConnection())
+                {
+                    using (MySqlCommand cmd = new MySqlCommand(storedProcedure, con))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("_month", 8);
+                        cmd.Parameters.AddWithValue("_clt_code", "IMC");
+                        DateTime start = DateTime.Now;
+                        using (IDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                T obj = MapToObject<T>(reader);
+                                result.Add(obj);
+                            }
+                        }
+
+                        DateTime end = DateTime.Now;
+                        TimeSpan ts = end - start;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+            }
+            return result;
+        }
+        //public List<DtoWorkedHours> GetDataClientMonth(int month, string clt_code, out string message)
+        //{
+        //    bool result = false;
+        //    message = "OK";
+        //    try
+        //    {
+        //        using (MySqlConnection con = ConManager.GetConnection())
+        //        {
+
+        //            using (MySqlCommand cmd = new MySqlCommand("GetDataClientMonth", con))
+        //            {
+        //                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+        //                // Add parameters if your stored procedure has any
+        //                cmd.Parameters.AddWithValue("_month", month);
+        //                cmd.Parameters.AddWithValue("_clt_code", clt_code);
+        //                int rowsAffected = cmd.ExecuteNonQuery();
+
+        //                message += $"OK {rowsAffected} rows affected";
+        //                result = true;
+        //            }
+        //        }
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        message = e.Message;
+        //    }
+
+        //    return result;
+        //}
         public bool AddWorkedHours(List<DtoWorkedHours> workedHours, out string message)
         {
             bool result = false;
