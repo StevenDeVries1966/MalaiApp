@@ -2,7 +2,7 @@
 {
     public class AssistFormat
     {
-        public static string ConvertMinutesToString(int minutesWorked)
+        public static string ConvertMinutesToString(double minutesWorked)
         {
             int hours = (int)minutesWorked / 60;
             int minutesInHours = (int)hours * 60;

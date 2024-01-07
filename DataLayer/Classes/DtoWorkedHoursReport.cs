@@ -13,7 +13,7 @@
                 }
                 if (wh.emp_code.Equals("AS001"))
                 {
-                    AS001MinutesTotal += wh.minutes_worked;
+                    As001MinutesTotal += wh.minutes_worked;
                 }
 
                 if (!jobs.Contains(wh.job_name))
@@ -28,11 +28,11 @@
 
         public string Es001MinutesTotalString => AssistFormat.ConvertMinutesToString(Convert.ToInt32(Es001MinutesTotal));
 
-        public double AS001MinutesTotal { get; set; }
+        public double As001MinutesTotal { get; set; }
 
-        public string AS001MinutesTotalString => AssistFormat.ConvertMinutesToString(Convert.ToInt32(AS001MinutesTotal));
+        public string As001MinutesTotalString => AssistFormat.ConvertMinutesToString(Convert.ToInt32(As001MinutesTotal));
 
-        public double MinutesTotal => Es001MinutesTotal + AS001MinutesTotal;
+        public double MinutesTotal => Es001MinutesTotal + As001MinutesTotal;
 
         public string MinutesTotalString => AssistFormat.ConvertMinutesToString(Convert.ToInt32(MinutesTotal));
 

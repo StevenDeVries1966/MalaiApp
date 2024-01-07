@@ -14,7 +14,7 @@ foreach (DtoClient clt in conMan.lstClients)
     foreach (int month in lstMonths)
     {
         Console.WriteLine($"process month {month} for client {clt.clt_name}");
-        Report_IMC rIMC = new Report_IMC(conMan, month, 2023, clt.clt_code, @"C:\Temp\_report");
+        Report_IMC rIMC = new Report_IMC(conMan, month, 2023, clt.clt_code, @"C:\Prive\Malai\Docs\Reports");
     }
 }
 Console.WriteLine("Done");

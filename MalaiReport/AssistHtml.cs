@@ -5,7 +5,7 @@ namespace MalaiReport
 {
     public class AssistHtml
     {
-        public static string ConvertListToHtmlDataGrid(List<DtoWorkedHoursReport> whs, double total_charge)
+        public static string ConvertListToHtmlDataGrid(List<DtoWorkedHoursReport> whs, string Es001MinutesReportTotal, string As001MinutesReportTotal, double total_charge)
         {
             StringBuilder htmlBuilder = new StringBuilder();
 
@@ -26,10 +26,10 @@ namespace MalaiReport
             foreach (DtoWorkedHoursReport wh in whs)
             {
                 htmlBuilder.AppendLine("<tr>");
-                htmlBuilder.AppendLine($"<td>{wh.Today.ToString("dd-MM-yyyy")}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
                 htmlBuilder.AppendLine($"<td>{wh.JobTotal}</td>");
                 htmlBuilder.AppendLine($"<td>{wh.Es001MinutesTotalString}</td>");
-                htmlBuilder.AppendLine($"<td>{wh.AS001MinutesTotalString}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.As001MinutesTotalString}</td>");
                 htmlBuilder.AppendLine($"<td>{wh.MinutesTotalString}</td>");
                 htmlBuilder.AppendLine($"<td>$ {wh.Charge}</td>");
                 htmlBuilder.AppendLine("</tr>");
@@ -37,10 +37,10 @@ namespace MalaiReport
             htmlBuilder.AppendLine(@"<tr>");
             htmlBuilder.AppendLine("<th></th>");
             htmlBuilder.AppendLine("<th></th>");
-            htmlBuilder.AppendLine("<th></th>");
-            htmlBuilder.AppendLine("<th></th>");
+            htmlBuilder.AppendLine($"<th>{Es001MinutesReportTotal}</th>");
+            htmlBuilder.AppendLine($"<th>{As001MinutesReportTotal}</th>");
             htmlBuilder.AppendLine("<th>Total Hours</th>");
-            htmlBuilder.AppendLine($"<th>$ {Math.Round(total_charge, 2)}</th>");
+            htmlBuilder.AppendLine($"<th>$ {Math.Round(total_charge, 2).ToString("0.00")}</th>");
             htmlBuilder.AppendLine("</tr>");
             // End HTML table
             htmlBuilder.AppendLine("</table>");
