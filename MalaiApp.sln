@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{51E870
 	ProjectSection(SolutionItems) = preProject
 		_SlnItems\Images\ItIsInTheDetails.png = _SlnItems\Images\ItIsInTheDetails.png
 		_SlnItems\Images\MalaiEffinciency.png = _SlnItems\Images\MalaiEffinciency.png
+		_SlnItems\Images\MalaiEffinciency_200x200.png = _SlnItems\Images\MalaiEffinciency_200x200.png
 		_SlnItems\Images\Testing.png = _SlnItems\Images\Testing.png
 	EndProjectSection
 EndProject

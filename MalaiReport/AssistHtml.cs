@@ -12,7 +12,7 @@ namespace MalaiReport
 
             // Start HTML table
 
-            DoRateHeader(client, period, htmlBuilder);
+            DoRateHeader0(client, period, htmlBuilder);
 
 
 
@@ -78,7 +78,7 @@ namespace MalaiReport
 
             // Start HTML table
 
-            DoRateHeader(client, period, htmlBuilder);
+            DoRateHeader0(client, period, htmlBuilder);
 
 
 
@@ -211,21 +211,36 @@ namespace MalaiReport
         {
             htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
             htmlBuilder.AppendLine("<tr>");
+            htmlBuilder.AppendLine($"<td><img src=\"{Globals.ImagePath}\" alt=\"Your Image\" width=\"200\" height=\"200\"></td>");
+            htmlBuilder.AppendLine($"<td><table>");
+            htmlBuilder.AppendLine("<tr>");
             htmlBuilder.AppendLine($"<td>Client : {client.clt_name}</td>");
             htmlBuilder.AppendLine("</tr>");
             htmlBuilder.AppendLine("<tr>");
             htmlBuilder.AppendLine($"<td>Period : {period}</td>");
             htmlBuilder.AppendLine("</tr>");
+            htmlBuilder.AppendLine($"</table></td>");
+            htmlBuilder.AppendLine("</tr>");
             htmlBuilder.AppendLine("</table>");
         }
-        private static void DoRateHeader(DtoClient client, string period, StringBuilder htmlBuilder)
+        private static void DoRateHeader0(DtoClient client, string period, StringBuilder htmlBuilder)
+        {
+            htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+            htmlBuilder.AppendLine("<tr>");
+            htmlBuilder.AppendLine($"<td><img src=\"{Globals.ImagePath}\" alt=\"Your Image\" width=\"200\" height=\"200\"></td>");
+            htmlBuilder.AppendLine($"<td>");
+            DoRateHeader1(client, period, htmlBuilder);
+            htmlBuilder.AppendLine($"</td>");
+            htmlBuilder.AppendLine("</tr>");
+            htmlBuilder.AppendLine("</table>");
+        }
+        private static void DoRateHeader1(DtoClient client, string period, StringBuilder htmlBuilder)
         {
             if (!client.rate_ES001.Equals(client.rate_AS001))
             {
                 htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
                 htmlBuilder.AppendLine("<tr>");
                 htmlBuilder.AppendLine($"<td>Client : {client.clt_name}</td>");
-                htmlBuilder.AppendLine($"<td></td>");
                 htmlBuilder.AppendLine("</tr>");
                 htmlBuilder.AppendLine("<tr>");
                 htmlBuilder.AppendLine($"<td>Period : {period}</td>");

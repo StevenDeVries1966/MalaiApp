@@ -9,13 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="NewFolder\**" />
-    <EmbeddedResource Remove="NewFolder\**" />
-    <None Remove="NewFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="HtmlTemplate\HtmlTemplate_IMC.html" />
+    <None Remove="Images\MalaiEffinciency_200x200.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +25,9 @@
     <Resource Include="HtmlTemplate\HtmlTemplate_IMC.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <EmbeddedResource Include="Images\MalaiEffinciency_200x200.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
