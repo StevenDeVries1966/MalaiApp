@@ -5,11 +5,39 @@ namespace MalaiReport
 {
     public class AssistHtml
     {
-        public static string ConvertListToHtmlDataGrid(List<DtoWorkedHoursReport> whs, string Es001MinutesReportTotal, string As001MinutesReportTotal, double total_charge)
+        public static string ConvertListToHtmlDataGrid(DtoClient client, string period, List<DtoWorkedHoursReport> whs, string Es001MinutesReportTotal, string As001MinutesReportTotal, double total_charge)
         {
             StringBuilder htmlBuilder = new StringBuilder();
 
             // Start HTML table
+
+            if (!client.rate_ES001.Equals(client.rate_AS001))
+            {
+                htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+                htmlBuilder.AppendLine("<tr>");
+                htmlBuilder.AppendLine($"<td>Period : {period}</td>");
+                htmlBuilder.AppendLine($"<td>Rate 1: $ {client.rate_ES001}</td>");
+                htmlBuilder.AppendLine("</tr>");
+                htmlBuilder.AppendLine("<tr>");
+                htmlBuilder.AppendLine($"<td></td>");
+                htmlBuilder.AppendLine($"<td>Rate 2: $ {client.rate_AS001}</td>");
+                htmlBuilder.AppendLine("</tr>");
+                htmlBuilder.AppendLine("</table>");
+            }
+            else
+            {
+                htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+                htmlBuilder.AppendLine("<tr>");
+                htmlBuilder.AppendLine($"<td>Period : {period}</td>");
+                htmlBuilder.AppendLine($"<td>Hourly Rate: $ {client.rate_ES001}</td>");
+                htmlBuilder.AppendLine("</tr>");
+                htmlBuilder.AppendLine("</table>");
+            }
+
+
+
+            htmlBuilder.AppendLine(@"<br>");
+
             htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
 
             // Create table header
@@ -18,6 +46,7 @@ namespace MalaiReport
             htmlBuilder.AppendLine("<th>Desciption</th>");
             htmlBuilder.AppendLine("<th>Esther</th>");
             htmlBuilder.AppendLine("<th>Ashia</th>");
+            htmlBuilder.AppendLine("<th>HR - Hours</th>");
             htmlBuilder.AppendLine("<th>Total Hours</th>");
             htmlBuilder.AppendLine("<th>Carge</th>");
             htmlBuilder.AppendLine("</tr>");
@@ -30,6 +59,7 @@ namespace MalaiReport
                 htmlBuilder.AppendLine($"<td>{wh.JobTotal}</td>");
                 htmlBuilder.AppendLine($"<td>{wh.Es001MinutesTotalString}</td>");
                 htmlBuilder.AppendLine($"<td>{wh.As001MinutesTotalString}</td>");
+                htmlBuilder.AppendLine($"<td></td>");
                 htmlBuilder.AppendLine($"<td>{wh.MinutesTotalString}</td>");
                 htmlBuilder.AppendLine($"<td>$ {wh.Charge}</td>");
                 htmlBuilder.AppendLine("</tr>");
@@ -39,6 +69,7 @@ namespace MalaiReport
             htmlBuilder.AppendLine("<th></th>");
             htmlBuilder.AppendLine($"<th>{Es001MinutesReportTotal}</th>");
             htmlBuilder.AppendLine($"<th>{As001MinutesReportTotal}</th>");
+            htmlBuilder.AppendLine($"<th></th>");
             htmlBuilder.AppendLine("<th>Total Hours</th>");
             htmlBuilder.AppendLine($"<th>$ {Math.Round(total_charge, 2).ToString("0.00")}</th>");
             htmlBuilder.AppendLine("</tr>");
