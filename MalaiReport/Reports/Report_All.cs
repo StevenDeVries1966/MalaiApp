@@ -43,6 +43,7 @@ namespace MalaiReport.Reports
                     Console.WriteLine($"This client is not found in the database: {clt_code} in {month}-{year}");
                     return;
                 }
+
                 IEnumerable<IGrouping<DateTime, DtoWorkedHours>> groupedByDate = lstWorkedHours.GroupBy(obj => obj.start_time.Date);
                 lstWorkedHoursReports = new List<DtoWorkedHoursReport>();
                 foreach (var groep in groupedByDate)
@@ -86,6 +87,7 @@ namespace MalaiReport.Reports
 
                 // Save HTML content to a file
                 AssistHtml.SaveHtmlToFile(htmlContent, htmlFilePath);
+                AssistFormat.WriteToCsv(lstWorkedHours, htmlFilePath.Replace(".html", ".txt"));
             }
             catch (Exception e)
             {
