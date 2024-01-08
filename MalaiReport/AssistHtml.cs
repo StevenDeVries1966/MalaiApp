@@ -5,34 +5,13 @@ namespace MalaiReport
 {
     public class AssistHtml
     {
-        public static string ConvertListToHtmlDataGrid(DtoClient client, string period, List<DtoWorkedHoursReport> whs, string Es001MinutesReportTotal, string As001MinutesReportTotal, double total_charge)
+        public static string CreateHtml_Report_IMC(DtoClient client, string period, List<DtoWorkedHoursReport> whs, string Es001MinutesReportTotal, string As001MinutesReportTotal, double total_charge)
         {
             StringBuilder htmlBuilder = new StringBuilder();
 
             // Start HTML table
 
-            if (!client.rate_ES001.Equals(client.rate_AS001))
-            {
-                htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
-                htmlBuilder.AppendLine("<tr>");
-                htmlBuilder.AppendLine($"<td>Period : {period}</td>");
-                htmlBuilder.AppendLine($"<td>Rate 1: $ {client.rate_ES001}</td>");
-                htmlBuilder.AppendLine("</tr>");
-                htmlBuilder.AppendLine("<tr>");
-                htmlBuilder.AppendLine($"<td></td>");
-                htmlBuilder.AppendLine($"<td>Rate 2: $ {client.rate_AS001}</td>");
-                htmlBuilder.AppendLine("</tr>");
-                htmlBuilder.AppendLine("</table>");
-            }
-            else
-            {
-                htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
-                htmlBuilder.AppendLine("<tr>");
-                htmlBuilder.AppendLine($"<td>Period : {period}</td>");
-                htmlBuilder.AppendLine($"<td>Hourly Rate: $ {client.rate_ES001}</td>");
-                htmlBuilder.AppendLine("</tr>");
-                htmlBuilder.AppendLine("</table>");
-            }
+            DoRateHeader(client, period, htmlBuilder);
 
 
 
@@ -79,6 +58,104 @@ namespace MalaiReport
             //htmlBuilder.AppendLine($"<label>Total : {Math.Round(total_charge, 2)}</label>");
 
             return htmlBuilder.ToString();
+        }
+        public static string CreateHtml_Report_CHP(DtoClient client, string period, List<DtoWorkedHoursReport> whs, string Es001MinutesReportTotal, string As001MinutesReportTotal, double total_charge)
+        {
+            StringBuilder htmlBuilder = new StringBuilder();
+
+            // Start HTML table
+
+            DoRateHeader(client, period, htmlBuilder);
+
+
+
+            htmlBuilder.AppendLine(@"<br>");
+
+            htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+
+            htmlBuilder.AppendLine("<tr>");
+            htmlBuilder.AppendLine($"<td></td>");
+            htmlBuilder.AppendLine($"<td>Accounting</td>");
+            htmlBuilder.AppendLine($"<td>Assistant</td>");
+            htmlBuilder.AppendLine($"<td>Totals</td>");
+            htmlBuilder.AppendLine("</tr>");
+            // Create table header
+            htmlBuilder.AppendLine(@"<tr>");
+            htmlBuilder.AppendLine("<th>Date</th>");
+            htmlBuilder.AppendLine("<th>Rate 1 - Hours</th>");
+            htmlBuilder.AppendLine("<th>Rate 2 - Hours</th>");
+            htmlBuilder.AppendLine("<th>Hours</th>");
+            htmlBuilder.AppendLine("</tr>");
+
+            // Create table rows
+            foreach (DtoWorkedHoursReport wh in whs)
+            {
+                htmlBuilder.AppendLine("<tr>");
+                htmlBuilder.AppendLine($"<td>{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.Es001MinutesTotalString}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.As001MinutesTotalString}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.MinutesTotalString}</td>");
+                htmlBuilder.AppendLine("</tr>");
+            }
+            htmlBuilder.AppendLine(@"<tr>");
+            htmlBuilder.AppendLine("<th></th>");
+            htmlBuilder.AppendLine($"<th>{Es001MinutesReportTotal}</th>");
+            htmlBuilder.AppendLine($"<th>{As001MinutesReportTotal}</th>");
+            htmlBuilder.AppendLine($"<th>MinutesReportTotal</th>");
+            htmlBuilder.AppendLine("</tr>");
+
+            htmlBuilder.AppendLine(@"<tr>");
+            htmlBuilder.AppendLine("<td></td>");
+            htmlBuilder.AppendLine($"<td>Es001 %</td>");
+            htmlBuilder.AppendLine($"<td>As001 %</td>");
+            htmlBuilder.AppendLine($"<td></td>");
+            htmlBuilder.AppendLine("</tr>");
+
+            htmlBuilder.AppendLine(@"<tr>");
+            htmlBuilder.AppendLine($"<th>Total charge {period}</th>");
+            htmlBuilder.AppendLine($"<th>Es001 carge</th>");
+            htmlBuilder.AppendLine($"<th>As001 carge</th>");
+            htmlBuilder.AppendLine($"<th>{total_charge}</th>");
+            htmlBuilder.AppendLine("</tr>");
+            // End HTML table
+            htmlBuilder.AppendLine("</table>");
+
+            //htmlBuilder.AppendLine($"<label>Total : {Math.Round(total_charge, 2)}</label>");
+
+            return htmlBuilder.ToString();
+        }
+        private static void DoRateHeader(DtoClient client, string period, StringBuilder htmlBuilder)
+        {
+            if (!client.rate_ES001.Equals(client.rate_AS001))
+            {
+                htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+                htmlBuilder.AppendLine("<tr>");
+                htmlBuilder.AppendLine($"<td>Client : {client.clt_name}</td>");
+                htmlBuilder.AppendLine($"<td></td>");
+                htmlBuilder.AppendLine("</tr>");
+                htmlBuilder.AppendLine("<tr>");
+                htmlBuilder.AppendLine($"<td>Period : {period}</td>");
+                htmlBuilder.AppendLine($"<td>Rate 1: $ {client.rate_ES001}</td>");
+                htmlBuilder.AppendLine("</tr>");
+                htmlBuilder.AppendLine("<tr>");
+                htmlBuilder.AppendLine($"<td></td>");
+                htmlBuilder.AppendLine($"<td>Rate 2: $ {client.rate_AS001}</td>");
+                htmlBuilder.AppendLine("</tr>");
+                htmlBuilder.AppendLine("</table>");
+            }
+            else
+            {
+                htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+                htmlBuilder.AppendLine("<tr>");
+                htmlBuilder.AppendLine($"<td>Client : {client.clt_name}</td>");
+                htmlBuilder.AppendLine($"<td></td>");
+                htmlBuilder.AppendLine("</tr>");
+                htmlBuilder.AppendLine("<tr>");
+                htmlBuilder.AppendLine($"<td>Period : {period}</td>");
+                htmlBuilder.AppendLine($"<td>Hourly Rate: $ {client.rate_ES001}</td>");
+                htmlBuilder.AppendLine("</tr>");
+                htmlBuilder.AppendLine("</table>");
+            }
         }
 
         public static string GetHtmlResourceContent(string resourceName)

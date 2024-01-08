@@ -2,7 +2,7 @@
 
 namespace MalaiReport.Reports
 {
-    public class Report_IMC
+    public class ReportAll
     {
         public List<DtoWorkedHours> lstWorkedHours { get; set; }
         public List<DtoWorkedHoursReport> lstWorkedHoursReports { get; set; }
@@ -14,7 +14,7 @@ namespace MalaiReport.Reports
 
         public string As001MinutesReportTotal =>
             AssistFormat.ConvertMinutesToString(Convert.ToInt32(lstWorkedHoursReports.Sum(o => o.As001MinutesTotal)));
-        public Report_IMC(int month, int year, string clt_code, string htmlFilePath)
+        public ReportAll(int month, int year, string clt_code, string htmlFilePath)
         {
             string message = "";
             try
@@ -42,7 +42,15 @@ namespace MalaiReport.Reports
 
                 string htmlTemplateContent = AssistHtml.GetHtmlResourceContent(@"C:\_GitHubMe\MalaiApp\MalaiReport\HtmlTemplate\HtmlTemplate_IMC.html");
                 // Generate the HTML content
-                htmlContent = AssistHtml.ConvertListToHtmlDataGrid(Client, period, lstWorkedHoursReports, Es001MinutesReportTotal, As001MinutesReportTotal, lstWorkedHoursReports.Sum(item => item.Charge));
+                if (Client.report_type.Equals("A", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    htmlContent = AssistHtml.CreateHtml_Report_IMC(Client, period, lstWorkedHoursReports, Es001MinutesReportTotal, As001MinutesReportTotal, lstWorkedHoursReports.Sum(item => item.Charge));
+                }
+                else if (Client.report_type.Equals("B", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    htmlContent = AssistHtml.CreateHtml_Report_CHP(Client, period, lstWorkedHoursReports, Es001MinutesReportTotal, As001MinutesReportTotal, lstWorkedHoursReports.Sum(item => item.Charge));
+                }
+
                 htmlContent = htmlTemplateContent.Replace("%Content%", htmlContent);
                 htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_{month}{year}.html");
 
