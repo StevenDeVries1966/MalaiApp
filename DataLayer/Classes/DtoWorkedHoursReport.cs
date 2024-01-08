@@ -2,9 +2,10 @@
 {
     public class DtoWorkedHoursReport
     {
-        public DtoWorkedHoursReport(List<DtoWorkedHours> lstWorkedHours, DateTime today)
+        public DtoWorkedHoursReport(DtoClient client, List<DtoWorkedHours> lstWorkedHours, DateTime today)
         {
             this.Today = today;
+            Client = client;
             foreach (DtoWorkedHours wh in lstWorkedHours)
             {
                 if (wh.emp_code.Equals("ES001"))
@@ -23,6 +24,7 @@
             }
         }
         public DateTime Today { get; set; }
+        public DtoClient Client { get; set; }
 
         public double Es001MinutesTotal { get; set; }
 
@@ -36,7 +38,10 @@
 
         public string MinutesTotalString => AssistFormat.ConvertMinutesToString(Convert.ToInt32(MinutesTotal));
 
-        public double Charge => Math.Round((MinutesTotal / 60) * 35, 2);
+        public double ChargeEs001 => Math.Round((Es001MinutesTotal / 60) * Client.rate_ES001, 2);
+        public double ChargeAs001 => Math.Round((As001MinutesTotal / 60) * Client.rate_AS001, 2);
+
+        public double Charge => Math.Round(ChargeEs001 + ChargeAs001, 2);
 
         public readonly List<string> jobs = new();
         public string JobTotal

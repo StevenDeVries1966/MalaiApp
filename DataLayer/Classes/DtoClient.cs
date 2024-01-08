@@ -4,7 +4,7 @@ namespace DataLayer.Classes
 {
     public class DtoClient
     {
-        public DtoClient(string code, string name, string address, string postalCode, string city, string country, string email, string phone)
+        public DtoClient(string code, string name, string address, string postalCode, string city, string country, string email, string phone, double rateES001, double rateAS001, string reportType)
         {
             clt_code = code;
             clt_name = name;
@@ -14,6 +14,9 @@ namespace DataLayer.Classes
             country = country;
             email = email;
             phone = phone;
+            rate_ES001 = rateES001;
+            rate_AS001 = rateAS001;
+            this.report_type = reportType;
         }
         public DtoClient()
         {
@@ -28,6 +31,9 @@ namespace DataLayer.Classes
         public string country { get; set; }
         public string email { get; set; }
         public string phone { get; set; }
+        public double rate_ES001 { get; set; }
+        public double rate_AS001 { get; set; }
+        public string report_type { get; set; }
 
     }
 }

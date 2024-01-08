@@ -6,6 +6,7 @@ namespace MalaiReport.Reports
     {
         public List<DtoWorkedHours> lstWorkedHours { get; set; }
         public List<DtoWorkedHoursReport> lstWorkedHoursReports { get; set; }
+        public DtoClient Client { get; set; }
         public string htmlContent { get; set; }
 
         public string Es001MinutesReportTotal =>
@@ -13,19 +14,35 @@ namespace MalaiReport.Reports
 
         public string As001MinutesReportTotal =>
             AssistFormat.ConvertMinutesToString(Convert.ToInt32(lstWorkedHoursReports.Sum(o => o.As001MinutesTotal)));
-        public Report_IMC(MalaiContext conMan, int month, int year, string clt_code, string htmlFilePath)
+        public Report_IMC(int month, int year, string clt_code, string htmlFilePath)
         {
             string message = "";
-            lstWorkedHours = conMan.GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", month, year, clt_code, out message);
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            lstWorkedHours = Globals.ConMan.GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", month, year, clt_code, out message);
+            Client = Globals.ConMan.lstClients.FirstOrDefault(o => o.clt_code.Equals(clt_code, StringComparison.CurrentCultureIgnoreCase));
             if (lstWorkedHours.Count == 0)
             {
+                Console.WriteLine($"No hours for {clt_code} in {month}-{year}");
+                return;
+            }
+            if (Client == null)
+            {
+                Console.WriteLine($"This client is not found in the database: {clt_code} in {month}-{year}");
                 return;
             }
             IEnumerable<IGrouping<DateTime, DtoWorkedHours>> groupedByDate = lstWorkedHours.GroupBy(obj => obj.start_time.Date);
             lstWorkedHoursReports = new List<DtoWorkedHoursReport>();
             foreach (var groep in groupedByDate)
             {
-                lstWorkedHoursReports.Add(new DtoWorkedHoursReport(groep.ToList(), groep.Key.Date));
+                lstWorkedHoursReports.Add(new DtoWorkedHoursReport(Client, groep.ToList(), groep.Key.Date));
             }
 
             string htmlTemplateContent = AssistHtml.GetHtmlResourceContent(@"C:\_GitHubMe\MalaiApp\MalaiReport\HtmlTemplate\HtmlTemplate_IMC.html");
