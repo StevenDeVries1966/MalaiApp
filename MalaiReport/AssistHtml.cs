@@ -5,8 +5,9 @@ namespace MalaiReport
 {
     public class AssistHtml
     {
-        public static string CreateHtml_Report_IMC(DtoClient client, string period, List<DtoWorkedHoursReport> whs, string Es001MinutesReportTotal, string As001MinutesReportTotal, double total_charge)
+        public static string CreateHtml_Report_IMC(DtoClient client, string period, List<DtoWorkedHoursReport> whs, string Es001MinutesReportTotal, string As001MinutesReportTotal)
         {
+            double total_charge = whs.Sum(item => item.Charge);
             StringBuilder htmlBuilder = new StringBuilder();
 
             // Start HTML table
@@ -40,7 +41,7 @@ namespace MalaiReport
                 htmlBuilder.AppendLine($"<td>{wh.As001MinutesTotalString}</td>");
                 htmlBuilder.AppendLine($"<td></td>");
                 htmlBuilder.AppendLine($"<td>{wh.MinutesTotalString}</td>");
-                htmlBuilder.AppendLine($"<td>$ {wh.Charge}</td>");
+                htmlBuilder.AppendLine($"<td align='right'>${wh.Charge.ToString("0.00")}</td>");
                 htmlBuilder.AppendLine("</tr>");
             }
             htmlBuilder.AppendLine(@"<tr>");
@@ -50,7 +51,7 @@ namespace MalaiReport
             htmlBuilder.AppendLine($"<th>{As001MinutesReportTotal}</th>");
             htmlBuilder.AppendLine($"<th></th>");
             htmlBuilder.AppendLine("<th>Total Hours</th>");
-            htmlBuilder.AppendLine($"<th>$ {Math.Round(total_charge, 2).ToString("0.00")}</th>");
+            htmlBuilder.AppendLine($"<th>$ {total_charge.ToString("0.00")}</th>");
             htmlBuilder.AppendLine("</tr>");
             // End HTML table
             htmlBuilder.AppendLine("</table>");
@@ -59,8 +60,20 @@ namespace MalaiReport
 
             return htmlBuilder.ToString();
         }
-        public static string CreateHtml_Report_CHP(DtoClient client, string period, List<DtoWorkedHoursReport> whs, string Es001MinutesReportTotal, string As001MinutesReportTotal, double total_charge)
+
+        public static string CreateHtml_Report_CHP(DtoClient client,
+                                                   string period,
+                                                   List<DtoWorkedHoursReport> whs,
+                                                   string Es001MinutesReportTotal,
+                                                   string As001MinutesReportTotal,
+                                                   int Es001PercentageReportTotal,
+                                                   int As001PercentageReportTotal)
         {
+
+            double total_charge = whs.Sum(item => item.Charge);
+            double Es001_total_charge = whs.Sum(item => item.ChargeEs001);
+            double As001_total_charge = whs.Sum(item => item.ChargeAs001);
+            string MinutesReportTotal = AssistFormat.ConvertMinutesToString(whs.Sum(item => item.MinutesTotal));
             StringBuilder htmlBuilder = new StringBuilder();
 
             // Start HTML table
@@ -101,21 +114,21 @@ namespace MalaiReport
             htmlBuilder.AppendLine("<th></th>");
             htmlBuilder.AppendLine($"<th>{Es001MinutesReportTotal}</th>");
             htmlBuilder.AppendLine($"<th>{As001MinutesReportTotal}</th>");
-            htmlBuilder.AppendLine($"<th>MinutesReportTotal</th>");
+            htmlBuilder.AppendLine($"<th>{MinutesReportTotal}</th>");
             htmlBuilder.AppendLine("</tr>");
 
             htmlBuilder.AppendLine(@"<tr>");
             htmlBuilder.AppendLine("<td></td>");
-            htmlBuilder.AppendLine($"<td>Es001 %</td>");
-            htmlBuilder.AppendLine($"<td>As001 %</td>");
+            htmlBuilder.AppendLine($"<td>{Es001PercentageReportTotal}%</td>");
+            htmlBuilder.AppendLine($"<td>{As001PercentageReportTotal}%</td>");
             htmlBuilder.AppendLine($"<td></td>");
             htmlBuilder.AppendLine("</tr>");
 
             htmlBuilder.AppendLine(@"<tr>");
             htmlBuilder.AppendLine($"<th>Total charge {period}</th>");
-            htmlBuilder.AppendLine($"<th>Es001 carge</th>");
-            htmlBuilder.AppendLine($"<th>As001 carge</th>");
-            htmlBuilder.AppendLine($"<th>{total_charge}</th>");
+            htmlBuilder.AppendLine($"<th>${Es001_total_charge.ToString("0.00")}</th>");
+            htmlBuilder.AppendLine($"<th>${As001_total_charge.ToString("0.00")}</th>");
+            htmlBuilder.AppendLine($"<th>${total_charge.ToString("0.00")}</th>");
             htmlBuilder.AppendLine("</tr>");
             // End HTML table
             htmlBuilder.AppendLine("</table>");

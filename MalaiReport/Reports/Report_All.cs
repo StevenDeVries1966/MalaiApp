@@ -9,11 +9,21 @@ namespace MalaiReport.Reports
         public DtoClient Client { get; set; }
         public string htmlContent { get; set; }
 
-        public string Es001MinutesReportTotal =>
-            AssistFormat.ConvertMinutesToString(Convert.ToInt32(lstWorkedHoursReports.Sum(o => o.Es001MinutesTotal)));
+        public int Es001MinutesReportTotal => Convert.ToInt32(lstWorkedHoursReports.Sum(o => o.Es001MinutesTotal));
+        public int Es001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)Es001MinutesReportTotal / (double)MinutesReportTotal) * 100), 0));
 
-        public string As001MinutesReportTotal =>
-            AssistFormat.ConvertMinutesToString(Convert.ToInt32(lstWorkedHoursReports.Sum(o => o.As001MinutesTotal)));
+        public int As001MinutesReportTotal => Convert.ToInt32(lstWorkedHoursReports.Sum(o => o.As001MinutesTotal));
+        public int As001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)As001MinutesReportTotal / (double)MinutesReportTotal) * 100), 0));
+        public int MinutesReportTotal => Es001MinutesReportTotal + As001MinutesReportTotal;
+
+        public string StrEs001MinutesReportTotal =>
+            AssistFormat.ConvertMinutesToString(Es001MinutesReportTotal);
+
+        public string StrAs001MinutesReportTotal =>
+            AssistFormat.ConvertMinutesToString(As001MinutesReportTotal);
+
+
+
         public ReportAll(int month, int year, string clt_code, string htmlFilePath)
         {
             string message = "";
@@ -44,11 +54,21 @@ namespace MalaiReport.Reports
                 // Generate the HTML content
                 if (Client.report_type.Equals("A", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    htmlContent = AssistHtml.CreateHtml_Report_IMC(Client, period, lstWorkedHoursReports, Es001MinutesReportTotal, As001MinutesReportTotal, lstWorkedHoursReports.Sum(item => item.Charge));
+                    htmlContent = AssistHtml.CreateHtml_Report_IMC(Client,
+                                                                    period,
+                                                                    lstWorkedHoursReports,
+                                                                    StrEs001MinutesReportTotal,
+                                                                    StrAs001MinutesReportTotal);
                 }
                 else if (Client.report_type.Equals("B", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    htmlContent = AssistHtml.CreateHtml_Report_CHP(Client, period, lstWorkedHoursReports, Es001MinutesReportTotal, As001MinutesReportTotal, lstWorkedHoursReports.Sum(item => item.Charge));
+                    htmlContent = AssistHtml.CreateHtml_Report_CHP(Client,
+                                                                    period,
+                                                                    lstWorkedHoursReports,
+                                                                    StrEs001MinutesReportTotal,
+                                                                    StrAs001MinutesReportTotal,
+                                                                    Es001PercentageReportTotal,
+                                                                    As001PercentageReportTotal);
                 }
 
                 htmlContent = htmlTemplateContent.Replace("%Content%", htmlContent);

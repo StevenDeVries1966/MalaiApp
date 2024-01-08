@@ -6,6 +6,12 @@ using DataLayer.Classes;
 using MalaiReport;
 using MalaiReport.Reports;
 
+var roundedA = Math.Round(1.49, 0);
+double e = 3610.0 / 5685.0;
+double a = 2075.0 / 5685.0;
+int Es001PercentageReportTotal = Convert.ToInt32(Math.Round((double)(((double)3610 / (double)5685) * 100), 0));
+int As001PercentageReportTotal = Convert.ToInt32(Math.Round((double)(((double)2075 / (double)5685) * 100), 0));
+
 string message;
 string pathReport = @"C:\Prive\Malai\Docs\Reports";
 pathReport = Path.Combine(pathReport, DateTime.Now.ToString("yyyyMMdd_HHmm"));
