@@ -33,6 +33,8 @@ namespace DataLayer.Classes
         public string phone { get; set; }
         public double rate_ES001 { get; set; }
         public double rate_AS001 { get; set; }
+        public double retainer_ES001 { get; set; }
+        public double retainer_AS001 { get; set; }
         public string report_type { get; set; }
 
     }

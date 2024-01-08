@@ -63,16 +63,26 @@ namespace MalaiReport.Reports
                 else if (Client.report_type.Equals("B", StringComparison.CurrentCultureIgnoreCase))
                 {
                     htmlContent = AssistHtml.CreateHtml_Report_CHP(Client,
-                                                                    period,
-                                                                    lstWorkedHoursReports,
-                                                                    StrEs001MinutesReportTotal,
-                                                                    StrAs001MinutesReportTotal,
-                                                                    Es001PercentageReportTotal,
-                                                                    As001PercentageReportTotal);
+                        period,
+                        lstWorkedHoursReports,
+                        StrEs001MinutesReportTotal,
+                        StrAs001MinutesReportTotal,
+                        Es001PercentageReportTotal,
+                        As001PercentageReportTotal);
+                }
+                else if (Client.report_type.Equals("C", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    htmlContent = AssistHtml.CreateHtml_Report_Retainer(Client,
+                        period,
+                        lstWorkedHoursReports,
+                        StrEs001MinutesReportTotal,
+                        StrAs001MinutesReportTotal,
+                        Es001PercentageReportTotal,
+                        As001PercentageReportTotal);
                 }
 
                 htmlContent = htmlTemplateContent.Replace("%Content%", htmlContent);
-                htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_{month}{year}.html");
+                htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_Report{Client.report_type}_{month}{year}.html");
 
                 // Save HTML content to a file
                 AssistHtml.SaveHtmlToFile(htmlContent, htmlFilePath);

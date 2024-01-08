@@ -36,14 +36,7 @@ foreach (DtoClient clt in Globals.ConMan.lstClients)
     foreach (int month in lstMonths)
     {
         Console.WriteLine($"process month {month} for client {clt.clt_name}");
-        if (clt.report_type.Equals("A", StringComparison.CurrentCultureIgnoreCase))
-        {
-            ReportAll rIMC = new ReportAll(month, 2023, clt.clt_code, pathReport);
-        }
-        else if (clt.report_type.Equals("B", StringComparison.CurrentCultureIgnoreCase))
-        {
-            ReportAll rIMC = new ReportAll(month, 2023, clt.clt_code, pathReport);
-        }
+        ReportAll rIMC = new ReportAll(month, 2023, clt.clt_code, pathReport);
     }
 }
 Console.WriteLine("Done");

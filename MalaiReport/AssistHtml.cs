@@ -137,6 +137,87 @@ namespace MalaiReport
 
             return htmlBuilder.ToString();
         }
+        public static string CreateHtml_Report_Retainer(DtoClient client,
+                                           string period,
+                                           List<DtoWorkedHoursReport> whs,
+                                           string Es001MinutesReportTotal,
+                                           string As001MinutesReportTotal,
+                                           int Es001PercentageReportTotal,
+                                           int As001PercentageReportTotal)
+        {
+
+            double total_charge = whs.Sum(item => item.Charge);
+            double Es001_total_charge = whs.Sum(item => item.ChargeEs001);
+            double As001_total_charge = whs.Sum(item => item.ChargeAs001);
+            double Es001_ReportTotal = whs.Sum(item => item.Es001MinutesTotal);
+            double As001_ReportTotal = whs.Sum(item => item.As001MinutesTotal);
+
+            double Es001_Additional = Es001_ReportTotal - (client.retainer_ES001 * 60);
+            double As001_Additional = As001_ReportTotal - (client.retainer_AS001 * 60);
+            double Total_Additional = Es001_Additional + As001_Additional;
+            string MinutesReportTotal = AssistFormat.ConvertMinutesToString(whs.Sum(item => item.MinutesTotal));
+            StringBuilder htmlBuilder = new StringBuilder();
+            DoNameHeader(client, period, htmlBuilder);
+
+            htmlBuilder.AppendLine(@"<br>");
+            // Start HTML table
+            htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+            // Create table header
+            htmlBuilder.AppendLine(@"<tr>");
+            htmlBuilder.AppendLine("<th>Date</th>");
+            htmlBuilder.AppendLine("<th>Desciption</th>");
+            htmlBuilder.AppendLine("<th>Esther</th>");
+            htmlBuilder.AppendLine("<th>Aihsa</th>");
+            htmlBuilder.AppendLine("<th>TotalHours</th>");
+            htmlBuilder.AppendLine("</tr>");
+
+            // Create table rows
+            foreach (DtoWorkedHoursReport wh in whs)
+            {
+                htmlBuilder.AppendLine("<tr>");
+                htmlBuilder.AppendLine($"<td>{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.JobTotal}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.Es001MinutesTotalString}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.As001MinutesTotalString}</td>");
+                htmlBuilder.AppendLine($"<td>{wh.MinutesTotalString}</td>");
+                htmlBuilder.AppendLine("</tr>");
+            }
+            htmlBuilder.AppendLine(@"<tr>");
+            htmlBuilder.AppendLine("<th></th>");
+            htmlBuilder.AppendLine("<th></th>");
+            htmlBuilder.AppendLine($"<th>{Es001MinutesReportTotal}</th>");
+            htmlBuilder.AppendLine($"<th>{As001MinutesReportTotal}</th>");
+            htmlBuilder.AppendLine($"<th>{MinutesReportTotal}</th>");
+            htmlBuilder.AppendLine("</tr>");
+            htmlBuilder.AppendLine("<tr>");
+            htmlBuilder.AppendLine($"<td></td>");
+            htmlBuilder.AppendLine($"<td>Retainer</td>");
+            htmlBuilder.AppendLine($"<td>{AssistFormat.ConvertHoursToString(client.retainer_ES001)}</td>");
+            htmlBuilder.AppendLine($"<td>{AssistFormat.ConvertHoursToString(client.retainer_AS001)}</td>");
+            htmlBuilder.AppendLine($"<td>{AssistFormat.ConvertHoursToString(client.retainer_ES001 + client.retainer_AS001)}</td>");
+            htmlBuilder.AppendLine("</tr>");
+            htmlBuilder.AppendLine("<tr>");
+            htmlBuilder.AppendLine($"<td></td>");
+            htmlBuilder.AppendLine($"<td>Additional hours</td>");
+            htmlBuilder.AppendLine($"<td>{AssistFormat.ConvertMinutesToString(Es001_Additional)}</td>");
+            htmlBuilder.AppendLine($"<td>{AssistFormat.ConvertMinutesToString(As001_Additional)}</td>");
+            htmlBuilder.AppendLine($"<td>{AssistFormat.ConvertMinutesToString(Total_Additional)}</td>");
+            htmlBuilder.AppendLine("</tr>");
+            htmlBuilder.AppendLine("</table>");
+            htmlBuilder.AppendLine(@"<br>");
+            return htmlBuilder.ToString();
+        }
+        private static void DoNameHeader(DtoClient client, string period, StringBuilder htmlBuilder)
+        {
+            htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+            htmlBuilder.AppendLine("<tr>");
+            htmlBuilder.AppendLine($"<td>Client : {client.clt_name}</td>");
+            htmlBuilder.AppendLine("</tr>");
+            htmlBuilder.AppendLine("<tr>");
+            htmlBuilder.AppendLine($"<td>Period : {period}</td>");
+            htmlBuilder.AppendLine("</tr>");
+            htmlBuilder.AppendLine("</table>");
+        }
         private static void DoRateHeader(DtoClient client, string period, StringBuilder htmlBuilder)
         {
             if (!client.rate_ES001.Equals(client.rate_AS001))
