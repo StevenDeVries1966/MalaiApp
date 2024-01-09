@@ -12,6 +12,7 @@
     <None Remove="appsettings.Development.json" />
     <None Remove="appsettings.json" />
     <None Remove="HtmlTemplate\HtmlTemplate_IMC.html" />
+    <None Remove="Images\MalaiEffinciency_1563x1563.png" />
     <None Remove="Images\MalaiEffinciency_200x200.png" />
   </ItemGroup>
 
@@ -22,6 +23,12 @@
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\MalaiEffinciency_1563x1563.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -41,9 +48,6 @@
     <Resource Include="HtmlTemplate\HtmlTemplate_IMC.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <EmbeddedResource Include="Images\MalaiEffinciency_200x200.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

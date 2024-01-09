@@ -19,7 +19,15 @@ namespace MalaiReport
 
             htmlBuilder.AppendLine(@"<br>");
 
-            htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+            htmlBuilder.AppendLine("<table  class=\"data\" 'border:5px solid black;border-collapse:collapse;'>");
+
+
+            htmlBuilder.AppendLine("<tr>");
+            htmlBuilder.AppendLine($"<td colspan=\"2\"></td>");
+            htmlBuilder.AppendLine($"<td colspan=\"2\">IMC - AP</td>");
+            htmlBuilder.AppendLine($"<td colspan=\"2\">IMC - AP</td>");
+            htmlBuilder.AppendLine($"<td colspan=\"2\"></td>");
+            htmlBuilder.AppendLine("</tr>");
 
             // Create table header
             htmlBuilder.AppendLine(@"<tr>");
@@ -28,8 +36,9 @@ namespace MalaiReport
             htmlBuilder.AppendLine("<th>Esther</th>");
             htmlBuilder.AppendLine("<th>Ashia</th>");
             htmlBuilder.AppendLine("<th>HR - Hours</th>");
-            htmlBuilder.AppendLine("<th>Total Hours</th>");
-            htmlBuilder.AppendLine("<th>Carge</th>");
+            htmlBuilder.AppendLine("<th style=\"border-right-style:none;\">Total Hours</th>");
+            htmlBuilder.AppendLine("<th style=\"border-left-style:none;border-right-style:none;\"></th>");
+            htmlBuilder.AppendLine("<th style=\"border-left-style: none;text-align:right;\">Carge</th>");
             htmlBuilder.AppendLine("</tr>");
 
             // Create table rows
@@ -41,8 +50,9 @@ namespace MalaiReport
                 htmlBuilder.AppendLine($"<td>{wh.Es001MinutesTotalString}</td>");
                 htmlBuilder.AppendLine($"<td>{wh.As001MinutesTotalString}</td>");
                 htmlBuilder.AppendLine($"<td></td>");
-                htmlBuilder.AppendLine($"<td>{wh.MinutesTotalString}</td>");
-                htmlBuilder.AppendLine($"<td align='right'>${wh.Charge.ToString("0.00")}</td>");
+                htmlBuilder.AppendLine($"<td style=\"border-right-style:none;\">{wh.MinutesTotalString}</td>");
+                htmlBuilder.AppendLine($"<td style=\"border-left-style:none;border-right-style:none;font-weight:bold;\">$</td>");
+                htmlBuilder.AppendLine($"<td style=\"border-left-style:none;text-align:right;font-weight:bold;\">{wh.Charge.ToString("0.00")}</td>");
                 htmlBuilder.AppendLine("</tr>");
             }
             htmlBuilder.AppendLine(@"<tr>");
@@ -51,8 +61,10 @@ namespace MalaiReport
             htmlBuilder.AppendLine($"<th>{Es001MinutesReportTotal}</th>");
             htmlBuilder.AppendLine($"<th>{As001MinutesReportTotal}</th>");
             htmlBuilder.AppendLine($"<th></th>");
-            htmlBuilder.AppendLine("<th>Total Hours</th>");
-            htmlBuilder.AppendLine($"<th>$ {total_charge.ToString("0.00")}</th>");
+
+            htmlBuilder.AppendLine("<th style=\"border-right-style:none;\">Total Hours</th>");
+            htmlBuilder.AppendLine($"<th style=\"border-left-style:none;border-right-style:none;\">$</th>");
+            htmlBuilder.AppendLine($"<th style=\"border-left-style: none;text-align:right;\">{total_charge.ToString("0.00")}</th>");
             htmlBuilder.AppendLine("</tr>");
             // End HTML table
             htmlBuilder.AppendLine("</table>");
@@ -85,7 +97,7 @@ namespace MalaiReport
 
             htmlBuilder.AppendLine(@"<br>");
 
-            htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+            htmlBuilder.AppendLine("<table class=\"data\" 'border:5px solid black;border-collapse:collapse;'>");
 
             htmlBuilder.AppendLine("<tr>");
             htmlBuilder.AppendLine($"<td></td>");
@@ -162,7 +174,7 @@ namespace MalaiReport
 
             htmlBuilder.AppendLine(@"<br>");
             // Start HTML table
-            htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+            htmlBuilder.AppendLine("<table  class=\"data\" 'border:5px solid black;border-collapse:collapse;'>");
             // Create table header
             htmlBuilder.AppendLine(@"<tr>");
             htmlBuilder.AppendLine("<th>Date</th>");
@@ -191,18 +203,18 @@ namespace MalaiReport
             htmlBuilder.AppendLine($"<th>{MinutesReportTotal}</th>");
             htmlBuilder.AppendLine("</tr>");
             htmlBuilder.AppendLine("<tr>");
-            htmlBuilder.AppendLine($"<td></td>");
-            htmlBuilder.AppendLine($"<td>Retainer</td>");
-            htmlBuilder.AppendLine($"<td>{AssistFormat.ConvertHoursToString(client.retainer_ES001)}</td>");
-            htmlBuilder.AppendLine($"<td>{AssistFormat.ConvertHoursToString(client.retainer_AS001)}</td>");
-            htmlBuilder.AppendLine($"<td>{AssistFormat.ConvertHoursToString(client.retainer_ES001 + client.retainer_AS001)}</td>");
+            htmlBuilder.AppendLine($"<td style=\"border:none\"></td>");
+            htmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D;font-weight:bold;text-align:right\">Retainer</td>");
+            htmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertHoursToString(client.retainer_ES001)}</td>");
+            htmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\" style=\"border:none\"d>{AssistFormat.ConvertHoursToString(client.retainer_AS001)}</td>");
+            htmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertHoursToString(client.retainer_ES001 + client.retainer_AS001)}</td>");
             htmlBuilder.AppendLine("</tr>");
             htmlBuilder.AppendLine("<tr>");
-            htmlBuilder.AppendLine($"<td></td>");
-            htmlBuilder.AppendLine($"<td>Additional hours</td>");
-            htmlBuilder.AppendLine($"<td>{AssistFormat.ConvertMinutesToString(Es001_Additional)}</td>");
-            htmlBuilder.AppendLine($"<td>{AssistFormat.ConvertMinutesToString(As001_Additional)}</td>");
-            htmlBuilder.AppendLine($"<td>{AssistFormat.ConvertMinutesToString(Total_Additional)}</td>");
+            htmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\"></td>");
+            htmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D;font-weight:bold;text-align:right\">Additional hours</td>");
+            htmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(Es001_Additional)}</td>");
+            htmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(As001_Additional)}</td>");
+            htmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(Total_Additional)}</td>");
             htmlBuilder.AppendLine("</tr>");
             htmlBuilder.AppendLine("</table>");
             htmlBuilder.AppendLine(@"<br>");
@@ -210,7 +222,7 @@ namespace MalaiReport
         }
         private static void DoNameHeader(DtoClient client, string period, StringBuilder htmlBuilder)
         {
-            htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+            htmlBuilder.AppendLine("<table class=\"header\" 'border:5px solid black;border-collapse:collapse;'>");
             htmlBuilder.AppendLine("<tr>");
             htmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"200\" height=\"200\"></td>");
             htmlBuilder.AppendLine($"<td><table>");
@@ -226,7 +238,7 @@ namespace MalaiReport
         }
         private static void DoRateHeader0(DtoClient client, string period, StringBuilder htmlBuilder)
         {
-            htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+            htmlBuilder.AppendLine("<table class=\"header\" 'border:5px solid black;border-collapse:collapse;'>");
             htmlBuilder.AppendLine("<tr>");
             htmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"200\" height=\"200\"></td>");
             htmlBuilder.AppendLine($"<td>");
@@ -239,7 +251,7 @@ namespace MalaiReport
         {
             if (!client.rate_ES001.Equals(client.rate_AS001))
             {
-                htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+                htmlBuilder.AppendLine("<table class=\"header\" 'border:5px solid black;border-collapse:collapse;'>");
                 htmlBuilder.AppendLine("<tr>");
                 htmlBuilder.AppendLine($"<td>Client : {client.clt_name}</td>");
                 htmlBuilder.AppendLine("</tr>");
@@ -255,7 +267,7 @@ namespace MalaiReport
             }
             else
             {
-                htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
+                htmlBuilder.AppendLine("<table class=\"header\" 'border:5px solid black;border-collapse:collapse;'>");
                 htmlBuilder.AppendLine("<tr>");
                 htmlBuilder.AppendLine($"<td>Client : {client.clt_name}</td>");
                 htmlBuilder.AppendLine($"<td></td>");
@@ -280,37 +292,37 @@ namespace MalaiReport
 
             return content;
         }
-        public static string GenerateHtmlTable(object[] data)
-        {
-            StringBuilder html = new StringBuilder();
+        //public static string GenerateHtmlTable(object[] data)
+        //{
+        //    StringBuilder html = new StringBuilder();
 
-            // Start HTML table
-            html.AppendLine("<table border='1'>");
+        //    // Start HTML table
+        //    html.AppendLine("<table border='1'>");
 
-            // Create table header
-            html.AppendLine("<tr>");
-            foreach (var prop in data[0].GetType().GetProperties())
-            {
-                html.AppendLine($"<th>{prop.Name}</th>");
-            }
-            html.AppendLine("</tr>");
+        //    // Create table header
+        //    html.AppendLine("<tr>");
+        //    foreach (var prop in data[0].GetType().GetProperties())
+        //    {
+        //        html.AppendLine($"<th>{prop.Name}</th>");
+        //    }
+        //    html.AppendLine("</tr>");
 
-            // Create table rows
-            foreach (var item in data)
-            {
-                html.AppendLine("<tr>");
-                foreach (var prop in item.GetType().GetProperties())
-                {
-                    html.AppendLine($"<td>{prop.GetValue(item)}</td>");
-                }
-                html.AppendLine("</tr>");
-            }
+        //    // Create table rows
+        //    foreach (var item in data)
+        //    {
+        //        html.AppendLine("<tr>");
+        //        foreach (var prop in item.GetType().GetProperties())
+        //        {
+        //            html.AppendLine($"<td>{prop.GetValue(item)}</td>");
+        //        }
+        //        html.AppendLine("</tr>");
+        //    }
 
-            // End HTML table
-            html.AppendLine("</table>");
+        //    // End HTML table
+        //    html.AppendLine("</table>");
 
-            return html.ToString();
-        }
+        //    return html.ToString();
+        //}
 
         public static void SaveHtmlToFile(string htmlContent, string fileName)
         {
