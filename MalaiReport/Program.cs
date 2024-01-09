@@ -1,15 +1,14 @@
 ﻿//create report, types
 //app.setting
-//database client
-
-
-// See https://aka.ms/new-console-template for more information
-
 using DataLayer.Classes;
 using MalaiReport.Helpers;
 using MalaiReport.Reports;
+using System.Globalization;
 
 string message;
+var culture = new CultureInfo("en-US");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 Globals.ReportPath = Path.Combine(Globals.ReportPath, DateTime.Now.ToString("yyyyMMdd_HHmm"));
 if (!Directory.Exists(Globals.ReportPath)) Directory.CreateDirectory(Globals.ReportPath);
