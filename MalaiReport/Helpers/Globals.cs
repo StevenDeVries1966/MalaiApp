@@ -13,6 +13,8 @@ namespace MalaiReport.Helpers
         private static string _password;
         private static string _logoPath;
         private static string _reportPath;
+        private static int _reportYear;
+        private static List<int> _months;
         public static IConfiguration Config
         {
             get
@@ -36,7 +38,7 @@ namespace MalaiReport.Helpers
             {
                 if (string.IsNullOrEmpty(_server))
                 {
-                    _server = GetConfigValue("Server");
+                    _server = GetConfigValue("DataBaseAccount:Server");
                 }
                 return _server;
             }
@@ -47,7 +49,7 @@ namespace MalaiReport.Helpers
             {
                 if (string.IsNullOrEmpty(_database))
                 {
-                    _database = GetConfigValue("DataBase");
+                    _database = GetConfigValue("DataBaseAccount:DataBase");
                 }
                 return _database;
             }
@@ -58,7 +60,7 @@ namespace MalaiReport.Helpers
             {
                 if (string.IsNullOrEmpty(_username))
                 {
-                    _username = GetConfigValue("UserName");
+                    _username = GetConfigValue("DataBaseAccount:UserName");
                 }
                 return _username;
             }
@@ -69,7 +71,7 @@ namespace MalaiReport.Helpers
             {
                 if (string.IsNullOrEmpty(_password))
                 {
-                    _password = GetConfigValue("PassWord");
+                    _password = GetConfigValue("DataBaseAccount:PassWord");
                 }
                 return _password;
             }
@@ -98,8 +100,31 @@ namespace MalaiReport.Helpers
             }
             set => _reportPath = value;
         }
+        public static int Year
+        {
+            get
+            {
+                _reportYear = Convert.ToInt32(GetConfigValue("Report:Year"));
+                return _reportYear;
+            }
+            set => _reportYear = value;
+        }
+        public static List<int> Months
+        {
+            get
+            {
+                string strMonths = GetConfigValue("Report:Months");
+                _months = strMonths.Split(',')
+                    .Select(s => int.Parse(s))
+                    .ToList();
+                return _months;
+            }
+            set => _months = value;
+        }
 
         public static MalaiContext? ConMan { get; set; }
+        public static List<DtoEmployee>? Employees { get; set; }
+        public static DtoEmployee? EmployeeCurrent;
 
         public static string GetPath(string relativePath)
         {

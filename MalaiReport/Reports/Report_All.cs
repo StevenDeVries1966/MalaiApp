@@ -92,7 +92,7 @@ namespace MalaiReport.Reports
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Globals.ConMan.AddLog(e.Message, e!.StackTrace!, Globals.EmployeeCurrent!.emp_id);
             }
 
         }

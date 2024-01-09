@@ -147,37 +147,38 @@ namespace DataLayer.Classes
             }
             return result;
         }
-        //public List<DtoWorkedHours> GetDataClientMonth(int month, string clt_code, out string message)
-        //{
-        //    bool result = false;
-        //    message = "OK";
-        //    try
-        //    {
-        //        using (MySqlConnection con = ConManager.GetConnection())
-        //        {
+        public bool AddLog(string error_message, string stack, int emp_id)
+        {
+            bool bool_result = false;
+            try
+            {
+                using (MySqlConnection con = ConManager.GetConnection())
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("AddLog", con))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-        //            using (MySqlCommand cmd = new MySqlCommand("GetDataClientMonth", con))
-        //            {
-        //                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        // Add parameters if your stored procedure has any
+                        cmd.Parameters.AddWithValue("_message", error_message);
+                        cmd.Parameters.AddWithValue("_stack", stack);
+                        cmd.Parameters.AddWithValue("_emp_id", emp_id);
+                        cmd.Parameters.AddWithValue("_date_created", DateTime.Now);
 
-        //                // Add parameters if your stored procedure has any
-        //                cmd.Parameters.AddWithValue("_month", month);
-        //                cmd.Parameters.AddWithValue("_clt_code", clt_code);
-        //                int rowsAffected = cmd.ExecuteNonQuery();
+                        int rowsAffected = cmd.ExecuteNonQuery();
 
-        //                message += $"OK {rowsAffected} rows affected";
-        //                result = true;
-        //            }
-        //        }
+                        string str_result = $"OK {rowsAffected} rows affected";
+                        bool_result = true;
+                    }
+                }
 
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        message = e.Message;
-        //    }
+            }
+            catch (Exception e)
+            {
+                //str_result = e.Message;
+            }
 
-        //    return result;
-        //}
+            return bool_result;
+        }
         public bool AddWorkedHours(List<DtoWorkedHours> workedHours, out string message)
         {
             bool result = false;
