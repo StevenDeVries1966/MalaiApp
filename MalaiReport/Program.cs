@@ -3,15 +3,14 @@
 // See https://aka.ms/new-console-template for more information
 
 using DataLayer.Classes;
-using MalaiReport;
+using MalaiReport.Helpers;
 using MalaiReport.Reports;
 
-string test = Globals.ImagePath;
 string message;
-string pathReport = @"C:\Prive\Malai\Docs\Reports";
-pathReport = Path.Combine(pathReport, DateTime.Now.ToString("yyyyMMdd_HHmm"));
-if (!Directory.Exists(pathReport)) Directory.CreateDirectory(pathReport);
-Globals.ConMan = new MalaiContext("127.0.0.1", @"Malai_test", "root", "wqEQW5Ag/&6%JT+");
+
+Globals.ReportPath = Path.Combine(Globals.ReportPath, DateTime.Now.ToString("yyyyMMdd_HHmm"));
+if (!Directory.Exists(Globals.ReportPath)) Directory.CreateDirectory(Globals.ReportPath);
+Globals.ConMan = new MalaiContext(Globals.Server, Globals.DataBase, Globals.UserName, Globals.PassWord);
 if (Globals.ConMan == null)
 {
     Console.BackgroundColor = ConsoleColor.White;
@@ -31,7 +30,7 @@ foreach (DtoClient clt in Globals.ConMan.lstClients)
     foreach (int month in lstMonths)
     {
         Console.WriteLine($"process month {month} for client {clt.clt_name}");
-        ReportAll rIMC = new ReportAll(month, 2023, clt.clt_code, pathReport);
+        ReportAll rIMC = new ReportAll(month, 2023, clt.clt_code, Globals.ReportPath);
     }
 }
 Console.WriteLine("Done");

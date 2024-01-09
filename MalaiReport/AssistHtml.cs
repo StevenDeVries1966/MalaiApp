@@ -1,4 +1,5 @@
 ﻿using DataLayer.Classes;
+using MalaiReport.Helpers;
 using System.Text;
 
 namespace MalaiReport
@@ -211,7 +212,7 @@ namespace MalaiReport
         {
             htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
             htmlBuilder.AppendLine("<tr>");
-            htmlBuilder.AppendLine($"<td><img src=\"{Globals.ImagePath}\" alt=\"Your Image\" width=\"200\" height=\"200\"></td>");
+            htmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"200\" height=\"200\"></td>");
             htmlBuilder.AppendLine($"<td><table>");
             htmlBuilder.AppendLine("<tr>");
             htmlBuilder.AppendLine($"<td>Client : {client.clt_name}</td>");
@@ -227,7 +228,7 @@ namespace MalaiReport
         {
             htmlBuilder.AppendLine("<table 'border:5px solid black;border-collapse:collapse;'>");
             htmlBuilder.AppendLine("<tr>");
-            htmlBuilder.AppendLine($"<td><img src=\"{Globals.ImagePath}\" alt=\"Your Image\" width=\"200\" height=\"200\"></td>");
+            htmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"200\" height=\"200\"></td>");
             htmlBuilder.AppendLine($"<td>");
             DoRateHeader1(client, period, htmlBuilder);
             htmlBuilder.AppendLine($"</td>");

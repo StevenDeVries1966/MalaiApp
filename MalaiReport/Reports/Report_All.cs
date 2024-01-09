@@ -1,4 +1,5 @@
 ﻿using DataLayer.Classes;
+using MalaiReport.Helpers;
 
 namespace MalaiReport.Reports
 {
