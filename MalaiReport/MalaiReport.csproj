@@ -11,7 +11,7 @@
   <ItemGroup>
     <None Remove="appsettings.Development.json" />
     <None Remove="appsettings.json" />
-    <None Remove="HtmlTemplate\HtmlTemplate_IMC.html" />
+    <None Remove="HtmlTemplate\HtmlTemplate.html" />
     <None Remove="Images\MalaiEffinciency_1563x1563.png" />
     <None Remove="Images\MalaiEffinciency_200x200.png" />
   </ItemGroup>
@@ -45,9 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="HtmlTemplate\HtmlTemplate_IMC.html">
+    <EmbeddedResource Include="HtmlTemplate\HtmlTemplate.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

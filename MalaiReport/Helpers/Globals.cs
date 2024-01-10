@@ -13,6 +13,7 @@ namespace MalaiReport.Helpers
         private static string _password;
         private static string _logoPath;
         private static string _reportPath;
+        private static string _htmlTemplatePath;
         private static int _reportYear;
         private static List<int> _months;
         public static IConfiguration Config
@@ -99,6 +100,18 @@ namespace MalaiReport.Helpers
                 return _reportPath;
             }
             set => _reportPath = value;
+        }
+        public static string HtmlTemplatePath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_htmlTemplatePath))
+                {
+                    _htmlTemplatePath = GetConfigValue("HtmlTemplatePath");
+                }
+                return _htmlTemplatePath;
+            }
+            set => _htmlTemplatePath = value;
         }
         public static int Year
         {

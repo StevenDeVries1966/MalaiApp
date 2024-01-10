@@ -22,6 +22,8 @@ namespace MalaiReport.Reports
 
         public string StrAs001MinutesReportTotal =>
             AssistFormat.ConvertMinutesToString(As001MinutesReportTotal);
+        public string StrMinutesReportTotal =>
+            AssistFormat.ConvertMinutesToString(MinutesReportTotal);
 
 
 
@@ -52,13 +54,15 @@ namespace MalaiReport.Reports
                     lstWorkedHoursReports.Add(new DtoWorkedHoursReport(Client, groep.ToList(), groep.Key.Date));
                 }
 
-                string htmlTemplateContent = AssistHtml.GetHtmlResourceContent(@"C:\_GitHubMe\MalaiApp\MalaiReport\HtmlTemplate\HtmlTemplate_IMC.html");
+                //string htmlTemplateContent = AssistHtml.GetHtmlResourceContent(@"C:\_GitHubMe\MalaiApp\MalaiReport\HtmlTemplate\HtmlTemplate.html");
+                string htmlTemplateContent = AssistHtml.GetHtmlResourceContent(Globals.HtmlTemplatePath);
                 // Generate the HTML content
                 if (Client.report_type.Equals("A", StringComparison.CurrentCultureIgnoreCase))
                 {
                     htmlContent = AssistHtml.CreateHtml_Report_IMC(Client,
                                                                     period,
                                                                     lstWorkedHoursReports,
+                                                                    StrMinutesReportTotal,
                                                                     StrEs001MinutesReportTotal,
                                                                     StrAs001MinutesReportTotal);
                 }

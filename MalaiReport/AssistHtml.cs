@@ -6,27 +6,27 @@ namespace MalaiReport
 {
     public class AssistHtml
     {
-        public static string CreateHtml_Report_IMC(DtoClient client, string period, List<DtoWorkedHoursReport> whs, string Es001MinutesReportTotal, string As001MinutesReportTotal)
+        public static string CreateHtml_Report_IMC(DtoClient client, string period, List<DtoWorkedHoursReport> whs, string MinutesReportTotal, string Es001MinutesReportTotal, string As001MinutesReportTotal, bool InclCharge = true)
         {
             double total_charge = whs.Sum(item => item.Charge);
             StringBuilder htmlBuilder = new StringBuilder();
-
             // Start HTML table
-
             DoRateHeader0(client, period, htmlBuilder);
-
-
-
             htmlBuilder.AppendLine(@"<br>");
-
             htmlBuilder.AppendLine("<table  class=\"data\" 'border:5px solid black;border-collapse:collapse;'>");
-
-
             htmlBuilder.AppendLine("<tr>");
             htmlBuilder.AppendLine($"<td colspan=\"2\"></td>");
             htmlBuilder.AppendLine($"<td colspan=\"2\">IMC - AP</td>");
-            htmlBuilder.AppendLine($"<td colspan=\"2\">IMC - AP</td>");
-            htmlBuilder.AppendLine($"<td colspan=\"2\"></td>");
+            htmlBuilder.AppendLine($"<td>IMC - HR</td>");
+            if (InclCharge)
+            {
+                htmlBuilder.AppendLine($"<td colspan=\"3\"></td>");
+            }
+            else
+            {
+                htmlBuilder.AppendLine($"<td></td>");
+            }
+
             htmlBuilder.AppendLine("</tr>");
 
             // Create table header
@@ -38,7 +38,7 @@ namespace MalaiReport
             htmlBuilder.AppendLine("<th>HR - Hours</th>");
             htmlBuilder.AppendLine("<th style=\"border-right-style:none;\">Total Hours</th>");
             htmlBuilder.AppendLine("<th style=\"border-left-style:none;border-right-style:none;\"></th>");
-            htmlBuilder.AppendLine("<th style=\"border-left-style: none;text-align:right;\">Carge</th>");
+            if (InclCharge) htmlBuilder.AppendLine("<th style=\"border-left-style: none;text-align:right;\">Carge</th>");
             htmlBuilder.AppendLine("</tr>");
 
             // Create table rows
@@ -51,8 +51,11 @@ namespace MalaiReport
                 htmlBuilder.AppendLine($"<td>{wh.As001MinutesTotalString}</td>");
                 htmlBuilder.AppendLine($"<td></td>");
                 htmlBuilder.AppendLine($"<td style=\"border-right-style:none;\">{wh.MinutesTotalString}</td>");
-                htmlBuilder.AppendLine($"<td style=\"border-left-style:none;border-right-style:none;font-weight:bold;\">$</td>");
-                htmlBuilder.AppendLine($"<td style=\"border-left-style:none;text-align:right;font-weight:bold;\">{wh.Charge.ToString("0.00")}</td>");
+                if (InclCharge)
+                {
+                    htmlBuilder.AppendLine($"<td style=\"border-left-style:none;border-right-style:none;font-weight:bold;\">$</td>");
+                    htmlBuilder.AppendLine($"<td style=\"border-left-style:none;text-align:right;font-weight:bold;\">{wh.Charge.ToString("0.00")}</td>");
+                }
                 htmlBuilder.AppendLine("</tr>");
             }
             htmlBuilder.AppendLine(@"<tr>");
@@ -61,10 +64,12 @@ namespace MalaiReport
             htmlBuilder.AppendLine($"<th>{Es001MinutesReportTotal}</th>");
             htmlBuilder.AppendLine($"<th>{As001MinutesReportTotal}</th>");
             htmlBuilder.AppendLine($"<th></th>");
-
-            htmlBuilder.AppendLine("<th style=\"border-right-style:none;\">Total Hours</th>");
-            htmlBuilder.AppendLine($"<th style=\"border-left-style:none;border-right-style:none;\">$</th>");
-            htmlBuilder.AppendLine($"<th style=\"border-left-style: none;text-align:right;\">{total_charge.ToString("0.00")}</th>");
+            htmlBuilder.AppendLine($"<th style=\"border-right-style:none;\">{MinutesReportTotal}</th>");
+            if (InclCharge)
+            {
+                htmlBuilder.AppendLine($"<th style=\"border-left-style:none;border-right-style:none;\">$</th>");
+                htmlBuilder.AppendLine($"<th style=\"border-left-style: none;text-align:right;\">{total_charge.ToString("0.00")}</th>");
+            }
             htmlBuilder.AppendLine("</tr>");
             // End HTML table
             htmlBuilder.AppendLine("</table>");
@@ -101,9 +106,9 @@ namespace MalaiReport
 
             htmlBuilder.AppendLine("<tr>");
             htmlBuilder.AppendLine($"<td></td>");
-            htmlBuilder.AppendLine($"<td>Accounting</td>");
-            htmlBuilder.AppendLine($"<td>Assistant</td>");
-            htmlBuilder.AppendLine($"<td>Totals</td>");
+            htmlBuilder.AppendLine($"<td style=\"color:#275D5D\">Accounting</td>");
+            htmlBuilder.AppendLine($"<td style=\"color:#275D5D\">Assistant</td>");
+            htmlBuilder.AppendLine($"<td style=\"color:#275D5D\">Totals</td>");
             htmlBuilder.AppendLine("</tr>");
             // Create table header
             htmlBuilder.AppendLine(@"<tr>");
@@ -145,8 +150,6 @@ namespace MalaiReport
             htmlBuilder.AppendLine("</tr>");
             // End HTML table
             htmlBuilder.AppendLine("</table>");
-
-            //htmlBuilder.AppendLine($"<label>Total : {Math.Round(total_charge, 2)}</label>");
 
             return htmlBuilder.ToString();
         }
@@ -224,10 +227,10 @@ namespace MalaiReport
         {
             htmlBuilder.AppendLine("<table class=\"header\" 'border:5px solid black;border-collapse:collapse;'>");
             htmlBuilder.AppendLine("<tr>");
-            htmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"200\" height=\"200\"></td>");
-            htmlBuilder.AppendLine($"<td><table>");
+            htmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"125\" height=\"125\"></td>");
+            htmlBuilder.AppendLine($"<td style=\"align=right\"><table>");
             htmlBuilder.AppendLine("<tr>");
-            htmlBuilder.AppendLine($"<td>Client : {client.clt_name}</td>");
+            htmlBuilder.AppendLine($"<td style=\"font-size:21px;important;\">Client : {client.clt_name}</td>");
             htmlBuilder.AppendLine("</tr>");
             htmlBuilder.AppendLine("<tr>");
             htmlBuilder.AppendLine($"<td>Period : {period}</td>");
@@ -238,10 +241,10 @@ namespace MalaiReport
         }
         private static void DoRateHeader0(DtoClient client, string period, StringBuilder htmlBuilder)
         {
-            htmlBuilder.AppendLine("<table class=\"header\" 'border:5px solid black;border-collapse:collapse;'>");
+            htmlBuilder.AppendLine("<table class=\"header\"'>");
             htmlBuilder.AppendLine("<tr>");
-            htmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"200\" height=\"200\"></td>");
-            htmlBuilder.AppendLine($"<td>");
+            htmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"125\" height=\"125\"></td>");
+            htmlBuilder.AppendLine($"<td style=\"align=right\"><table>");
             DoRateHeader1(client, period, htmlBuilder);
             htmlBuilder.AppendLine($"</td>");
             htmlBuilder.AppendLine("</tr>");
@@ -251,17 +254,17 @@ namespace MalaiReport
         {
             if (!client.rate_ES001.Equals(client.rate_AS001))
             {
-                htmlBuilder.AppendLine("<table class=\"header\" 'border:5px solid black;border-collapse:collapse;'>");
+                htmlBuilder.AppendLine("<table class=\"header\"'>");
                 htmlBuilder.AppendLine("<tr>");
-                htmlBuilder.AppendLine($"<td>Client : {client.clt_name}</td>");
+                htmlBuilder.AppendLine($"<td style=\"font-size:21px;important;\">Client : {client.clt_name}</td>");
                 htmlBuilder.AppendLine("</tr>");
                 htmlBuilder.AppendLine("<tr>");
                 htmlBuilder.AppendLine($"<td>Period : {period}</td>");
-                htmlBuilder.AppendLine($"<td>Rate 1: $ {client.rate_ES001}</td>");
+                htmlBuilder.AppendLine($"<td>Rate 1: $ {client.rate_ES001.ToString("0.00")}</td>");
                 htmlBuilder.AppendLine("</tr>");
                 htmlBuilder.AppendLine("<tr>");
                 htmlBuilder.AppendLine($"<td></td>");
-                htmlBuilder.AppendLine($"<td>Rate 2: $ {client.rate_AS001}</td>");
+                htmlBuilder.AppendLine($"<td>Rate 2: $ {client.rate_AS001.ToString("0.00")}</td>");
                 htmlBuilder.AppendLine("</tr>");
                 htmlBuilder.AppendLine("</table>");
             }
@@ -269,12 +272,12 @@ namespace MalaiReport
             {
                 htmlBuilder.AppendLine("<table class=\"header\" 'border:5px solid black;border-collapse:collapse;'>");
                 htmlBuilder.AppendLine("<tr>");
-                htmlBuilder.AppendLine($"<td>Client : {client.clt_name}</td>");
+                htmlBuilder.AppendLine($"<td style=\"font-size:21px;important;\">Client : {client.clt_name}</td>");
                 htmlBuilder.AppendLine($"<td></td>");
                 htmlBuilder.AppendLine("</tr>");
                 htmlBuilder.AppendLine("<tr>");
                 htmlBuilder.AppendLine($"<td>Period : {period}</td>");
-                htmlBuilder.AppendLine($"<td>Hourly Rate: $ {client.rate_ES001}</td>");
+                htmlBuilder.AppendLine($"<td>Hourly Rate: $ {client.rate_ES001.ToString("0.00")}</td>");
                 htmlBuilder.AppendLine("</tr>");
                 htmlBuilder.AppendLine("</table>");
             }
