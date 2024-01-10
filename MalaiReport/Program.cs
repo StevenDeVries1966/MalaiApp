@@ -33,6 +33,10 @@ foreach (DtoClient clt in Globals.ConMan.lstClients)
     {
         Console.WriteLine($"process month {month} for client {clt.clt_name}");
         ReportAll rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath);
+        if (clt.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase))
+        {
+            rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath, false);
+        }
     }
 }
 Console.WriteLine("Done");
