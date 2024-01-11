@@ -11,18 +11,24 @@ namespace MalaiReport.Reports
         private DtoClient Client { get; set; }
         private string HtmlContent { get; set; }
 
-        private int IntEs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursReports.Sum(o => o.Es001MinutesTotal));
+        private int IntEs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursReports.Sum(o => o.DblEs001MinutesTotal));
         private int IntEs001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntEs001MinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
         private string StrEs001MinutesReportTotal => AssistFormat.ConvertMinutesToString(IntEs001MinutesReportTotal);
         private double DblEs001TotalCharge { get; set; }
 
-        private int IntAs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursReports.Sum(o => o.As001MinutesTotal));
+        private int IntAs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursReports.Sum(o => o.DblAs001MinutesTotal));
         private int IntAs001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntAs001MinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
         private string StrAs001MinutesReportTotal =>
             AssistFormat.ConvertMinutesToString(IntAs001MinutesReportTotal);
         private double DblAs001TotalCharge { get; set; }
 
-        private int IntMinutesReportTotal => IntEs001MinutesReportTotal + IntAs001MinutesReportTotal;
+
+        private int IntHrMinutesReportTotal => Convert.ToInt32(LstWorkedHoursReports.Sum(o => o.DblHrMinutesTotal));
+        private int IntHrPercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntHrMinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
+        private string StrHrMinutesReportTotal => AssistFormat.ConvertMinutesToString(IntHrMinutesReportTotal);
+        private double DblHrTotalCharge { get; set; }
+
+        private int IntMinutesReportTotal => IntEs001MinutesReportTotal + IntAs001MinutesReportTotal + IntHrMinutesReportTotal;
         private string StrMinutesReportTotal =>
             AssistFormat.ConvertMinutesToString(IntMinutesReportTotal);
         private double TotalCharge { get; set; }
@@ -90,12 +96,12 @@ namespace MalaiReport.Reports
                 // IMC && InclCharge = true
                 else if (Client.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase) && InclCharge)
                 {
-                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_Report{Client.report_type}_{month}{year}.html");
+                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_Report{Client.report_type}_{month}{year}_PLUS.html");
                 }
                 // IMC && InclCharge = false
                 else if (Client.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase) && !InclCharge)
                 {
-                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_Report{Client.report_type}_{month}{year}_PLUS.html");
+                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_Report{Client.report_type}_{month}{year}.html");
                 }
 
                 // Save HTML content to a file
@@ -115,9 +121,9 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine(@"<br>");
             HtmlBuilder.AppendLine("<table  class=\"data\" 'border:5px solid black;border-collapse:collapse;'>");
             HtmlBuilder.AppendLine("<tr>");
-            HtmlBuilder.AppendLine($"<td colspan=\"2\"></td>");
-            HtmlBuilder.AppendLine($"<td colspan=\"2\">IMC - AP</td>");
-            HtmlBuilder.AppendLine($"<td>IMC - HR</td>");
+            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\" colspan=\"2\"></td>");
+            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\" colspan=\"2\">IMC - AP</td>");
+            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\">IMC - HR</td>");
             if (InclCharge)
             {
                 HtmlBuilder.AppendLine($"<td colspan=\"3\"></td>");
@@ -149,12 +155,12 @@ namespace MalaiReport.Reports
             foreach (DtoWorkedHoursReport wh in LstWorkedHoursReports)
             {
                 HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td>{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
-                HtmlBuilder.AppendLine($"<td>{wh.JobTotal}</td>");
-                HtmlBuilder.AppendLine($"<td>{wh.Es001MinutesTotalString}</td>");
-                HtmlBuilder.AppendLine($"<td>{wh.As001MinutesTotalString}</td>");
-                HtmlBuilder.AppendLine($"<td></td>");
-                HtmlBuilder.AppendLine($"<td style=\"border-right-style:none;\">{wh.MinutesTotalString}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.JobTotal}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrEs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrAs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrHrMinutesTotal}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;border-right-style:none;\">{wh.MinutesTotalString}</td>");
                 if (InclCharge)
                 {
                     HtmlBuilder.AppendLine($"<td style=\"border-left-style:none;border-right-style:none;font-weight:bold;\">$</td>");
@@ -165,20 +171,18 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine("<th></th>");
             HtmlBuilder.AppendLine("<th></th>");
-            HtmlBuilder.AppendLine($"<th>{StrEs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th>{StrAs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th></th>");
-            HtmlBuilder.AppendLine($"<th style=\"border-right-style:none;\">{StrMinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrHrMinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"border-right-style:none;font-weight:bold;text-align:center;color:#808080;\">{StrMinutesReportTotal}</th>");
             if (InclCharge)
             {
-                HtmlBuilder.AppendLine($"<th style=\"border-left-style:none;border-right-style:none;\">$</th>");
-                HtmlBuilder.AppendLine($"<th style=\"border-left-style: none;text-align:right;\">{TotalCharge.ToString("0.00")}</th>");
+                HtmlBuilder.AppendLine($"<th style=\"border-left-style:none;border-right-style:none;font-weight:bold;color:#000000;\">$</th>");
+                HtmlBuilder.AppendLine($"<th style=\"border-left-style:none;text-align:right;font-weight:bold;color:#000000;\">{TotalCharge.ToString("0.00")}</th>");
             }
             HtmlBuilder.AppendLine("</tr>");
             // End HTML table
             HtmlBuilder.AppendLine("</table>");
-
-            //htmlBuilder.AppendLine($"<label>Total : {Math.Round(total_charge, 2)}</label>");
 
             return HtmlBuilder.ToString();
         }
@@ -194,9 +198,9 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine("<table class=\"data\" 'border:5px solid black;border-collapse:collapse;'>");
             HtmlBuilder.AppendLine("<tr>");
             HtmlBuilder.AppendLine($"<td></td>");
-            HtmlBuilder.AppendLine($"<td style=\"color:#275D5D\">Accounting</td>");
-            HtmlBuilder.AppendLine($"<td style=\"color:#275D5D\">Assistant</td>");
-            HtmlBuilder.AppendLine($"<td style=\"color:#275D5D\">Totals</td>");
+            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;color:#275D5D\">Accounting</td>");
+            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;color:#275D5D\">Assistant</td>");
+            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;color:#275D5D\">Totals</td>");
             HtmlBuilder.AppendLine("</tr>");
             // Create table header
             HtmlBuilder.AppendLine(@"<tr>");
@@ -210,31 +214,31 @@ namespace MalaiReport.Reports
             foreach (DtoWorkedHoursReport wh in LstWorkedHoursReports)
             {
                 HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td>{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
-                HtmlBuilder.AppendLine($"<td>{wh.Es001MinutesTotalString}</td>");
-                HtmlBuilder.AppendLine($"<td>{wh.As001MinutesTotalString}</td>");
-                HtmlBuilder.AppendLine($"<td>{wh.MinutesTotalString}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrEs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrAs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.MinutesTotalString}</td>");
                 HtmlBuilder.AppendLine("</tr>");
             }
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine("<th></th>");
-            HtmlBuilder.AppendLine($"<th>{StrEs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th>{StrAs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th>{StrMinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrMinutesReportTotal}</th>");
             HtmlBuilder.AppendLine("</tr>");
 
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine("<td></td>");
-            HtmlBuilder.AppendLine($"<td>{IntEs001PercentageReportTotal}%</td>");
-            HtmlBuilder.AppendLine($"<td>{IntAs001PercentageReportTotal}%</td>");
-            HtmlBuilder.AppendLine($"<td></td>");
+            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{IntEs001PercentageReportTotal}%</td>");
+            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{IntAs001PercentageReportTotal}%</td>");
+            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\"></td>");
             HtmlBuilder.AppendLine("</tr>");
 
             HtmlBuilder.AppendLine(@"<tr>");
-            HtmlBuilder.AppendLine($"<th>Total charge {Period}</th>");
-            HtmlBuilder.AppendLine($"<th>${DblEs001TotalCharge.ToString("0.00")}</th>");
-            HtmlBuilder.AppendLine($"<th>${DblAs001TotalCharge.ToString("0.00")}</th>");
-            HtmlBuilder.AppendLine($"<th>${TotalCharge.ToString("0.00")}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:left;color:#000000;\">Total charge {Period}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">${DblEs001TotalCharge.ToString("0.00")}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">${DblAs001TotalCharge.ToString("0.00")}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:right;color:#000000;\">${TotalCharge.ToString("0.00")}</th>");
             HtmlBuilder.AppendLine("</tr>");
             // End HTML table
             HtmlBuilder.AppendLine("</table>");
@@ -244,15 +248,10 @@ namespace MalaiReport.Reports
         private string CreateHtml_Report_Retainer()
         {
 
-            //double Es001_total_charge = whs.Sum(item => item.ChargeEs001);
-            //double As001_total_charge = whs.Sum(item => item.ChargeAs001);
-            //double Es001_ReportTotal = whs.Sum(item => item.Es001MinutesTotal);
-            //double As001_ReportTotal = whs.Sum(item => item.As001MinutesTotal);
+            double es001Additional = IntEs001MinutesReportTotal - (Client.retainer_ES001 * 60);
+            double as001Additional = IntEs001MinutesReportTotal - (Client.retainer_AS001 * 60);
+            double totalAdditional = es001Additional + as001Additional;
 
-            double Es001_Additional = IntEs001MinutesReportTotal - (Client.retainer_ES001 * 60);
-            double As001_Additional = IntEs001MinutesReportTotal - (Client.retainer_AS001 * 60);
-            double Total_Additional = Es001_Additional + As001_Additional;
-            //string MinutesReportTotal = AssistFormat.ConvertMinutesToString(whs.Sum(item => item.MinutesTotal));
             HtmlBuilder = new StringBuilder();
             DoNameHeader();
 
@@ -272,19 +271,19 @@ namespace MalaiReport.Reports
             foreach (DtoWorkedHoursReport wh in LstWorkedHoursReports)
             {
                 HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td>{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
-                HtmlBuilder.AppendLine($"<td>{wh.JobTotal}</td>");
-                HtmlBuilder.AppendLine($"<td>{wh.Es001MinutesTotalString}</td>");
-                HtmlBuilder.AppendLine($"<td>{wh.As001MinutesTotalString}</td>");
-                HtmlBuilder.AppendLine($"<td>{wh.MinutesTotalString}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.JobTotal}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrEs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrAs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.MinutesTotalString}</td>");
                 HtmlBuilder.AppendLine("</tr>");
             }
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine("<th></th>");
             HtmlBuilder.AppendLine("<th></th>");
-            HtmlBuilder.AppendLine($"<th>{StrEs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th>{StrAs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th>{StrMinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#000000;\">{StrMinutesReportTotal}</th>");
             HtmlBuilder.AppendLine("</tr>");
             HtmlBuilder.AppendLine("<tr>");
             HtmlBuilder.AppendLine($"<td style=\"border:none\"></td>");
@@ -296,9 +295,9 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine("<tr>");
             HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\"></td>");
             HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D;font-weight:bold;text-align:right\">Additional hours</td>");
-            HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(Es001_Additional)}</td>");
-            HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(As001_Additional)}</td>");
-            HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(Total_Additional)}</td>");
+            HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(es001Additional)}</td>");
+            HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(as001Additional)}</td>");
+            HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(totalAdditional)}</td>");
             HtmlBuilder.AppendLine("</tr>");
             HtmlBuilder.AppendLine("</table>");
             HtmlBuilder.AppendLine(@"<br>");

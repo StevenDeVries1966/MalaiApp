@@ -8,13 +8,20 @@
             Client = client;
             foreach (DtoWorkedHours wh in lstWorkedHours)
             {
-                if (wh.emp_code.Equals("ES001"))
+                if (!wh.job_name.Contains("Payroll", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    Es001MinutesTotal += wh.minutes_worked;
+                    if (wh.emp_code.Equals("ES001"))
+                    {
+                        DblEs001MinutesTotal += wh.minutes_worked;
+                    }
+                    if (wh.emp_code.Equals("AS001"))
+                    {
+                        DblAs001MinutesTotal += wh.minutes_worked;
+                    }
                 }
-                if (wh.emp_code.Equals("AS001"))
+                else
                 {
-                    As001MinutesTotal += wh.minutes_worked;
+                    DblHrMinutesTotal += wh.minutes_worked;
                 }
 
                 if (!jobs.Contains(wh.job_name))
@@ -26,20 +33,25 @@
         public DateTime Today { get; set; }
         public DtoClient Client { get; set; }
 
-        public double Es001MinutesTotal { get; set; }
+        public double DblEs001MinutesTotal { get; set; }
 
-        public string Es001MinutesTotalString => AssistFormat.ConvertMinutesToString(Convert.ToInt32(Es001MinutesTotal));
+        public string StrEs001MinutesTotal => (Convert.ToInt32(DblEs001MinutesTotal) != 0) ? AssistFormat.ConvertMinutesToString(Convert.ToInt32(DblEs001MinutesTotal)) : String.Empty;
 
-        public double As001MinutesTotal { get; set; }
+        public double DblAs001MinutesTotal { get; set; }
 
-        public string As001MinutesTotalString => AssistFormat.ConvertMinutesToString(Convert.ToInt32(As001MinutesTotal));
+        public string StrAs001MinutesTotal => (Convert.ToInt32(DblAs001MinutesTotal) != 0) ? AssistFormat.ConvertMinutesToString(Convert.ToInt32(DblAs001MinutesTotal)) : String.Empty;
 
-        public double MinutesTotal => Es001MinutesTotal + As001MinutesTotal;
+        public double DblHrMinutesTotal { get; set; }
+
+        public string StrHrMinutesTotal => (Convert.ToInt32(DblHrMinutesTotal) != 0) ? AssistFormat.ConvertMinutesToString(Convert.ToInt32(DblHrMinutesTotal)) : String.Empty;
+
+        public double MinutesTotal => DblEs001MinutesTotal + DblAs001MinutesTotal + DblHrMinutesTotal;
 
         public string MinutesTotalString => AssistFormat.ConvertMinutesToString(Convert.ToInt32(MinutesTotal));
 
-        public double ChargeEs001 => Math.Round((Es001MinutesTotal / 60) * Client.rate_ES001, 2);
-        public double ChargeAs001 => Math.Round((As001MinutesTotal / 60) * Client.rate_AS001, 2);
+        public double ChargeEs001 => Math.Round((DblEs001MinutesTotal / 60) * Client.rate_ES001, 2);
+        public double ChargeAs001 => Math.Round((DblAs001MinutesTotal / 60) * Client.rate_AS001, 2);
+        public double ChargeHr => Math.Round((DblHrMinutesTotal / 60) * Client.rate_ES001, 2); //Todo : Is er een appart HR rate
 
         public double Charge => Math.Round(ChargeEs001 + ChargeAs001, 2);
 
