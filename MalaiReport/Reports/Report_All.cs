@@ -6,48 +6,45 @@ namespace MalaiReport.Reports
 {
     public class ReportAll
     {
-        public List<DtoWorkedHours> LstWorkedHours { get; set; }
-        public List<DtoWorkedHoursReport> LstWorkedHoursReports { get; set; }
-        public DtoClient Client { get; set; }
-        public string HtmlContent { get; set; }
+        private List<DtoWorkedHours> LstWorkedHours { get; set; }
+        private List<DtoWorkedHoursReport> LstWorkedHoursReports { get; set; }
+        private DtoClient Client { get; set; }
+        private string HtmlContent { get; set; }
 
-        public int IntEs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursReports.Sum(o => o.Es001MinutesTotal));
-        public int IntEs001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntEs001MinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
+        private int IntEs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursReports.Sum(o => o.Es001MinutesTotal));
+        private int IntEs001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntEs001MinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
+        private string StrEs001MinutesReportTotal => AssistFormat.ConvertMinutesToString(IntEs001MinutesReportTotal);
+        private double DblEs001TotalCharge { get; set; }
 
-        public int IntAs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursReports.Sum(o => o.As001MinutesTotal));
-        public int IntAs001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntAs001MinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
-        public int IntMinutesReportTotal => IntEs001MinutesReportTotal + IntAs001MinutesReportTotal;
-
-        public string StrEs001MinutesReportTotal =>
-            AssistFormat.ConvertMinutesToString(IntEs001MinutesReportTotal);
-
-        public string StrAs001MinutesReportTotal =>
+        private int IntAs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursReports.Sum(o => o.As001MinutesTotal));
+        private int IntAs001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntAs001MinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
+        private string StrAs001MinutesReportTotal =>
             AssistFormat.ConvertMinutesToString(IntAs001MinutesReportTotal);
-        public string StrMinutesReportTotal =>
-            AssistFormat.ConvertMinutesToString(IntMinutesReportTotal);
+        private double DblAs001TotalCharge { get; set; }
 
-        public double Es001_total_charge { get; set; }
-        public double As001_total_charge { get; set; }
-        public StringBuilder HtmlBuilder { get; set; }
-        public string MonthString { get; set; }
-        public string Period { get; set; }
-        public IEnumerable<IGrouping<DateTime, DtoWorkedHours>> GroupedByDate { get; set; }
-        public string HtmlTemplateContent { get; set; }
-        public double TotalCharge { get; set; }
-        public bool InclCharge { get; set; }
+        private int IntMinutesReportTotal => IntEs001MinutesReportTotal + IntAs001MinutesReportTotal;
+        private string StrMinutesReportTotal =>
+            AssistFormat.ConvertMinutesToString(IntMinutesReportTotal);
+        private double TotalCharge { get; set; }
+        private bool InclCharge { get; set; }
+
+        private StringBuilder HtmlBuilder { get; set; }
+        private string MonthString { get; set; }
+        private string Period { get; set; }
+        private IEnumerable<IGrouping<DateTime, DtoWorkedHours>> GroupedByDate { get; set; }
+        private string HtmlTemplateContent { get; set; }
 
 
         public ReportAll(int month, int year, string clt_code, string htmlFilePath, bool inclCharge = true)
         {
-            string message = "";
             try
             {
                 InclCharge = inclCharge;
                 MonthString = new DateTime(DateTime.Now.Year, month, 1).ToString("MMMM");
                 Period = $"{MonthString} {year}";
-                LstWorkedHours = Globals.ConMan.GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", month, year, clt_code, out message);
-                Client = Globals.ConMan.lstClients.FirstOrDefault(o => o.clt_code.Equals(clt_code, StringComparison.CurrentCultureIgnoreCase));
-                if (LstWorkedHours.Count == 0)
+                LstWorkedHours = Globals.ConMan?.GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", month, year, clt_code, out _)!;
+                Client = Globals.ConMan?.lstClients.FirstOrDefault(o => o.clt_code.Equals(clt_code, StringComparison.CurrentCultureIgnoreCase))!;
+                if (LstWorkedHours != null && LstWorkedHours.Count == 0)
                 {
                     Console.WriteLine($"No hours for {clt_code} in {month}-{year}");
                     return;
@@ -58,15 +55,15 @@ namespace MalaiReport.Reports
                     return;
                 }
 
-                GroupedByDate = LstWorkedHours.GroupBy(obj => obj.start_time.Date);
+                GroupedByDate = LstWorkedHours!.GroupBy(obj => obj.start_time.Date);
                 LstWorkedHoursReports = new List<DtoWorkedHoursReport>();
                 foreach (var groep in GroupedByDate)
                 {
                     LstWorkedHoursReports.Add(new DtoWorkedHoursReport(Client, groep.ToList(), groep.Key.Date));
                 }
                 TotalCharge = LstWorkedHoursReports.Sum(item => item.Charge);
-                Es001_total_charge = LstWorkedHoursReports.Sum(item => item.ChargeEs001);
-                As001_total_charge = LstWorkedHoursReports.Sum(item => item.ChargeAs001);
+                DblEs001TotalCharge = LstWorkedHoursReports.Sum(item => item.ChargeEs001);
+                DblAs001TotalCharge = LstWorkedHoursReports.Sum(item => item.ChargeAs001);
 
                 HtmlTemplateContent = AssistHtml.GetHtmlResourceContent(Globals.HtmlTemplatePath);
                 // Generate the HTML content
@@ -100,21 +97,13 @@ namespace MalaiReport.Reports
                 {
                     htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_Report{Client.report_type}_{month}{year}_PLUS.html");
                 }
-                else
-                {
-
-                }
-
-
 
                 // Save HTML content to a file
                 AssistHtml.SaveHtmlToFile(HtmlContent, htmlFilePath);
-
-                AssistFormat.WriteToCsv(LstWorkedHours, htmlFilePath.Replace(".html", ".txt"));
             }
             catch (Exception e)
             {
-                Globals.ConMan.AddLog(e.Message, e!.StackTrace!, Globals.EmployeeCurrent!.emp_id);
+                Globals.ConMan!.AddLog(e.Message, e!.StackTrace!, Globals.EmployeeCurrent!.emp_id);
             }
         }
         private string CreateHtml_Report_IMC()
@@ -243,8 +232,8 @@ namespace MalaiReport.Reports
 
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine($"<th>Total charge {Period}</th>");
-            HtmlBuilder.AppendLine($"<th>${Es001_total_charge.ToString("0.00")}</th>");
-            HtmlBuilder.AppendLine($"<th>${As001_total_charge.ToString("0.00")}</th>");
+            HtmlBuilder.AppendLine($"<th>${DblEs001TotalCharge.ToString("0.00")}</th>");
+            HtmlBuilder.AppendLine($"<th>${DblAs001TotalCharge.ToString("0.00")}</th>");
             HtmlBuilder.AppendLine($"<th>${TotalCharge.ToString("0.00")}</th>");
             HtmlBuilder.AppendLine("</tr>");
             // End HTML table
