@@ -1,8 +1,8 @@
 ﻿namespace DataLayer.Classes
 {
-    public class DtoWorkedHoursReport
+    public class DtoWorkedHoursByEmpReport
     {
-        public DtoWorkedHoursReport(DtoClient client, List<DtoWorkedHours> lstWorkedHours, DateTime today)
+        public DtoWorkedHoursByEmpReport(DtoClient client, List<DtoWorkedHours> lstWorkedHours, DateTime today)
         {
             this.Today = today;
             Client = client;

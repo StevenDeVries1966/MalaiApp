@@ -14,6 +14,7 @@ Globals.ReportPath = Path.Combine(Globals.ReportPath, DateTime.Now.ToString("yyy
 if (!Directory.Exists(Globals.ReportPath)) Directory.CreateDirectory(Globals.ReportPath);
 Globals.ConMan = new MalaiContext(Globals.Server, Globals.DataBase, Globals.UserName, Globals.PassWord);
 Globals.ConMan.GetAllEmployees();
+Globals.ConMan.GetAllJobs();
 Globals.EmployeeCurrent = Globals.ConMan.lstEmployee.FirstOrDefault(o => o.login.Equals(Environment.UserName, StringComparison.CurrentCultureIgnoreCase));
 
 if (Globals.ConMan == null)

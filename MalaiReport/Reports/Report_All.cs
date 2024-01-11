@@ -7,23 +7,25 @@ namespace MalaiReport.Reports
     public class ReportAll
     {
         private List<DtoWorkedHours> LstWorkedHours { get; set; }
-        private List<DtoWorkedHoursReport> LstWorkedHoursReports { get; set; }
+        private List<DtoWorkedHoursByEmpReport> LstWorkedHoursByEmpReports { get; set; }
+        private List<DtoWorkedHoursByJobReport> LstWorkedHoursByJobReports { get; set; }
         private DtoClient Client { get; set; }
         private string HtmlContent { get; set; }
+        private string HtmlContent_Hrs_C { get; set; } // this report should be made for every client
 
-        private int IntEs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursReports.Sum(o => o.DblEs001MinutesTotal));
+        private int IntEs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursByEmpReports.Sum(o => o.DblEs001MinutesTotal));
         private int IntEs001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntEs001MinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
         private string StrEs001MinutesReportTotal => AssistFormat.ConvertMinutesToString(IntEs001MinutesReportTotal);
         private double DblEs001TotalCharge { get; set; }
 
-        private int IntAs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursReports.Sum(o => o.DblAs001MinutesTotal));
+        private int IntAs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursByEmpReports.Sum(o => o.DblAs001MinutesTotal));
         private int IntAs001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntAs001MinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
         private string StrAs001MinutesReportTotal =>
             AssistFormat.ConvertMinutesToString(IntAs001MinutesReportTotal);
         private double DblAs001TotalCharge { get; set; }
 
 
-        private int IntHrMinutesReportTotal => Convert.ToInt32(LstWorkedHoursReports.Sum(o => o.DblHrMinutesTotal));
+        private int IntHrMinutesReportTotal => Convert.ToInt32(LstWorkedHoursByEmpReports.Sum(o => o.DblHrMinutesTotal));
         private int IntHrPercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntHrMinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
         private string StrHrMinutesReportTotal => AssistFormat.ConvertMinutesToString(IntHrMinutesReportTotal);
         private double DblHrTotalCharge { get; set; }
@@ -38,8 +40,8 @@ namespace MalaiReport.Reports
         private string MonthString { get; set; }
         private string Period { get; set; }
         private IEnumerable<IGrouping<DateTime, DtoWorkedHours>> GroupedByDate { get; set; }
+        private IEnumerable<IGrouping<string, DtoWorkedHours>> GroupedByJobName { get; set; }
         private string HtmlTemplateContent { get; set; }
-
 
         public ReportAll(int month, int year, string clt_code, string htmlFilePath, bool inclCharge = true)
         {
@@ -62,48 +64,68 @@ namespace MalaiReport.Reports
                 }
 
                 GroupedByDate = LstWorkedHours!.GroupBy(obj => obj.start_time.Date);
-                LstWorkedHoursReports = new List<DtoWorkedHoursReport>();
+                LstWorkedHoursByEmpReports = new List<DtoWorkedHoursByEmpReport>();
                 foreach (var groep in GroupedByDate)
                 {
-                    LstWorkedHoursReports.Add(new DtoWorkedHoursReport(Client, groep.ToList(), groep.Key.Date));
+                    LstWorkedHoursByEmpReports.Add(new DtoWorkedHoursByEmpReport(Client, groep.ToList(), groep.Key.Date));
                 }
-                TotalCharge = LstWorkedHoursReports.Sum(item => item.Charge);
-                DblEs001TotalCharge = LstWorkedHoursReports.Sum(item => item.ChargeEs001);
-                DblAs001TotalCharge = LstWorkedHoursReports.Sum(item => item.ChargeAs001);
+
+                // verzamel data voor rapport Hrs_C
+                GroupedByJobName = LstWorkedHours!.GroupBy(obj => obj.job_name);
+                LstWorkedHoursByJobReports = new List<DtoWorkedHoursByJobReport>();
+                foreach (var groep in GroupedByJobName)
+                {
+                    DtoJob job = Globals.ConMan.lstJobs
+                        .FirstOrDefault(o => o.job_name.Equals(groep.Key, StringComparison.CurrentCultureIgnoreCase));
+                    LstWorkedHoursByJobReports.Add(new DtoWorkedHoursByJobReport(Client, groep.ToList(), job));
+                }
+
+                TotalCharge = LstWorkedHoursByEmpReports.Sum(item => item.Charge);
+                DblEs001TotalCharge = LstWorkedHoursByEmpReports.Sum(item => item.ChargeEs001);
+                DblAs001TotalCharge = LstWorkedHoursByEmpReports.Sum(item => item.ChargeAs001);
 
                 HtmlTemplateContent = AssistHtml.GetHtmlResourceContent(Globals.HtmlTemplatePath);
+
+                // this report must be created for all clients
+                HtmlContent_Hrs_C = CreateHtml_Report_Hrs_C();
+                HtmlContent_Hrs_C = HtmlTemplateContent.Replace("%Content%", HtmlContent_Hrs_C);
+                // Save HTML content to a file
+                AssistHtml.SaveHtmlToFile(HtmlContent_Hrs_C, Path.Combine(htmlFilePath, $"{clt_code}_Hrs_C_{month}{year}.html"));
+
                 // Generate the HTML content
-                if (Client.report_type.Equals("A", StringComparison.CurrentCultureIgnoreCase))
+                if (Client.report_type.Equals("Hrs_B", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    HtmlContent = CreateHtml_Report_IMC();
+                    HtmlContent = CreateHtml_Report_Hrs_B();
                 }
-                else if (Client.report_type.Equals("B", StringComparison.CurrentCultureIgnoreCase))
+                else if (Client.report_type.Equals("Hrs_A", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    HtmlContent = CreateHtml_Report_CHP();
+                    HtmlContent = CreateHtml_Report_Hrs_A();
                 }
-                else if (Client.report_type.Equals("C", StringComparison.CurrentCultureIgnoreCase))
+                else if (Client.report_type.Equals("Ret", StringComparison.CurrentCultureIgnoreCase))
                 {
                     HtmlContent = CreateHtml_Report_Retainer();
                 }
+                else if (Client.report_type.Equals("", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return;
+                }
 
                 HtmlContent = HtmlTemplateContent.Replace("%Content%", HtmlContent);
-
                 // PHC && InclCharge = true
                 if (!Client.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase) && InclCharge)
                 {
-                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_Report{Client.report_type}_{month}{year}.html");
+                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_{Client.report_type}_{month}{year}.html");
                 }
                 // IMC && InclCharge = true
                 else if (Client.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase) && InclCharge)
                 {
-                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_Report{Client.report_type}_{month}{year}_PLUS.html");
+                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_{Client.report_type}_{month}{year}_PLUS.html");
                 }
                 // IMC && InclCharge = false
                 else if (Client.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase) && !InclCharge)
                 {
-                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_Report{Client.report_type}_{month}{year}.html");
+                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_{Client.report_type}_{month}{year}.html");
                 }
-
                 // Save HTML content to a file
                 AssistHtml.SaveHtmlToFile(HtmlContent, htmlFilePath);
             }
@@ -112,7 +134,7 @@ namespace MalaiReport.Reports
                 Globals.ConMan!.AddLog(e.Message, e!.StackTrace!, Globals.EmployeeCurrent!.emp_id);
             }
         }
-        private string CreateHtml_Report_IMC()
+        private string CreateHtml_Report_Hrs_B()
         {
 
             HtmlBuilder = new StringBuilder();
@@ -152,7 +174,7 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine("</tr>");
 
             // Create table rows
-            foreach (DtoWorkedHoursReport wh in LstWorkedHoursReports)
+            foreach (DtoWorkedHoursByEmpReport wh in LstWorkedHoursByEmpReports)
             {
                 HtmlBuilder.AppendLine("<tr>");
                 HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
@@ -186,7 +208,7 @@ namespace MalaiReport.Reports
 
             return HtmlBuilder.ToString();
         }
-        private string CreateHtml_Report_CHP()
+        private string CreateHtml_Report_Hrs_A()
         {
             HtmlBuilder = new StringBuilder();
 
@@ -211,7 +233,7 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine("</tr>");
 
             // Create table rows
-            foreach (DtoWorkedHoursReport wh in LstWorkedHoursReports)
+            foreach (DtoWorkedHoursByEmpReport wh in LstWorkedHoursByEmpReports)
             {
                 HtmlBuilder.AppendLine("<tr>");
                 HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
@@ -245,6 +267,45 @@ namespace MalaiReport.Reports
 
             return HtmlBuilder.ToString();
         }
+        private string CreateHtml_Report_Hrs_C()
+        {
+            HtmlBuilder = new StringBuilder();
+
+            // Start HTML table
+
+            DoNameHeader();
+            HtmlBuilder.AppendLine(@"<br>");
+
+            HtmlBuilder.AppendLine("<table class=\"data\" 'border:5px solid black;border-collapse:collapse;'>");
+            // Create table header
+            HtmlBuilder.AppendLine(@"<tr>");
+            HtmlBuilder.AppendLine("<th>Description</th>");
+            HtmlBuilder.AppendLine("<th>Ester</th>");
+            HtmlBuilder.AppendLine("<th>Aisha</th>");
+            HtmlBuilder.AppendLine("<th>Total Hours</th>");
+            HtmlBuilder.AppendLine("</tr>");
+
+            // Create table rows
+            foreach (DtoWorkedHoursByJobReport job in LstWorkedHoursByJobReports)
+            {
+                HtmlBuilder.AppendLine("<tr>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{job.Job.job_name}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.StrEs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.StrAs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.MinutesTotalString}</td>");
+                HtmlBuilder.AppendLine("</tr>");
+            }
+            HtmlBuilder.AppendLine(@"<tr>");
+            HtmlBuilder.AppendLine("<th></th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrMinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine("</tr>");
+            // End HTML table
+            HtmlBuilder.AppendLine("</table>");
+
+            return HtmlBuilder.ToString();
+        }
         private string CreateHtml_Report_Retainer()
         {
 
@@ -268,7 +329,7 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine("</tr>");
 
             // Create table rows
-            foreach (DtoWorkedHoursReport wh in LstWorkedHoursReports)
+            foreach (DtoWorkedHoursByEmpReport wh in LstWorkedHoursByEmpReports)
             {
                 HtmlBuilder.AppendLine("<tr>");
                 HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
