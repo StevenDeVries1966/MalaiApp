@@ -290,14 +290,14 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D;font-weight:bold;text-align:right\">Retainer</td>");
             HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertHoursToString(Client.retainer_ES001)}</td>");
             HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\" style=\"border:none\"d>{AssistFormat.ConvertHoursToString(Client.retainer_AS001)}</td>");
-            HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertHoursToString(Client.retainer_ES001 + Client.retainer_AS001)}</td>");
+            HtmlBuilder.AppendLine($"<td style=\"border:none;color:#000000\">{AssistFormat.ConvertHoursToString(Client.retainer_ES001 + Client.retainer_AS001)}</td>");
             HtmlBuilder.AppendLine("</tr>");
             HtmlBuilder.AppendLine("<tr>");
             HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\"></td>");
             HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D;font-weight:bold;text-align:right\">Additional hours</td>");
             HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(es001Additional)}</td>");
             HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(as001Additional)}</td>");
-            HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(totalAdditional)}</td>");
+            HtmlBuilder.AppendLine($"<td style=\"border:none;color:#000000\">{AssistFormat.ConvertMinutesToString(totalAdditional)}</td>");
             HtmlBuilder.AppendLine("</tr>");
             HtmlBuilder.AppendLine("</table>");
             HtmlBuilder.AppendLine(@"<br>");
