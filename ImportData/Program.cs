@@ -19,12 +19,13 @@ DateTime end = DateTime.Now;
 TimeSpan ts = end - start;
 Console.WriteLine($"Done {ts.TotalSeconds}");
 
-string filePath = @"C:\Prive\Malai\Docs\23_08.csv";
-conMan.ReadCsv(filePath);
-filePath = @"C:\Prive\Malai\Docs\23_10.csv";
-conMan.ReadCsv(filePath);
-filePath = @"C:\Prive\Malai\Docs\23_11.csv";
-conMan.ReadCsv(filePath);
+string filePath = @"C:\Prive\Malai\Docs\CsvImport\";
+conMan.ReadCsv(Path.Combine(filePath, "23_08.csv"));
+conMan.ReadCsv(Path.Combine(filePath, "23_09.csv"));
+conMan.ReadCsv(Path.Combine(filePath, "23_10.csv"));
+conMan.ReadCsv(Path.Combine(filePath, "23_11.csv"));
+conMan.ReadCsv(Path.Combine(filePath, "23_12.csv"));
+conMan.ReadCsv(Path.Combine(filePath, "24_01.csv"));
 Console.WriteLine("Done");
 Console.ReadLine();
 

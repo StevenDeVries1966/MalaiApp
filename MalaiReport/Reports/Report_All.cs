@@ -48,8 +48,8 @@ namespace MalaiReport.Reports
             try
             {
                 InclCharge = inclCharge;
-                MonthString = new DateTime(DateTime.Now.Year, month, 1).ToString("MMMM");
-                Period = $"{MonthString} {year}";
+                MonthString = new DateTime(DateTime.Now.Year, month, 1).ToString("MM");
+                Period = $"{year}-{MonthString}";
                 LstWorkedHours = Globals.ConMan?.GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", month, year, clt_code, out _)!;
                 Client = Globals.ConMan?.lstClients.FirstOrDefault(o => o.clt_code.Equals(clt_code, StringComparison.CurrentCultureIgnoreCase))!;
                 if (LstWorkedHours != null && LstWorkedHours.Count == 0)
@@ -90,7 +90,7 @@ namespace MalaiReport.Reports
                 HtmlContent_Hrs_C = CreateHtml_Report_Hrs_C();
                 HtmlContent_Hrs_C = HtmlTemplateContent.Replace("%Content%", HtmlContent_Hrs_C);
                 // Save HTML content to a file
-                AssistHtml.SaveHtmlToFile(HtmlContent_Hrs_C, Path.Combine(htmlFilePath, $"{clt_code}_Hrs_C_{month}{year}.html"));
+                AssistHtml.SaveHtmlToFile(HtmlContent_Hrs_C, Path.Combine(htmlFilePath, $"{Period}_{clt_code}_Hrs_C.html"));
 
                 // Generate the HTML content
                 if (Client.report_type.Equals("Hrs_B", StringComparison.CurrentCultureIgnoreCase))
@@ -114,17 +114,17 @@ namespace MalaiReport.Reports
                 // PHC && InclCharge = true
                 if (!Client.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase) && InclCharge)
                 {
-                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_{Client.report_type}_{month}{year}.html");
+                    htmlFilePath = Path.Combine(htmlFilePath, $"{Period}_{clt_code}_{Client.report_type}.html");
                 }
                 // IMC && InclCharge = true
                 else if (Client.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase) && InclCharge)
                 {
-                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_{Client.report_type}_{month}{year}_PLUS.html");
+                    htmlFilePath = Path.Combine(htmlFilePath, $"{Period}_{clt_code}_{Client.report_type}_PLUS.html");
                 }
                 // IMC && InclCharge = false
                 else if (Client.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase) && !InclCharge)
                 {
-                    htmlFilePath = Path.Combine(htmlFilePath, $"{clt_code}_{Client.report_type}_{month}{year}.html");
+                    htmlFilePath = Path.Combine(htmlFilePath, $"{Period}_{clt_code}_{Client.report_type}.html");
                 }
                 // Save HTML content to a file
                 AssistHtml.SaveHtmlToFile(HtmlContent, htmlFilePath);

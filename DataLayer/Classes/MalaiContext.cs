@@ -247,9 +247,20 @@ namespace DataLayer.Classes
                         // Split the line into an array of strings using a comma as the delimiter
                         string[] values = line.Split(';');
 
-                        string dateString = $"{values[1]} {values[6]}:00";
+                        //string dateString = $"{values[1]} {values[6]}:00";
+                        string dateString = ConvertToDateTime(values[1], values[6]);
+
                         DateTime start = DateTime.Parse(dateString);
-                        dateString = $"{values[1]} {values[7]}:00";
+                        //try
+                        //{
+                        //    start = DateTime.Parse(dateString);
+                        //}
+                        //catch (Exception e)
+                        //{
+                        //}
+
+                        //dateString = $"{values[1]} {values[7]}:00";
+                        dateString = ConvertToDateTime(values[1], values[7]);
 
                         DateTime end = DateTime.Parse(dateString);
                         if (start.Year == 0001 || end.Year == 0001 || String.IsNullOrEmpty(values[2]) ||
@@ -258,8 +269,6 @@ namespace DataLayer.Classes
                             message += line + Environment.NewLine;
                             continue;
                         }
-
-
                         DtoWorkedHours wh = new DtoWorkedHours(values[2], values[3], values[4], start, end, values[5]);
                         lst.Add(wh);
                         ++addedRecords;
@@ -279,6 +288,21 @@ namespace DataLayer.Classes
             catch (Exception ex)
             {
                 Console.WriteLine("An error occurred: " + ex.Message);
+            }
+
+            return result;
+        }
+
+        private string ConvertToDateTime(string date, string time)
+        {
+            string result = default;
+            if (time.Count(c => c == ':') > 1)
+            {
+                result = $"{date} {time}";
+            }
+            else
+            {
+                result = $"{date} {time}:00";
             }
 
             return result;
