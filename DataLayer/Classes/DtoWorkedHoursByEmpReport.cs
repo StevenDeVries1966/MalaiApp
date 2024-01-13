@@ -8,8 +8,28 @@
             Client = client;
             foreach (DtoWorkedHours wh in lstWorkedHours)
             {
-                if (!wh.job_name.Contains("Payroll", StringComparison.CurrentCultureIgnoreCase))
+                if (client.report_type.Equals("Hrs_B", StringComparison.CurrentCultureIgnoreCase))
                 {
+                    // PayRoll hrs in own HR column
+                    if (!wh.job_name.Contains("Payroll", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        if (wh.emp_code.Equals("ES001"))
+                        {
+                            DblEs001MinutesTotal += wh.minutes_worked;
+                        }
+                        if (wh.emp_code.Equals("AS001"))
+                        {
+                            DblAs001MinutesTotal += wh.minutes_worked;
+                        }
+                    }
+                    else
+                    {
+                        DblHrMinutesTotal += wh.minutes_worked;
+                    }
+                }
+                else if (client.report_type.Equals("Hrs_A", StringComparison.CurrentCultureIgnoreCase) || client.report_type.Equals("Hrs_C", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // add PayRoll hrs to total of emp hrs
                     if (wh.emp_code.Equals("ES001"))
                     {
                         DblEs001MinutesTotal += wh.minutes_worked;
@@ -19,9 +39,20 @@
                         DblAs001MinutesTotal += wh.minutes_worked;
                     }
                 }
-                else
+                else if (client.report_type.Equals("Ret", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    DblHrMinutesTotal += wh.minutes_worked;
+                    // ignore PayRoll hrs
+                    if (!wh.job_name.Contains("Payroll", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        if (wh.emp_code.Equals("ES001"))
+                        {
+                            DblEs001MinutesTotal += wh.minutes_worked;
+                        }
+                        if (wh.emp_code.Equals("AS001"))
+                        {
+                            DblAs001MinutesTotal += wh.minutes_worked;
+                        }
+                    }
                 }
 
                 if (!jobs.Contains(wh.job_name))
