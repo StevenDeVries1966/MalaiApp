@@ -11,18 +11,18 @@ namespace MalaiReport.Reports
         private List<DtoWorkedHoursByJobReport> LstWorkedHoursByJobReports { get; set; }
         private DtoClient Client { get; set; }
         private string HtmlContent { get; set; }
-        private string HtmlContent_Hrs_C { get; set; } // this report should be made for every client
+        private string HtmlContentHrsC { get; set; } // this report should be made for every client
 
         private int IntEs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursByEmpReports.Sum(o => o.DblEs001MinutesTotal));
         private int IntEs001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntEs001MinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
         private string StrEs001MinutesReportTotal => AssistFormat.ConvertMinutesToString(IntEs001MinutesReportTotal);
-        private double DblEs001TotalCharge { get; set; }
+        private double DblEs001TotalCharge => LstWorkedHoursByEmpReports.Sum(item => item.ChargeEs001);
 
         private int IntAs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursByEmpReports.Sum(o => o.DblAs001MinutesTotal));
         private int IntAs001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntAs001MinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
         private string StrAs001MinutesReportTotal =>
             AssistFormat.ConvertMinutesToString(IntAs001MinutesReportTotal);
-        private double DblAs001TotalCharge { get; set; }
+        private double DblAs001TotalCharge => LstWorkedHoursByEmpReports.Sum(item => item.ChargeAs001);
 
 
         private int IntHrMinutesReportTotal => Convert.ToInt32(LstWorkedHoursByEmpReports.Sum(o => o.DblHrMinutesTotal));
@@ -33,7 +33,7 @@ namespace MalaiReport.Reports
         private int IntMinutesReportTotal => IntEs001MinutesReportTotal + IntAs001MinutesReportTotal + IntHrMinutesReportTotal;
         private string StrMinutesReportTotal =>
             AssistFormat.ConvertMinutesToString(IntMinutesReportTotal);
-        private double TotalCharge { get; set; }
+        private double TotalCharge => LstWorkedHoursByEmpReports.Sum(item => item.Charge);
         private bool InclCharge { get; set; }
 
         private StringBuilder HtmlBuilder { get; set; }
@@ -54,14 +54,15 @@ namespace MalaiReport.Reports
                 Client = Globals.ConMan?.lstClients.FirstOrDefault(o => o.clt_code.Equals(clt_code, StringComparison.CurrentCultureIgnoreCase))!;
                 if (LstWorkedHours != null && LstWorkedHours.Count == 0)
                 {
-                    Console.WriteLine($"No hours for {clt_code} in {month}-{year}");
+                    Console.WriteLine($"No hours for {clt_code} in {Period}");
                     return;
                 }
                 if (Client == null)
                 {
-                    Console.WriteLine($"This client is not found in the database: {clt_code} in {month}-{year}");
+                    Console.WriteLine($"This client is not found in the database: {clt_code} in {Period}");
                     return;
                 }
+                Console.WriteLine($"process {Period} for client {Client.clt_name}");
 
                 GroupedByDate = LstWorkedHours!.GroupBy(obj => obj.start_time.Date);
                 LstWorkedHoursByEmpReports = new List<DtoWorkedHoursByEmpReport>();
@@ -80,17 +81,17 @@ namespace MalaiReport.Reports
                     LstWorkedHoursByJobReports.Add(new DtoWorkedHoursByJobReport(Client, groep.ToList(), job));
                 }
 
-                TotalCharge = LstWorkedHoursByEmpReports.Sum(item => item.Charge);
-                DblEs001TotalCharge = LstWorkedHoursByEmpReports.Sum(item => item.ChargeEs001);
-                DblAs001TotalCharge = LstWorkedHoursByEmpReports.Sum(item => item.ChargeAs001);
+                //TotalCharge = LstWorkedHoursByEmpReports.Sum(item => item.Charge);
+                //DblEs001TotalCharge = LstWorkedHoursByEmpReports.Sum(item => item.ChargeEs001);
+                //DblAs001TotalCharge = LstWorkedHoursByEmpReports.Sum(item => item.ChargeAs001);
 
                 HtmlTemplateContent = AssistHtml.GetHtmlResourceContent(Globals.HtmlTemplatePath);
 
                 // this report must be created for all clients
-                HtmlContent_Hrs_C = CreateHtml_Report_Hrs_C();
-                HtmlContent_Hrs_C = HtmlTemplateContent.Replace("%Content%", HtmlContent_Hrs_C);
+                HtmlContentHrsC = CreateHtml_Report_Hrs_C();
+                HtmlContentHrsC = HtmlTemplateContent.Replace("%Content%", HtmlContentHrsC);
                 // Save HTML content to a file
-                AssistHtml.SaveHtmlToFile(HtmlContent_Hrs_C, Path.Combine(htmlFilePath, $"{Period}_{clt_code}_Hrs_C.html"));
+                AssistHtml.SaveHtmlToFile(HtmlContentHrsC, Path.Combine(htmlFilePath, $"{Period}_{clt_code}_Hrs_C.html"));
 
                 // Generate the HTML content
                 if (Client.report_type.Equals("Hrs_B", StringComparison.CurrentCultureIgnoreCase))
