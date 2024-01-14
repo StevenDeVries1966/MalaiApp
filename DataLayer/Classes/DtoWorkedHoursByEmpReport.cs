@@ -84,7 +84,7 @@
         public double ChargeAs001 => Math.Round((DblAs001MinutesTotal / 60) * Client.rate_AS001, 2);
         public double ChargeHr => Math.Round((DblHrMinutesTotal / 60) * Client.rate_ES001, 2); //Todo : Is er een appart HR rate
 
-        public double Charge => Math.Round(ChargeEs001 + ChargeAs001, 2);
+        public double Charge => Math.Round(ChargeEs001 + ChargeAs001 + ChargeHr, 2);
 
         public readonly List<string> jobs = new();
         public string JobTotal

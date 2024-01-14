@@ -311,7 +311,7 @@ namespace MalaiReport.Reports
         {
 
             double es001Additional = IntEs001MinutesReportTotal - (Client.retainer_ES001 * 60);
-            double as001Additional = IntEs001MinutesReportTotal - (Client.retainer_AS001 * 60);
+            double as001Additional = IntAs001MinutesReportTotal - (Client.retainer_AS001 * 60);
             double totalAdditional = es001Additional + as001Additional;
 
             HtmlBuilder = new StringBuilder();

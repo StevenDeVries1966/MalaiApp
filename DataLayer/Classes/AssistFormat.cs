@@ -7,18 +7,39 @@ namespace DataLayer.Classes
     {
         public static string ConvertMinutesToString(double minutesWorked)
         {
+            bool Isnegative = false;
+            if (minutesWorked < 0) Isnegative = true;
+            minutesWorked = Math.Abs(minutesWorked);
             int hours = (int)minutesWorked / 60;
             int minutesInHours = (int)hours * 60;
             int minutes = (int)minutesWorked - minutesInHours;
             string strminutes = minutes < 10 ? $"0{minutes}" : Convert.ToString(minutes);
-            return $"{hours}:{strminutes}";
+            if (Isnegative)
+            {
+                return $"-{hours}:{strminutes}";
+            }
+            else
+            {
+                return $"{hours}:{strminutes}";
+            }
         }
         public static string ConvertHoursToString(double hours_worked)
         {
+            bool Isnegative = false;
+            if (hours_worked < 0) Isnegative = true;
+            hours_worked = Math.Abs(hours_worked);
+
             int hours = (int)hours_worked;
             int minutes = (int)((hours_worked - hours) * 60);
             string strminutes = minutes < 10 ? $"0{minutes}" : Convert.ToString(minutes);
-            return $"{hours}:{strminutes}";
+            if (Isnegative)
+            {
+                return $"-{hours}:{strminutes}";
+            }
+            else
+            {
+                return $"{hours}:{strminutes}";
+            }
         }
         public static void WriteToCsv<T>(List<T> objects, string filePath)
         {
