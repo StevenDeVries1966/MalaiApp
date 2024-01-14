@@ -281,7 +281,7 @@ namespace MalaiReport.Reports
             // Create table header
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine("<th>Description</th>");
-            HtmlBuilder.AppendLine("<th>Ester</th>");
+            HtmlBuilder.AppendLine("<th>Esther</th>");
             HtmlBuilder.AppendLine("<th>Aisha</th>");
             HtmlBuilder.AppendLine("<th>Total Hours</th>");
             HtmlBuilder.AppendLine("</tr>");

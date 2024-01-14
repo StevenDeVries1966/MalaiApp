@@ -86,7 +86,7 @@ namespace MalaiReport.Helpers
                     _logoPath = GetConfigValue("LogoPath");
                     _logoPath = GetPath(_logoPath);
                 }
-                return _logoPath;
+                return @"..\\Images\\MalaiEffinciency_1563x1563.png";
             }
         }
         public static string ReportPath
