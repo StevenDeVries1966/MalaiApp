@@ -139,13 +139,33 @@ namespace MalaiReport.Reports
         {
 
             HtmlBuilder = new StringBuilder();
+
             // Start HTML table
+            HtmlBuilder.AppendLine("<table>");
+            HtmlBuilder.AppendLine(@"<tr>");
+            HtmlBuilder.AppendLine(@"<td>");
             DoRateHeader0();
+            HtmlBuilder.AppendLine("</td>");
+            HtmlBuilder.AppendLine("</tr>");
+            HtmlBuilder.AppendLine(@"<tr>");
+            HtmlBuilder.AppendLine(@"<td>");
+            DoData_Hrs_B();
+            HtmlBuilder.AppendLine("</td>");
+            HtmlBuilder.AppendLine("</tr>");
+            HtmlBuilder.AppendLine("</table>");
+
+
+            return HtmlBuilder.ToString();
+        }
+
+        private void DoData_Hrs_B()
+        {
             HtmlBuilder.AppendLine(@"<br>");
-            HtmlBuilder.AppendLine("<table  class=\"data\" 'border:5px solid black;border-collapse:collapse;'>");
+            HtmlBuilder.AppendLine("<table class=\"data\" style=\"width:100%\">");
             HtmlBuilder.AppendLine("<tr>");
             HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\" colspan=\"2\"></td>");
-            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\" colspan=\"2\">IMC - AP</td>");
+            HtmlBuilder.AppendLine(
+                $"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\" colspan=\"2\">IMC - AP</td>");
             HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\">IMC - HR</td>");
             if (InclCharge)
             {
@@ -178,47 +198,79 @@ namespace MalaiReport.Reports
             foreach (DtoWorkedHoursByEmpReport wh in LstWorkedHoursByEmpReports)
             {
                 HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
                 HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.JobTotal}</td>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrEs001MinutesTotal}</td>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrAs001MinutesTotal}</td>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrHrMinutesTotal}</td>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;border-right-style:none;\">{wh.MinutesTotalString}</td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrEs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrAs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrHrMinutesTotal}</td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;border-right-style:none;\">{wh.MinutesTotalString}</td>");
                 if (InclCharge)
                 {
-                    HtmlBuilder.AppendLine($"<td style=\"border-left-style:none;border-right-style:none;font-weight:bold;\">$</td>");
-                    HtmlBuilder.AppendLine($"<td style=\"border-left-style:none;text-align:right;font-weight:bold;\">{wh.Charge.ToString("0.00")}</td>");
+                    HtmlBuilder.AppendLine(
+                        $"<td style=\"border-left-style:none;border-right-style:none;font-weight:bold;\">$</td>");
+                    HtmlBuilder.AppendLine(
+                        $"<td style=\"border-left-style:none;text-align:right;font-weight:bold;\">{wh.Charge.ToString("0.00")}</td>");
                 }
+
                 HtmlBuilder.AppendLine("</tr>");
             }
+
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine("<th></th>");
             HtmlBuilder.AppendLine("<th></th>");
-            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrHrMinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th style=\"border-right-style:none;font-weight:bold;text-align:center;color:#808080;\">{StrMinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrHrMinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"border-right-style:none;font-weight:bold;text-align:center;color:#808080;\">{StrMinutesReportTotal}</th>");
             if (InclCharge)
             {
-                HtmlBuilder.AppendLine($"<th style=\"border-left-style:none;border-right-style:none;font-weight:bold;color:#000000;\">$</th>");
-                HtmlBuilder.AppendLine($"<th style=\"border-left-style:none;text-align:right;font-weight:bold;color:#000000;\">{TotalCharge.ToString("0.00")}</th>");
+                HtmlBuilder.AppendLine(
+                    $"<th style=\"border-left-style:none;border-right-style:none;font-weight:bold;color:#000000;\">$</th>");
+                HtmlBuilder.AppendLine(
+                    $"<th style=\"border-left-style:none;text-align:right;font-weight:bold;color:#000000;\">{TotalCharge.ToString("0.00")}</th>");
             }
+
             HtmlBuilder.AppendLine("</tr>");
             // End HTML table
             HtmlBuilder.AppendLine("</table>");
-
-            return HtmlBuilder.ToString();
         }
+
         private string CreateHtml_Report_Hrs_A()
         {
             HtmlBuilder = new StringBuilder();
 
             // Start HTML table
-
+            HtmlBuilder.AppendLine("<table>");
+            HtmlBuilder.AppendLine(@"<tr>");
+            HtmlBuilder.AppendLine(@"<td>");
             DoRateHeader0();
+            HtmlBuilder.AppendLine("</td>");
+            HtmlBuilder.AppendLine("</tr>");
+            HtmlBuilder.AppendLine(@"<tr>");
+            HtmlBuilder.AppendLine(@"<td>");
+            DoData_Hrs_A();
+            HtmlBuilder.AppendLine("</td>");
+            HtmlBuilder.AppendLine("</tr>");
+            HtmlBuilder.AppendLine("</table>");
+
+
+            return HtmlBuilder.ToString();
+        }
+
+        private void DoData_Hrs_A()
+        {
             HtmlBuilder.AppendLine(@"<br>");
 
-            HtmlBuilder.AppendLine("<table class=\"data\" 'border:5px solid black;border-collapse:collapse;'>");
+            HtmlBuilder.AppendLine("<table class=\"data\" style=\"width:100%\">");
             HtmlBuilder.AppendLine("<tr>");
             HtmlBuilder.AppendLine($"<td></td>");
             HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;color:#275D5D\">Accounting</td>");
@@ -237,47 +289,76 @@ namespace MalaiReport.Reports
             foreach (DtoWorkedHoursByEmpReport wh in LstWorkedHoursByEmpReports)
             {
                 HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrEs001MinutesTotal}</td>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrAs001MinutesTotal}</td>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.MinutesTotalString}</td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrEs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrAs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.MinutesTotalString}</td>");
                 HtmlBuilder.AppendLine("</tr>");
             }
+
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine("<th></th>");
-            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrMinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrMinutesReportTotal}</th>");
             HtmlBuilder.AppendLine("</tr>");
 
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine("<td></td>");
-            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{IntEs001PercentageReportTotal}%</td>");
-            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{IntAs001PercentageReportTotal}%</td>");
+            HtmlBuilder.AppendLine(
+                $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{IntEs001PercentageReportTotal}%</td>");
+            HtmlBuilder.AppendLine(
+                $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{IntAs001PercentageReportTotal}%</td>");
             HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\"></td>");
             HtmlBuilder.AppendLine("</tr>");
 
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:left;color:#000000;\">Total charge {Period}</th>");
-            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">${DblEs001TotalCharge.ToString("0.00")}</th>");
-            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">${DblAs001TotalCharge.ToString("0.00")}</th>");
-            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:right;color:#000000;\">${TotalCharge.ToString("0.00")}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">${DblEs001TotalCharge.ToString("0.00")}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">${DblAs001TotalCharge.ToString("0.00")}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"font-weight:bold;text-align:right;color:#000000;\">${TotalCharge.ToString("0.00")}</th>");
             HtmlBuilder.AppendLine("</tr>");
             // End HTML table
             HtmlBuilder.AppendLine("</table>");
-
-            return HtmlBuilder.ToString();
         }
+
         private string CreateHtml_Report_Hrs_C()
         {
             HtmlBuilder = new StringBuilder();
 
             // Start HTML table
-
+            HtmlBuilder.AppendLine("<table>");
+            HtmlBuilder.AppendLine(@"<tr>");
+            HtmlBuilder.AppendLine(@"<td>");
             DoNameHeader();
+            HtmlBuilder.AppendLine("</td>");
+            HtmlBuilder.AppendLine("</tr>");
+            HtmlBuilder.AppendLine(@"<tr>");
+            HtmlBuilder.AppendLine(@"<td>");
+            DoData_Hrs_C();
+            HtmlBuilder.AppendLine("</td>");
+            HtmlBuilder.AppendLine("</tr>");
+            HtmlBuilder.AppendLine("</table>");
+
+
+            return HtmlBuilder.ToString();
+        }
+
+        private void DoData_Hrs_C()
+        {
             HtmlBuilder.AppendLine(@"<br>");
 
-            HtmlBuilder.AppendLine("<table class=\"data\" 'border:5px solid black;border-collapse:collapse;'>");
+            HtmlBuilder.AppendLine("<table class=\"data\" style=\"width:100%\">");
             // Create table header
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine("<th>Description</th>");
@@ -291,22 +372,28 @@ namespace MalaiReport.Reports
             {
                 HtmlBuilder.AppendLine("<tr>");
                 HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{job.Job.job_name}</td>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.StrEs001MinutesTotal}</td>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.StrAs001MinutesTotal}</td>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.MinutesTotalString}</td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.StrEs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.StrAs001MinutesTotal}</td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.MinutesTotalString}</td>");
                 HtmlBuilder.AppendLine("</tr>");
             }
+
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine("<th></th>");
-            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrMinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
+            HtmlBuilder.AppendLine(
+                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrMinutesReportTotal}</th>");
             HtmlBuilder.AppendLine("</tr>");
             // End HTML table
             HtmlBuilder.AppendLine("</table>");
-
-            return HtmlBuilder.ToString();
         }
+
         private string CreateHtml_Report_Retainer()
         {
 
