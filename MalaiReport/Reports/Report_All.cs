@@ -197,6 +197,10 @@ namespace MalaiReport.Reports
             // Create table rows
             foreach (DtoWorkedHoursByEmpReport wh in LstWorkedHoursByEmpReports)
             {
+                if (Math.Abs(wh.Charge - (-831.25)) < 0.000001)
+                {
+
+                }
                 HtmlBuilder.AppendLine("<tr>");
                 HtmlBuilder.AppendLine(
                     $"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");

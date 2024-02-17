@@ -10,10 +10,15 @@ namespace DataLayer.Classes
             bool Isnegative = false;
             if (minutesWorked < 0) Isnegative = true;
             minutesWorked = Math.Abs(minutesWorked);
+            if (minutesWorked == 1425)
+            {
+
+            }
             int hours = (int)minutesWorked / 60;
             int minutesInHours = (int)hours * 60;
             int minutes = (int)minutesWorked - minutesInHours;
             string strminutes = minutes < 10 ? $"0{minutes}" : Convert.ToString(minutes);
+
             if (Isnegative)
             {
                 return $"-{hours}:{strminutes}";

@@ -27,7 +27,9 @@
                         DblHrMinutesTotal += wh.minutes_worked;
                     }
                 }
-                else if (client.report_type.Equals("Hrs_A", StringComparison.CurrentCultureIgnoreCase) || client.report_type.Equals("Hrs_C", StringComparison.CurrentCultureIgnoreCase))
+                else if (client.report_type.Equals("Hrs_A", StringComparison.CurrentCultureIgnoreCase) ||
+                         client.report_type.Equals("Hrs_C", StringComparison.CurrentCultureIgnoreCase) ||
+                         client.report_type.Equals("", StringComparison.CurrentCultureIgnoreCase))
                 {
                     // add PayRoll hrs to total of emp hrs
                     if (wh.emp_code.Equals("ES001"))
