@@ -13,7 +13,8 @@
 using DataLayer.Classes;
 
 DateTime start = DateTime.Now;
-MalaiContext conMan = new MalaiContext("127.0.0.1", @"Malai_test", "root", "wqEQW5Ag/&6%JT+");
+MalaiContext conMan = new MalaiContext("malaidevelopment.database.windows.net", @"malai_dev", "write_malai", "tZRj.3-t$EB)8jF");
+//MalaiContext conMan = new MalaiContext("127.0.0.1", @"Malai_test", "root", "wqEQW5Ag/&6%JT+");
 //conMan.GetAllWorkedHours();
 DateTime end = DateTime.Now;
 TimeSpan ts = end - start;

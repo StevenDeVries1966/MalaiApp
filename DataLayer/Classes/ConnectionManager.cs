@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SqlClient;
 
 namespace DataLayer.Classes
 {
@@ -12,11 +12,11 @@ namespace DataLayer.Classes
             connectionString = $"Server={server};Database={database};User ID={username};Password={password};";
         }
 
-        public MySqlConnection GetConnection()
+        public SqlConnection GetConnection()
         {
             try
             {
-                MySqlConnection connection = new MySqlConnection(connectionString);
+                SqlConnection connection = new SqlConnection(connectionString);
                 connection.Open();
                 return connection;
             }
@@ -27,7 +27,7 @@ namespace DataLayer.Classes
             }
         }
 
-        public void CloseConnection(MySqlConnection connection)
+        public void CloseConnection(SqlConnection connection)
         {
             try
             {

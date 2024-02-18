@@ -1,5 +1,5 @@
-﻿using MySql.Data.MySqlClient;
-using System.Data;
+﻿using System.Data;
+using System.Data.SqlClient;
 
 namespace DataLayer.Classes
 {
@@ -84,9 +84,9 @@ namespace DataLayer.Classes
             message = "OK";
             try
             {
-                using (MySqlConnection con = ConManager.GetConnection())
+                using (SqlConnection con = ConManager.GetConnection())
                 {
-                    using (MySqlCommand cmd = new MySqlCommand(storedProcedure, con))
+                    using (SqlCommand cmd = new SqlCommand(storedProcedure, con))
                     {
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
@@ -118,9 +118,9 @@ namespace DataLayer.Classes
             message = "OK";
             try
             {
-                using (MySqlConnection con = ConManager.GetConnection())
+                using (SqlConnection con = ConManager.GetConnection())
                 {
-                    using (MySqlCommand cmd = new MySqlCommand(storedProcedure, con))
+                    using (SqlCommand cmd = new SqlCommand(storedProcedure, con))
                     {
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("_month", month);
@@ -152,9 +152,9 @@ namespace DataLayer.Classes
             bool bool_result = false;
             try
             {
-                using (MySqlConnection con = ConManager.GetConnection())
+                using (SqlConnection con = ConManager.GetConnection())
                 {
-                    using (MySqlCommand cmd = new MySqlCommand("AddLog", con))
+                    using (SqlCommand cmd = new SqlCommand("AddLog", con))
                     {
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
@@ -185,11 +185,11 @@ namespace DataLayer.Classes
             message = "OK";
             try
             {
-                using (MySqlConnection con = ConManager.GetConnection())
+                using (SqlConnection con = ConManager.GetConnection())
                 {
                     foreach (DtoWorkedHours item in workedHours)
                     {
-                        using (MySqlCommand cmd = new MySqlCommand("AddWorkedHours", con))
+                        using (SqlCommand cmd = new SqlCommand("AddWorkedHours", con))
                         {
                             cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
