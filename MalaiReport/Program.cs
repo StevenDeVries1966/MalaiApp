@@ -49,7 +49,8 @@ if (!Directory.Exists(Globals.ReportPath)) Directory.CreateDirectory(Globals.Rep
 Globals.ConMan = new MalaiContext(Globals.Server, Globals.DataBase, Globals.UserName, Globals.PassWord);
 Globals.ConMan.GetAllEmployees();
 Globals.ConMan.GetAllJobs();
-Globals.EmployeeCurrent = Globals.ConMan.lstEmployee.FirstOrDefault(o => o.login.Equals(Environment.UserName, StringComparison.CurrentCultureIgnoreCase));
+//Globals.EmployeeCurrent = Globals.ConMan.lstEmployee.FirstOrDefault(o => o.login.Equals(Environment.UserName, StringComparison.CurrentCultureIgnoreCase));
+Globals.EmployeeCurrent = Globals.ConMan.lstEmployee.FirstOrDefault(o => o.login.Equals("ES001", StringComparison.CurrentCultureIgnoreCase));
 
 if (Globals.ConMan == null)
 {
@@ -66,20 +67,20 @@ foreach (DtoClient clt in Globals.ConMan.lstClients)
 {
     foreach (int month in Globals.Months)
     {
-        //debug 
-        if (clt.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase))
-        {
-            ReportAll rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath);
-            //if (clt.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase))
-            //{
-            //    rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath, false);
-            //}
-        }
-        //ReportAll rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath);
+        //debug
         //if (clt.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase))
         //{
-        //    rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath, false);
+        //    ReportAll rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath);
+        //    if (clt.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase))
+        //    {
+        //        rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath, false);
+        //    }
         //}
+        ReportAll rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath);
+        if (clt.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase))
+        {
+            rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath, false);
+        }
     }
 }
 Console.WriteLine("Done");

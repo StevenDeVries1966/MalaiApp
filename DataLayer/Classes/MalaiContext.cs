@@ -1,9 +1,10 @@
-﻿using System.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DataLayer.Classes
 {
-    public class MalaiContext
+    public class MalaiContext : DbContext
     {
         public ConnectionManager ConManager { get; set; }
         public List<DtoClient> lstClients { get; set; }
@@ -123,9 +124,9 @@ namespace DataLayer.Classes
                     using (SqlCommand cmd = new SqlCommand(storedProcedure, con))
                     {
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("_month", month);
-                        cmd.Parameters.AddWithValue("_year", year);
-                        cmd.Parameters.AddWithValue("_clt_code", clt_code);
+                        cmd.Parameters.AddWithValue("@month", month);
+                        cmd.Parameters.AddWithValue("@year", year);
+                        cmd.Parameters.AddWithValue("@clt_code", clt_code);
                         DateTime start = DateTime.Now;
                         using (IDataReader reader = cmd.ExecuteReader())
                         {
@@ -159,10 +160,10 @@ namespace DataLayer.Classes
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                         // Add parameters if your stored procedure has any
-                        cmd.Parameters.AddWithValue("_message", error_message);
-                        cmd.Parameters.AddWithValue("_stack", stack);
-                        cmd.Parameters.AddWithValue("_emp_id", emp_id);
-                        cmd.Parameters.AddWithValue("_date_created", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@message", error_message);
+                        cmd.Parameters.AddWithValue("@stack", stack);
+                        cmd.Parameters.AddWithValue("@emp_id", emp_id);
+                        cmd.Parameters.AddWithValue("@date_created", DateTime.Now);
 
                         int rowsAffected = cmd.ExecuteNonQuery();
 
@@ -191,20 +192,27 @@ namespace DataLayer.Classes
                     {
                         using (SqlCommand cmd = new SqlCommand("AddWorkedHours", con))
                         {
-                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                            try
+                            {
+                                cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                            // Add parameters if your stored procedure has any
-                            cmd.Parameters.AddWithValue("_emp_code", item.emp_code);
-                            cmd.Parameters.AddWithValue("_clt_code", item.clt_code);
-                            cmd.Parameters.AddWithValue("_clt_job_code", item.clt_job_code);
-                            cmd.Parameters.AddWithValue("_notes", item.notes);
-                            cmd.Parameters.AddWithValue("_start_time", item.start_time);
-                            cmd.Parameters.AddWithValue("_end_time", item.end_time);
+                                // Add parameters if your stored procedure has any
+                                cmd.Parameters.AddWithValue("@emp_code", item.emp_code);
+                                cmd.Parameters.AddWithValue("@clt_code", item.clt_code);
+                                cmd.Parameters.AddWithValue("@clt_job_code", item.clt_job_code);
+                                cmd.Parameters.AddWithValue("@notes", item.notes ?? "");
+                                cmd.Parameters.AddWithValue("@start_time", item.start_time);
+                                cmd.Parameters.AddWithValue("@end_time", item.end_time);
 
-                            int rowsAffected = cmd.ExecuteNonQuery();
+                                int rowsAffected = cmd.ExecuteNonQuery();
 
-                            message += $"OK {rowsAffected} rows affected";
-                            result = true;
+                                message += $"OK {rowsAffected} rows affected";
+                                result = true;
+                            }
+                            catch (Exception e)
+                            {
+                            }
+
                         }
                     }
                 }
