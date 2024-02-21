@@ -118,7 +118,31 @@ VALUES
     ('Manual Check Upload', 'IMC'),
     ('Payroll', 'IMC'),
     ('Training', 'IMC'),
-    ('Other', 'IMC');
+    ('Other', 'IMC'),
+	('Accounts Payable','KCS'),
+	('Accounts Receivable','KCS'),
+	('General Administration','KCS'),
+	('Cash Sales','KCS'),
+	('Month Report','KCS'),
+	('Taxes','KCS'),
+	('Payroll','KCS'),
+	('Meeting','KCS'),
+	('Other','KCS');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -- Create table in SQL Server

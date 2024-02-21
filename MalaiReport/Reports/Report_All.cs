@@ -360,42 +360,57 @@ namespace MalaiReport.Reports
 
         private void DoData_Hrs_C()
         {
-            HtmlBuilder.AppendLine(@"<br>");
-
-            HtmlBuilder.AppendLine("<table class=\"data\" style=\"width:100%\">");
-            // Create table header
-            HtmlBuilder.AppendLine(@"<tr>");
-            HtmlBuilder.AppendLine("<th>Description</th>");
-            HtmlBuilder.AppendLine("<th>Esther</th>");
-            HtmlBuilder.AppendLine("<th>Aisha</th>");
-            HtmlBuilder.AppendLine("<th>Total Hours</th>");
-            HtmlBuilder.AppendLine("</tr>");
-
-            // Create table rows
-            foreach (DtoWorkedHoursByJobReport job in LstWorkedHoursByJobReports)
+            try
             {
-                HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{job.Job.job_name}</td>");
-                HtmlBuilder.AppendLine(
-                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.StrEs001MinutesTotal}</td>");
-                HtmlBuilder.AppendLine(
-                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.StrAs001MinutesTotal}</td>");
-                HtmlBuilder.AppendLine(
-                    $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.MinutesTotalString}</td>");
+                HtmlBuilder.AppendLine(@"<br>");
+
+                HtmlBuilder.AppendLine("<table class=\"data\" style=\"width:100%\">");
+                // Create table header
+                HtmlBuilder.AppendLine(@"<tr>");
+                HtmlBuilder.AppendLine("<th>Description</th>");
+                HtmlBuilder.AppendLine("<th>Esther</th>");
+                HtmlBuilder.AppendLine("<th>Aisha</th>");
+                HtmlBuilder.AppendLine("<th>Total Hours</th>");
                 HtmlBuilder.AppendLine("</tr>");
+
+                // Create table rows
+                foreach (DtoWorkedHoursByJobReport job in LstWorkedHoursByJobReports)
+                {
+                    try
+                    {
+                        HtmlBuilder.AppendLine("<tr>");
+                        HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{job.Job.job_name}</td>");
+                        HtmlBuilder.AppendLine(
+                            $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.StrEs001MinutesTotal}</td>");
+                        HtmlBuilder.AppendLine(
+                            $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.StrAs001MinutesTotal}</td>");
+                        HtmlBuilder.AppendLine(
+                            $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{job.MinutesTotalString}</td>");
+                        HtmlBuilder.AppendLine("</tr>");
+                    }
+                    catch (Exception e)
+                    {
+                        Globals.ConMan!.AddLog(e.Message, e!.StackTrace!, Globals.EmployeeCurrent!.emp_id);
+                    }
+                }
+
+                HtmlBuilder.AppendLine(@"<tr>");
+                HtmlBuilder.AppendLine("<th></th>");
+                HtmlBuilder.AppendLine(
+                    $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
+                HtmlBuilder.AppendLine(
+                    $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
+                HtmlBuilder.AppendLine(
+                    $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrMinutesReportTotal}</th>");
+                HtmlBuilder.AppendLine("</tr>");
+                // End HTML table
+                HtmlBuilder.AppendLine("</table>");
+            }
+            catch (Exception e)
+            {
+                Globals.ConMan!.AddLog(e.Message, e!.StackTrace!, Globals.EmployeeCurrent!.emp_id);
             }
 
-            HtmlBuilder.AppendLine(@"<tr>");
-            HtmlBuilder.AppendLine("<th></th>");
-            HtmlBuilder.AppendLine(
-                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine(
-                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine(
-                $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrMinutesReportTotal}</th>");
-            HtmlBuilder.AppendLine("</tr>");
-            // End HTML table
-            HtmlBuilder.AppendLine("</table>");
         }
 
         private string CreateHtml_Report_Retainer()

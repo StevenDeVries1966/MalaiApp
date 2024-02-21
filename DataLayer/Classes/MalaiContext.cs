@@ -206,7 +206,7 @@ namespace DataLayer.Classes
 
                                 int rowsAffected = cmd.ExecuteNonQuery();
 
-                                message += $"OK {rowsAffected} rows affected";
+                                //message += $"OK {rowsAffected} rows affected";
                                 result = true;
                             }
                             catch (Exception e)
@@ -254,27 +254,30 @@ namespace DataLayer.Classes
 
                         // Split the line into an array of strings using a comma as the delimiter
                         string[] values = line.Split(';');
+                        // values[0] = week
+                        // values[1] = date
+                        // values[2] = emp_id
+                        // values[3] = clt_code
+                        // values[4] = clientJobCode
+                        // values[5] = notes
+                        // values[6] = start
+                        // values[7] = end
+                        // values[8] = total hours
 
                         //string dateString = $"{values[1]} {values[6]}:00";
                         string dateString = ConvertToDateTime(values[1], values[6]);
 
                         DateTime start = DateTime.Parse(dateString);
-                        //try
-                        //{
-                        //    start = DateTime.Parse(dateString);
-                        //}
-                        //catch (Exception e)
-                        //{
-                        //}
 
                         //dateString = $"{values[1]} {values[7]}:00";
                         dateString = ConvertToDateTime(values[1], values[7]);
 
                         DateTime end = DateTime.Parse(dateString);
                         if (start.Year == 0001 || end.Year == 0001 || String.IsNullOrEmpty(values[2]) ||
-                            String.IsNullOrEmpty(values[3]))
+                            String.IsNullOrEmpty(values[3]) ||
+                            String.IsNullOrEmpty(values[4]))
                         {
-                            message += line + Environment.NewLine;
+                            message += "Error" + line + Environment.NewLine;
                             continue;
                         }
                         DtoWorkedHours wh = new DtoWorkedHours(values[2], values[3], values[4], start, end, values[5]);
