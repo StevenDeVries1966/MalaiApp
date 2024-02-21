@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WpfUI.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Grid.Column="1"  Grid.Row="1" Visibility="{Binding IsWorkedHoursSelected, Converter={StaticResource BooleanToVisibilityConv}}">
+    <Grid Visibility="{Binding IsWorkedHoursSelected, Converter={StaticResource BooleanToVisibilityConv}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>

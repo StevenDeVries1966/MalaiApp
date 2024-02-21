@@ -36,14 +36,14 @@
                     </StackPanel>
 
                     <DataGrid  Grid.Column="0" Grid.Row="1" 
-                 ItemsSource="{Binding WorkedHours, ValidatesOnNotifyDataErrors=False}"
-                 SelectedItem="{Binding Path=SelectedWorkedHours, Mode=TwoWay}"
-                 Margin="10"
-                 IsReadOnly="True"
-                 ScrollViewer.VerticalScrollBarVisibility="Visible"
-                 ScrollViewer.CanContentScroll="False" 
-                 AutoGenerateColumns="True"
-                 AlternationCount="2">
+                         ItemsSource="{Binding WorkedHours, ValidatesOnNotifyDataErrors=False}"
+                         SelectedItem="{Binding Path=SelectedWorkedHours, Mode=TwoWay}"
+                         Margin="10"
+                         IsReadOnly="True"
+                         ScrollViewer.VerticalScrollBarVisibility="Visible"
+                         ScrollViewer.CanContentScroll="False" 
+                         AutoGenerateColumns="True"
+                         AlternationCount="2">
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
                                 <Style.Triggers>
@@ -55,7 +55,9 @@
                             </Style>
                         </DataGrid.RowStyle>
                     </DataGrid>
+                    <Grid Grid.Column="1" Grid.Row="1">
 
+                    </Grid>
                     <Grid Grid.Column="1"  Grid.Row="1" Visibility="{Binding IsWorkedHoursSelected, Converter={StaticResource BooleanToVisibilityConv}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
