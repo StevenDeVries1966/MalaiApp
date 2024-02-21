@@ -7,84 +7,110 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Grid.Row="0"  Orientation="Horizontal">
-            <Button Margin="10" 
-                    Width="40" 
-                    Height="20" 
-                    Content="Add" 
-                    HorizontalAlignment="Left" 
-                    VerticalAlignment="Top"
-                    Command="{Binding AddCommand}"></Button>
-            <Button Margin="10" 
-                    Width="40" 
-                    Height="20" 
-                    Content="Del" 
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Command="{Binding DeleteCommand}"></Button>
-        </StackPanel>
-        <DataGrid  Grid.Column="0" Grid.Row="1" 
-                   ItemsSource="{Binding WorkedHours, ValidatesOnNotifyDataErrors=False}"
-                   SelectedItem="{Binding Path=SelectedWorkedHours, Mode=TwoWay}"
-                   Margin="10"
-                   IsReadOnly="True">
-        </DataGrid>
-       
-        <Grid Grid.Column="1"  Grid.Row="1" Visibility="{Binding IsWorkedHoursSelected, Converter={StaticResource BooleanToVisibilityConv}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="3*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right">emp_code</Label>
-            <TextBox Margin="2" Grid.Column="1" Grid.Row="1" Text="{Binding SelectedWorkedHours.emp_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <ComboBox Margin="2" Grid.Column="1" Grid.Row="10" 
-                      ItemsSource="{Binding Path=Employees, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      DisplayMemberPath="display_name" 
-                      SelectedValuePath="emp_id"
-                      SelectedItem="{Binding SelectedEmployee}">
+        <TabControl>
+            <TabItem Header="Worked hours">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Grid.Row="0"  Orientation="Horizontal">
+                        <Button Margin="10" 
+                  Width="40" 
+                  Height="20" 
+                  Content="Add" 
+                  HorizontalAlignment="Left" 
+                  VerticalAlignment="Top"
+                  Command="{Binding AddCommand}"></Button>
+                        <Button Margin="10" 
+                  Width="40" 
+                  Height="20" 
+                  Content="Del" 
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Command="{Binding DeleteCommand}"></Button>
+                    </StackPanel>
 
-            </ComboBox>
-                <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right">clt_code</Label>
-            <StackPanel Margin="2" Grid.Column="1" Grid.Row="2">
-                <TextBox  Text="{Binding SelectedWorkedHours.clt_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
+                    <DataGrid  Grid.Column="0" Grid.Row="1" 
+                 ItemsSource="{Binding WorkedHours, ValidatesOnNotifyDataErrors=False}"
+                 SelectedItem="{Binding Path=SelectedWorkedHours, Mode=TwoWay}"
+                 Margin="10"
+                 IsReadOnly="True"
+                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 ScrollViewer.CanContentScroll="False" 
+                 AutoGenerateColumns="True"
+                 AlternationCount="2">
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+                                    <!-- Trigger to set alternate row background color -->
+                                    <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                    </DataGrid>
 
-            <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right">notes</Label>
-            <TextBox Margin="2" Grid.Column="1" Grid.Row="3" Text="{Binding SelectedWorkedHours.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="true" TextWrapping="Wrap"/>
-            <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right">week</Label>
-            <TextBox Margin="2" Grid.Column="1" Grid.Row="4" Text="{Binding SelectedWorkedHours.week, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-            <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right">month</Label>
-            <TextBox Margin="2" Grid.Column="1" Grid.Row="5" Text="{Binding SelectedWorkedHours.month, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-            <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right">year</Label>
-            <TextBox Margin="2" Grid.Column="1" Grid.Row="6" Text="{Binding SelectedWorkedHours.year, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-            <Label Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right">start_time</Label>
-            <TextBox Margin="2" Grid.Column="1" Grid.Row="7" Text="{Binding SelectedWorkedHours.start_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Right">end_time</Label>
-            <TextBox Margin="2" Grid.Column="1" Grid.Row="8" Text="{Binding SelectedWorkedHours.end_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Grid.Column="0" Grid.Row="9" HorizontalAlignment="Right">hours_worked</Label>
-            <TextBox Margin="2" Grid.Column="1" Grid.Row="9" Text="{Binding SelectedWorkedHours.hours_worked_display, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-           
-        </Grid>
+                    <Grid Grid.Column="1"  Grid.Row="1" Visibility="{Binding IsWorkedHoursSelected, Converter={StaticResource BooleanToVisibilityConv}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right">emp_code</Label>
+                        <TextBox Margin="2" Grid.Column="1" Grid.Row="1" Text="{Binding SelectedWorkedHours.emp_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <ComboBox Margin="2" Grid.Column="1" Grid.Row="10" 
+                    ItemsSource="{Binding Path=Employees, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    DisplayMemberPath="display_name" 
+                    SelectedValuePath="emp_id"
+                    SelectedItem="{Binding SelectedEmployee}">
+
+                        </ComboBox>
+                        <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right">clt_code</Label>
+                        <StackPanel Margin="2" Grid.Column="1" Grid.Row="2">
+                            <TextBox  Text="{Binding SelectedWorkedHours.clt_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+
+                        <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right">notes</Label>
+                        <TextBox Margin="2" Grid.Column="1" Grid.Row="3" Text="{Binding SelectedWorkedHours.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="true" TextWrapping="Wrap"/>
+                        <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right">week</Label>
+                        <TextBox Margin="2" Grid.Column="1" Grid.Row="4" Text="{Binding SelectedWorkedHours.week, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                        <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right">month</Label>
+                        <TextBox Margin="2" Grid.Column="1" Grid.Row="5" Text="{Binding SelectedWorkedHours.month, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                        <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right">year</Label>
+                        <TextBox Margin="2" Grid.Column="1" Grid.Row="6" Text="{Binding SelectedWorkedHours.year, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                        <Label Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right">start_time</Label>
+                        <TextBox Margin="2" Grid.Column="1" Grid.Row="7" Text="{Binding SelectedWorkedHours.start_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Right">end_time</Label>
+                        <TextBox Margin="2" Grid.Column="1" Grid.Row="8" Text="{Binding SelectedWorkedHours.end_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Grid.Column="0" Grid.Row="9" HorizontalAlignment="Right">hours_worked</Label>
+                        <TextBox Margin="2" Grid.Column="1" Grid.Row="9" Text="{Binding SelectedWorkedHours.hours_worked_display, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+
+                    </Grid>
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Clients">
+            </TabItem>
+            <TabItem Header="Jobs">
+            </TabItem>
+        </TabControl>
     </Grid>
-</UserControl>
+  </UserControl>

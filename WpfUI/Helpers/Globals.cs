@@ -13,6 +13,7 @@ namespace WpfUI.Helpers
         private static string _password;
         public static List<DtoEmployee>? Employees { get; set; }
         public static DtoEmployee? Employee_Current;
+        public static string Current_Emp_Code => "ES001";
         public static string? MainFormTitle
         {
             get
