@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="500">
     <Grid Visibility="{Binding IsWorkedHoursSelected, Converter={StaticResource BooleanToVisibilityConv}}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -22,9 +23,9 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right">emp_code</Label>
+        <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" FontWeight="Bold">emp_code</Label>
         <TextBox Margin="2" Grid.Column="1" Grid.Row="1" Text="{Binding SelectedWorkedHours.emp_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <ComboBox Margin="2" Grid.Column="1" Grid.Row="10" 
                ItemsSource="{Binding Path=Employees, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -33,25 +34,42 @@
                SelectedItem="{Binding SelectedEmployee}">
 
         </ComboBox>
-        <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right">clt_code</Label>
+        <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" FontWeight="Bold">clt_code</Label>
         <StackPanel Margin="2" Grid.Column="1" Grid.Row="2">
             <TextBox  Text="{Binding SelectedWorkedHours.clt_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
-        <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right">notes</Label>
+        <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" FontWeight="Bold">notes</Label>
         <TextBox Margin="2" Grid.Column="1" Grid.Row="3" Text="{Binding SelectedWorkedHours.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="true" TextWrapping="Wrap"/>
-        <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right">week</Label>
+        <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" FontWeight="Bold">week</Label>
         <TextBox Margin="2" Grid.Column="1" Grid.Row="4" Text="{Binding SelectedWorkedHours.week, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-        <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right">month</Label>
+        <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" FontWeight="Bold">month</Label>
         <TextBox Margin="2" Grid.Column="1" Grid.Row="5" Text="{Binding SelectedWorkedHours.month, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-        <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right">year</Label>
+        <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" FontWeight="Bold">year</Label>
         <TextBox Margin="2" Grid.Column="1" Grid.Row="6" Text="{Binding SelectedWorkedHours.year, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-        <Label Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right">start_time</Label>
+        <Label Grid.Column="0" Grid.Row="7" HorizontalAlignment="Left" FontWeight="Bold">start_time</Label>
         <TextBox Margin="2" Grid.Column="1" Grid.Row="7" Text="{Binding SelectedWorkedHours.start_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Right">end_time</Label>
+        <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Left" FontWeight="Bold">end_time</Label>
         <TextBox Margin="2" Grid.Column="1" Grid.Row="8" Text="{Binding SelectedWorkedHours.end_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Grid.Column="0" Grid.Row="9" HorizontalAlignment="Right">hours_worked</Label>
+        <Label Grid.Column="0" Grid.Row="9" HorizontalAlignment="Left" FontWeight="Bold">hours_worked</Label>
         <TextBox Margin="2" Grid.Column="1" Grid.Row="9" Text="{Binding SelectedWorkedHours.hours_worked_display, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-
+        <StackPanel Grid.Column="1" Grid.Row="11"  Orientation="Horizontal">
+            <Button Margin="10" 
+                    Width="40" 
+                    Height="20" 
+                    Content="Add" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                    Command="{Binding AddCommand}">
+            </Button>
+            <Button Margin="10" 
+                    Width="40" 
+                    Height="20" 
+                    Content="Del" 
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Command="{Binding DeleteCommand}">
+            </Button>
+        </StackPanel>
     </Grid>
 
 </UserControl>

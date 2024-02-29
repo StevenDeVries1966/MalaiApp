@@ -16,7 +16,8 @@ namespace DataLayer.Classes
         {
             try
             {
-                SqlConnection connection = new SqlConnection(connectionString);
+                string connectionStringTest = "Server=.;Database=malai_prod;Integrated Security=True;";
+                SqlConnection connection = new SqlConnection(connectionStringTest);
                 connection.Open();
                 return connection;
             }
