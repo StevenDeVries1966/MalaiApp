@@ -18,7 +18,7 @@ using DataLayer.Classes;
 
 
 DateTime start = DateTime.Now;
-MalaiContext conMan = new MalaiContext("malaidevelopment.database.windows.net", @"malai_dev", "write_malai", "tZRj.3-t$EB)8jF", true);
+MalaiContext conMan = new MalaiContext("Server=.;Database=malai_prod;Integrated Security=True;", true);
 //MalaiContext conMan = new MalaiContext("127.0.0.1", @"Malai_test", "root", "wqEQW5Ag/&6%JT+");
 //conMan.GetAllWorkedHours();
 var test = conMan.lstJobs;

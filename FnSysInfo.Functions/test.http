@@ -1,0 +1,2 @@
+### Get by Username (can be found)
+GET  http://localhost:7126/api/DomainUsers_GetAllByCountryAbbreviation?countryAbbreviation=GB

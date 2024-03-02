@@ -27,6 +27,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MalaiReport", "MalaiReport\
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{6069265E-F7B9-45D6-9A2D-E0A822E25AD3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Malai.Functions", "Malai.Functions\Malai.Functions.csproj", "{81039405-D9ED-4E54-A382-9B24241EE101}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FnSysInfo.Functions", "FnSysInfo.Functions\FnSysInfo.Functions.csproj", "{CFED5861-3CB2-426D-8370-7B331421C7A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,14 @@ Global
 		{6069265E-F7B9-45D6-9A2D-E0A822E25AD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6069265E-F7B9-45D6-9A2D-E0A822E25AD3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6069265E-F7B9-45D6-9A2D-E0A822E25AD3}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{81039405-D9ED-4E54-A382-9B24241EE101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81039405-D9ED-4E54-A382-9B24241EE101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81039405-D9ED-4E54-A382-9B24241EE101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81039405-D9ED-4E54-A382-9B24241EE101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFED5861-3CB2-426D-8370-7B331421C7A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFED5861-3CB2-426D-8370-7B331421C7A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFED5861-3CB2-426D-8370-7B331421C7A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFED5861-3CB2-426D-8370-7B331421C7A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

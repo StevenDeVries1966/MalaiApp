@@ -13,9 +13,21 @@ namespace DataLayer.Classes
         public List<DtoWorkedHours> lstWorkedHours { get; set; }
         public List<DtoWorkedHours> lst { get; set; }
 
-        public MalaiContext(string server, string database, string username, string password, bool allData = false)
+        //public MalaiContext(string server, string database, string username, string password, bool allData = false)
+        //{
+        //    ConManager = new ConnectionManager(server, database, username, password);
+        //    string message = "";
+        //    if (allData)
+        //    {
+        //        lstClients = GetRecords<DtoClient>("GetAllClients", out message);
+        //        lstJobs = GetRecords<DtoJob>("GetAllJobs", out message);
+        //        lstEmployee = GetRecords<DtoEmployee>("GetAllEmployees", out message);
+        //        lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
+        //    }
+        //}
+        public MalaiContext(string connectionstring, bool allData = false)
         {
-            ConManager = new ConnectionManager(server, database, username, password);
+            ConManager = new ConnectionManager(connectionstring);
             string message = "";
             if (allData)
             {

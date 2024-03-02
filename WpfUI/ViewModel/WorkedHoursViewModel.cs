@@ -38,6 +38,8 @@ namespace WpfUI.ViewModel
                 _selectedWorkedHours = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(IsWorkedHoursSelected));
+                RaisePropertyChanged(nameof(SelectedEmployee));
+                RaisePropertyChanged(nameof(SelectedEmployeeId));
                 DeleteCommand.RaiseCanExecuteChanged();
             }
         }
@@ -52,7 +54,15 @@ namespace WpfUI.ViewModel
         }
         public int? SelectedEmployeeId
         {
-            get => 2;
+            get
+            {
+
+                if (_selectedWorkedHours != null)
+                {
+                    return _selectedWorkedHours.emp_id; ;
+                }
+                return -1;
+            }
             set
             {
                 _selectedEmployeeId = ((int)value)!;
@@ -78,7 +88,7 @@ namespace WpfUI.ViewModel
                 {
                     Employees.Add(new EmployeeItemViewModel(emp));
                 }
-                SelectedEmployee = Employees.FirstOrDefault(o => o.first_name.Equals("Steven"));
+                //SelectedEmployee = Employees.FirstOrDefault(o => o.first_name.Equals("Steven"));
             }
         }
         private void Add(object? parameter)
@@ -90,7 +100,7 @@ namespace WpfUI.ViewModel
             DateTime startDateTime = currentDate.Add(startTime);
             var wh = new DtoWorkedHours
             {
-                emp_id = Globals.Employee_Current.emp_id,
+                emp_id = Globals.Employee_Current!.emp_id,
                 emp_code = Globals.Employee_Current.emp_code,
                 start_time = startDateTime,
                 end_time = DateTime.Now,

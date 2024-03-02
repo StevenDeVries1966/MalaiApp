@@ -19,7 +19,15 @@ namespace WpfUI.ViewModel
             {
                 _model.emp_code = value;
                 RaisePropertyChanged();
-
+                if (string.IsNullOrEmpty(_model.emp_code))
+                {
+                    AddError("required");
+                }
+                else
+                {
+                    ClearError();
+                }
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
         public int emp_id
@@ -29,7 +37,15 @@ namespace WpfUI.ViewModel
             {
                 _model.emp_id = value;
                 RaisePropertyChanged();
-
+                if (_model.emp_id <= 0)
+                {
+                    AddError("required");
+                }
+                else
+                {
+                    ClearError();
+                }
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
         public string? clt_code
@@ -47,6 +63,43 @@ namespace WpfUI.ViewModel
                 {
                     ClearError();
                 }
+                RaisePropertyChanged(nameof(IsValid));
+            }
+        }
+        public string? job_name
+        {
+            get => _model.job_name;
+            set
+            {
+                _model.job_name = value;
+                RaisePropertyChanged();
+                if (string.IsNullOrEmpty(_model.job_name))
+                {
+                    AddError("Job name is required");
+                }
+                else
+                {
+                    ClearError();
+                }
+                RaisePropertyChanged(nameof(IsValid));
+            }
+        }
+        public int job_id
+        {
+            get => _model.job_id;
+            set
+            {
+                _model.job_id = value;
+                RaisePropertyChanged();
+                if (_model.job_id <= 0)
+                {
+                    AddError("job id is required");
+                }
+                else
+                {
+                    ClearError();
+                }
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
         public DateTime start_time
@@ -56,6 +109,15 @@ namespace WpfUI.ViewModel
             {
                 _model.start_time = value;
                 RaisePropertyChanged();
+                if (_model.start_time == null)
+                {
+                    AddError("required");
+                }
+                else
+                {
+                    ClearError();
+                }
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
         public DateTime end_time
@@ -65,6 +127,15 @@ namespace WpfUI.ViewModel
             {
                 _model.end_time = value;
                 RaisePropertyChanged();
+                if (_model.start_time == null)
+                {
+                    AddError("required");
+                }
+                else
+                {
+                    ClearError();
+                }
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
         public int week
@@ -74,6 +145,15 @@ namespace WpfUI.ViewModel
             {
                 _model.week = value;
                 RaisePropertyChanged();
+                if (_model.week <= 0)
+                {
+                    AddError("required");
+                }
+                else
+                {
+                    ClearError();
+                }
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
         public int month
@@ -83,6 +163,15 @@ namespace WpfUI.ViewModel
             {
                 _model.month = value;
                 RaisePropertyChanged();
+                if (_model.month <= 0)
+                {
+                    AddError("required");
+                }
+                else
+                {
+                    ClearError();
+                }
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
         public int year
@@ -92,6 +181,14 @@ namespace WpfUI.ViewModel
             {
                 _model.year = value;
                 RaisePropertyChanged();
+                if (_model.year <= 0)
+                {
+                    AddError("required");
+                }
+                else
+                {
+                    ClearError();
+                }
             }
         }
         public string hours_worked_display
@@ -109,6 +206,51 @@ namespace WpfUI.ViewModel
             set
             {
                 _model.notes = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public virtual DtoClient? Functie
+        {
+            get => _model.Client;
+            set
+            {
+                _model.Client = value;
+
+                RaisePropertyChanged();
+                if (_model.Client == null)
+                {
+                    AddError("required");
+                }
+                else
+                {
+                    ClearError();
+                }
+                RaisePropertyChanged(nameof(job_id));
+                RaisePropertyChanged(nameof(IsValid));
+            }
+        }
+
+        public string date_worked_total_displaystring
+        {
+            get => $"{start_time.ToString("yyyy-MM-dd")}";
+        }
+        public string hours_worked_total_displaystring
+        {
+            get => $"from {start_time.ToString("HH:mm")} to {end_time.ToString("HH:mm")} ({hours_worked_display})";
+        }
+        public bool IsValid
+        {
+            get
+            {
+                //Validate();
+                string test = (!HasErrors).ToString();
+                //MessageBox.Show(test);
+                return !HasErrors;
+            }
+            set
+            {
+                IsValid = value;
                 RaisePropertyChanged();
             }
         }

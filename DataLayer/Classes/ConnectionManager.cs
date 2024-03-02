@@ -4,15 +4,19 @@ namespace DataLayer.Classes
 {
     public class ConnectionManager
     {
-        private readonly string connectionString;
+        private readonly string _connectionString;
 
         public ConnectionManager(string server, string database, string username, string password)
         {
             // Build the connection string
-            connectionString = $"Server={server};Database={database};User ID={username};Password={password};";
+            _connectionString = $"Server={server};Database={database};User ID={username};Password={password};";
         }
-
-        public SqlConnection GetConnection()
+        public ConnectionManager(string connectionString)
+        {
+            // Build the connection string
+            _connectionString = connectionString;
+        }
+        public SqlConnection? GetConnection()
         {
             try
             {
@@ -24,8 +28,8 @@ namespace DataLayer.Classes
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-                return null;
             }
+            return null;
         }
 
         public void CloseConnection(SqlConnection connection)

@@ -30,9 +30,9 @@
         <ComboBox Margin="2" Grid.Column="1" Grid.Row="10" 
                ItemsSource="{Binding Path=Employees, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                DisplayMemberPath="display_name" 
-               SelectedValuePath="emp_id"
-               SelectedItem="{Binding SelectedEmployee}">
-
+               SelectedValuePath="emp_id"             
+               SelectedItem="{Binding SelectedWorkedHours.Employee}"
+               SelectedIndex="{Binding SelectedEmployeeId}">
         </ComboBox>
         <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" FontWeight="Bold">clt_code</Label>
         <StackPanel Margin="2" Grid.Column="1" Grid.Row="2">

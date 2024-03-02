@@ -24,6 +24,7 @@ namespace DataLayer.Classes
         public string clt_code { get; set; }
         public string clt_job_code { get; set; }
         public string job_name { get; set; }
+        public int job_id { get; set; }
         public int week { get; set; }
         public int month { get; set; }
         public int year { get; set; }
@@ -63,5 +64,11 @@ namespace DataLayer.Classes
             }
             set => hours_worked_display = value;
         }
+
+        public virtual DtoEmployee? Employee { get; set; }
+
+        public virtual DtoClient? Client { get; set; }
+
+        public virtual DtoJob? Job { get; set; }
     }
 }

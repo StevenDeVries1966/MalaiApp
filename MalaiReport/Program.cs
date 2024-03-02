@@ -15,7 +15,7 @@ CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 Globals.ReportPath = Path.Combine(Globals.ReportPath, DateTime.Now.ToString("yyyyMMdd_HHmm"));
 if (!Directory.Exists(Globals.ReportPath)) Directory.CreateDirectory(Globals.ReportPath);
-Globals.ConMan = new MalaiContext(Globals.Server, Globals.DataBase, Globals.UserName, Globals.PassWord);
+Globals.ConMan = new MalaiContext("Server=.;Database=malai_prod;Integrated Security=True;");
 Globals.ConMan.GetAllEmployees();
 Globals.ConMan.GetAllJobs();
 //Globals.EmployeeCurrent = Globals.ConMan.lstEmployee.FirstOrDefault(o => o.login.Equals(Environment.UserName, StringComparison.CurrentCultureIgnoreCase));

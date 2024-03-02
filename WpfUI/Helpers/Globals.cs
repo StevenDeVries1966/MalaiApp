@@ -7,6 +7,7 @@ namespace WpfUI.Helpers
 {
     internal static class Globals
     {
+        private static string? _connectionString;
         private static string? _server;
         private static string _database;
         private static string _username;
@@ -22,7 +23,17 @@ namespace WpfUI.Helpers
                 return $"{assembly.GetName().Name} - v{assembly.GetName()?.Version?.Build}.{assembly.GetName()?.Version?.Major}.{assembly.GetName()?.Version?.Minor}";
             }
         }
-
+        public static string ConnectionString
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_connectionString))
+                {
+                    _connectionString = GetConfigValue("connectionstring");
+                }
+                return _connectionString;
+            }
+        }
         public static string Server
         {
             get
