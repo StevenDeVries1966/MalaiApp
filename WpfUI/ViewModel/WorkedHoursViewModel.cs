@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using WpfUI.Command;
 using WpfUI.Data;
 using WpfUI.Helpers;
@@ -74,24 +75,44 @@ namespace WpfUI.ViewModel
 
         public async override Task LoadAsync()
         {
-            if (WorkedHours.Any())
+            try
             {
-                return;
+
+                Mouse.OverrideCursor = Cursors.Wait;
+                //StatusText = "Loading.....";
+
+                if (WorkedHours.Any())
+                {
+                    return;
+                }
+
+                Ctx = await _malaiDataProvider.GetDataContextAsync();
+                if (Ctx != null)
+                {
+                    foreach (DtoWorkedHours wh in Ctx.lstWorkedHours)
+                    {
+                        WorkedHours.Add(new WorkedHoursItemViewModel(wh));
+                    }
+                    foreach (DtoEmployee emp in Ctx.lstEmployee)
+                    {
+                        Employees.Add(emp);
+                    }
+                    //SelectedEmployee = Employees.FirstOrDefault(o => o.first_name.Equals("Steven"));
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+                //StatusText = "";
             }
 
-            Ctx = await _malaiDataProvider.GetDataContextAsync();
-            if (Ctx != null)
-            {
-                foreach (DtoWorkedHours wh in Ctx.lstWorkedHours)
-                {
-                    WorkedHours.Add(new WorkedHoursItemViewModel(wh));
-                }
-                foreach (DtoEmployee emp in Ctx.lstEmployee)
-                {
-                    Employees.Add(emp);
-                }
-                //SelectedEmployee = Employees.FirstOrDefault(o => o.first_name.Equals("Steven"));
-            }
+
         }
         private void Add(object? parameter)
         {
