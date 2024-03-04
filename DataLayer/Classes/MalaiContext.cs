@@ -34,7 +34,8 @@ namespace DataLayer.Classes
                 lstClients = GetRecords<DtoClient>("GetAllClients", out message);
                 lstJobs = GetRecords<DtoJob>("GetAllJobs", out message);
                 lstEmployee = GetRecords<DtoEmployee>("GetAllEmployees", out message);
-                lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
+                //lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
+                GetAllWorkedHours();
             }
         }
         public string GetAllClients()
@@ -59,6 +60,12 @@ namespace DataLayer.Classes
         {
             string message = "";
             lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
+            foreach (var wh in lstWorkedHours)
+            {
+                wh.Client = lstClients.Where(o => o.clt_code == wh.clt_code).FirstOrDefault();
+                wh.Job = lstJobs.Where(o => o.job_id == wh.job_id).FirstOrDefault();
+                wh.Employee = lstEmployee.Where(o => o.emp_id == wh.emp_id).FirstOrDefault();
+            }
             return message;
         }
         public static List<T> MapToList<T>(IDataReader reader) where T : new()

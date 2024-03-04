@@ -210,7 +210,7 @@ namespace WpfUI.ViewModel
             }
         }
 
-        public virtual DtoClient? Functie
+        public virtual DtoClient? Client
         {
             get => _model.Client;
             set
@@ -226,7 +226,49 @@ namespace WpfUI.ViewModel
                 {
                     ClearError();
                 }
+                RaisePropertyChanged(nameof(clt_code));
+                RaisePropertyChanged(nameof(IsValid));
+            }
+        }
+        public virtual DtoJob? Job
+        {
+            get => _model.Job;
+            set
+            {
+                _model.Job = value;
+
+                RaisePropertyChanged();
+                if (_model.Client == null)
+                {
+                    AddError("required");
+                }
+                else
+                {
+                    ClearError();
+                }
                 RaisePropertyChanged(nameof(job_id));
+                RaisePropertyChanged(nameof(IsValid));
+            }
+        }
+        public virtual DtoEmployee? Employee
+        {
+            get => _model.Employee;
+            set
+            {
+                _model.Employee = value;
+                emp_id = _model.Employee.emp_id;
+                emp_code = _model.Employee.emp_code;
+                RaisePropertyChanged();
+                if (_model.Client == null)
+                {
+                    AddError("required");
+                }
+                else
+                {
+                    ClearError();
+                }
+                RaisePropertyChanged(nameof(emp_id));
+                RaisePropertyChanged(nameof(emp_code));
                 RaisePropertyChanged(nameof(IsValid));
             }
         }

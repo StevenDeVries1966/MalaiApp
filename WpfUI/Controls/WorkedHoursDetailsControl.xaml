@@ -27,13 +27,13 @@
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" FontWeight="Bold">emp_code</Label>
         <TextBox Margin="2" Grid.Column="1" Grid.Row="1" Text="{Binding SelectedWorkedHours.emp_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <ComboBox Margin="2" Grid.Column="1" Grid.Row="10" 
-               ItemsSource="{Binding Path=Employees, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-               DisplayMemberPath="display_name" 
-               SelectedValuePath="emp_id"             
+        <ComboBox Grid.Column="1" Grid.Row="10" 
                SelectedItem="{Binding SelectedWorkedHours.Employee}"
-               SelectedIndex="{Binding SelectedEmployeeId}">
-        </ComboBox>
+               SelectedIndex= "{Binding SelectedEmployeeId}"
+               SelectedValue="emp_code"
+               ItemsSource="{Binding Employees,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               DisplayMemberPath="display_name"
+               Margin="2"/>
         <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" FontWeight="Bold">clt_code</Label>
         <StackPanel Margin="2" Grid.Column="1" Grid.Row="2">
             <TextBox  Text="{Binding SelectedWorkedHours.clt_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

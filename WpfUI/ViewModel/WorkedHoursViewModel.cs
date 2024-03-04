@@ -26,8 +26,8 @@ namespace WpfUI.ViewModel
         }
 
         public MalaiContext? Ctx { get; set; }
-        public ObservableCollection<WorkedHoursItemViewModel> WorkedHours { get; } = new();
-        public ObservableCollection<EmployeeItemViewModel> Employees { get; } = new();
+        public ObservableCollection<WorkedHoursItemViewModel> WorkedHours { get; set; } = new();
+        public ObservableCollection<DtoEmployee> Employees { get; set; } = new();
         public DelegateCommand AddCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public WorkedHoursItemViewModel? SelectedWorkedHours
@@ -38,7 +38,6 @@ namespace WpfUI.ViewModel
                 _selectedWorkedHours = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(IsWorkedHoursSelected));
-                RaisePropertyChanged(nameof(SelectedEmployee));
                 RaisePropertyChanged(nameof(SelectedEmployeeId));
                 DeleteCommand.RaiseCanExecuteChanged();
             }
@@ -52,21 +51,24 @@ namespace WpfUI.ViewModel
                 RaisePropertyChanged();
             }
         }
-        public int? SelectedEmployeeId
+
+        public int SelectedEmployeeId
         {
             get
             {
-
-                if (_selectedWorkedHours != null)
+                if (_selectedWorkedHours != null && _selectedWorkedHours.Employee != null)
                 {
-                    return _selectedWorkedHours.emp_id; ;
+                    if (Employees != null)
+                    {
+                        DtoEmployee employee = Employees.FirstOrDefault(o => o.emp_id == _selectedWorkedHours.Employee.emp_id);
+                        return Employees.IndexOf(employee);
+                    }
                 }
                 return -1;
             }
             set
             {
-                _selectedEmployeeId = ((int)value)!;
-                RaisePropertyChanged();
+                _selectedEmployeeId = value;
             }
         }
 
@@ -86,7 +88,7 @@ namespace WpfUI.ViewModel
                 }
                 foreach (DtoEmployee emp in Ctx.lstEmployee)
                 {
-                    Employees.Add(new EmployeeItemViewModel(emp));
+                    Employees.Add(emp);
                 }
                 //SelectedEmployee = Employees.FirstOrDefault(o => o.first_name.Equals("Steven"));
             }

@@ -1,3 +1,1 @@
-Scaffold-DbContext "Data Source=SQLVSRV01;Initial Catalog=SYSINFO;Persist Security Info=True;TrustServerCertificate=true;User ID=view_domainusers;Password=12Februari2024" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Model -DataAnnotations -f 
-Scaffold-DbContext "Data Source=.;Initial Catalog=malai_prod_;Persist Security Info=True;TrustServerCertificate=true;User ID=admin_malai_;Password=Au6E*3c%?_mXQq+" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Model -DataAnnotations -f 
-Scaffold-DbContext "Data Source=.;Initial Catalog=malai_prod;Integrated Security=True Microsoft.EntityFrameworkCore.SqlServer -OutputDir Model -DataAnnotations -f
+Scaffold-DbContext "Data Source=.;Initial Catalog=malai_prod_;Persist Security Info=True;TrustServerCertificate=true;User ID=admin_malai;Password=Au6E*3c%?_mXQq+" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Model -DataAnnotations -f 
