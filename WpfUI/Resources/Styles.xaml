@@ -5,7 +5,7 @@
     </Style>
     <Style TargetType="TextBox">
         <Setter Property="Background" Value="{StaticResource ColorMalaiOrange}" />
-        <Setter Property="Foreground" Value="White" />
+        <!--<Setter Property="Foreground" Value="White" />-->
         <Setter Property="Padding" Value="5" />
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
@@ -21,9 +21,9 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="IsFocused" Value="True">
+            <!--<Trigger Property="IsFocused" Value="True">
                 <Setter Property="Background" Value="#FFB300"/>
-            </Trigger>
+            </Trigger>-->
             <Trigger  Property="Validation.HasError" Value="True">
                 <Setter Property="Background" Value="red"/>
                 <Setter Property="Margin" Value="0 0 0 15"/>
@@ -33,8 +33,8 @@
         </Style.Triggers>
     </Style>
     <Style TargetType="ComboBox">
-        <Setter Property="Background" Value="{StaticResource ColorMalaiOrange}" />
-        <Setter Property="Foreground" Value="blue" />
+        <!--<Setter Property="Background" Value="{StaticResource ColorMalaiOrange}" />
+        <Setter Property="Foreground" Value="blue" />-->
         <Setter Property="Padding" Value="5" />
         <Style.Triggers>
             <Trigger Property="IsFocused" Value="True">
@@ -44,7 +44,7 @@
     </Style>
     <Style TargetType="ComboBoxItem">
         <Setter Property="Background" Value="{StaticResource ColorMalaiOrange}" />
-        <Setter Property="Foreground" Value="white" />
+        <!--<Setter Property="Foreground" Value="white" />-->
         <Setter Property="Padding" Value="5" />
         <Style.Triggers>
             <Trigger Property="IsMouseDirectlyOver" Value="True">

@@ -14,6 +14,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"></ColumnDefinition>
@@ -101,5 +102,13 @@
             <TabItem Header="Jobs">
             </TabItem>
         </TabControl>
+        <TextBlock   Grid.Column="0" Grid.Row="2"  Text="{Binding Path=StatusText, 
+              UpdateSourceTrigger=PropertyChanged, 
+              Mode=OneWay}"
+             DockPanel.Dock="Bottom"
+             VerticalAlignment="Bottom" 
+             MinHeight="20"
+             FontWeight="Bold"
+             Margin="5 1 1 1"></TextBlock>
     </Grid>
   </UserControl>

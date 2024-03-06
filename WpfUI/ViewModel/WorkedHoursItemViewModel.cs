@@ -1,5 +1,9 @@
 ﻿using DataLayer.Classes;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace WpfUI.ViewModel
 {
@@ -63,8 +67,31 @@ namespace WpfUI.ViewModel
                 {
                     ClearError();
                 }
+                _ = LoadClientJobsAsync();
+                RaisePropertyChanged(nameof(Client));
                 RaisePropertyChanged(nameof(IsValid));
             }
+        }
+        private async Task LoadClientJobsAsync()
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                GlobalsViewModel.JobsClients.Clear();
+                foreach (var item in GlobalsViewModel.JobsAll.Where(o => o.clt_code == clt_code).ToList())
+                {
+                    GlobalsViewModel.JobsClients.Add(item);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"LoadClientJobsAsync failed :{e.Message}");
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+
         }
         public string? job_name
         {
@@ -216,6 +243,7 @@ namespace WpfUI.ViewModel
             set
             {
                 _model.Client = value;
+                clt_code = _model.Client.clt_code;
 
                 RaisePropertyChanged();
                 if (_model.Client == null)
@@ -236,6 +264,9 @@ namespace WpfUI.ViewModel
             set
             {
                 _model.Job = value;
+                if (_model.Job == null) return;
+                job_id = _model.Job.job_id;
+                job_name = _model.Job.job_name;
 
                 RaisePropertyChanged();
                 if (_model.Client == null)
@@ -247,6 +278,7 @@ namespace WpfUI.ViewModel
                     ClearError();
                 }
                 RaisePropertyChanged(nameof(job_id));
+                RaisePropertyChanged(nameof(job_name));
                 RaisePropertyChanged(nameof(IsValid));
             }
         }

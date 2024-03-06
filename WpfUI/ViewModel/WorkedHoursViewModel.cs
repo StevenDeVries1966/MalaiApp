@@ -16,6 +16,8 @@ namespace WpfUI.ViewModel
         private WorkedHoursItemViewModel? _selectedWorkedHours;
         private EmployeeItemViewModel? _selectedEmployee;
         private int? _selectedEmployeeId;
+        private int? _selectedClientId;
+        private int? _selectedJobId;
 
         public bool IsWorkedHoursSelected => SelectedWorkedHours is not null;
 
@@ -29,6 +31,7 @@ namespace WpfUI.ViewModel
         public MalaiContext? Ctx { get; set; }
         public ObservableCollection<WorkedHoursItemViewModel> WorkedHours { get; set; } = new();
         public ObservableCollection<DtoEmployee> Employees { get; set; } = new();
+        public ObservableCollection<DtoClient> Clients { get; set; } = new();
         public DelegateCommand AddCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public WorkedHoursItemViewModel? SelectedWorkedHours
@@ -40,6 +43,7 @@ namespace WpfUI.ViewModel
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(IsWorkedHoursSelected));
                 RaisePropertyChanged(nameof(SelectedEmployeeId));
+                RaisePropertyChanged(nameof(SelectedJobId));
                 DeleteCommand.RaiseCanExecuteChanged();
             }
         }
@@ -73,13 +77,66 @@ namespace WpfUI.ViewModel
             }
         }
 
+        public int SelectedClientId
+        {
+            get
+            {
+                if (_selectedWorkedHours != null && _selectedWorkedHours.Client != null)
+                {
+                    if (Clients != null)
+                    {
+                        DtoClient client = Clients.FirstOrDefault(o => o.clt_code == _selectedWorkedHours.Client.clt_code);
+                        SelectedWorkedHours.Client = client;
+                        SelectedClientId = Clients.IndexOf(client);
+
+
+                        RaisePropertyChanged(nameof(GlobalsViewModel.JobsClients));
+                        RaisePropertyChanged(nameof(SelectedJobId));
+                        return Clients.IndexOf(client);
+                    }
+                }
+                return -1;
+            }
+            set
+            {
+                _selectedClientId = value;
+            }
+        }
+
+
+        public int SelectedJobId
+        {
+            get
+            {
+                if (_selectedWorkedHours != null && _selectedWorkedHours.Job != null)
+                {
+                    DtoJob job = GlobalsViewModel.JobsClients.FirstOrDefault(o => o.clt_code == _selectedWorkedHours.Client.clt_code);
+                    return GlobalsViewModel.JobsClients.IndexOf(job);
+                }
+                return -1;
+            }
+            set
+            {
+                _selectedJobId = value;
+            }
+        }
+        private string statusText;
+        public string StatusText
+        {
+            get => statusText;
+            set
+            {
+                statusText = value;
+                RaisePropertyChanged();
+            }
+        }
         public async override Task LoadAsync()
         {
             try
             {
 
                 Mouse.OverrideCursor = Cursors.Wait;
-                //StatusText = "Loading.....";
+                StatusText = "Loading.....";
 
                 if (WorkedHours.Any())
                 {
@@ -89,15 +146,27 @@ namespace WpfUI.ViewModel
                 Ctx = await _malaiDataProvider.GetDataContextAsync();
                 if (Ctx != null)
                 {
+                    WorkedHours.Clear();
                     foreach (DtoWorkedHours wh in Ctx.lstWorkedHours)
                     {
                         WorkedHours.Add(new WorkedHoursItemViewModel(wh));
                     }
+                    Employees.Clear();
                     foreach (DtoEmployee emp in Ctx.lstEmployee)
                     {
                         Employees.Add(emp);
                     }
-                    //SelectedEmployee = Employees.FirstOrDefault(o => o.first_name.Equals("Steven"));
+                    Clients.Clear();
+                    foreach (DtoClient clt in Ctx.lstClients)
+                    {
+                        Clients.Add(clt);
+                    }
+
+                    GlobalsViewModel.JobsAll.Clear();
+                    foreach (DtoJob job in Ctx.lstJobs)
+                    {
+                        GlobalsViewModel.JobsAll.Add(job);
+                    }
                 }
 
             }
@@ -109,7 +178,7 @@ namespace WpfUI.ViewModel
             finally
             {
                 Mouse.OverrideCursor = null;
-                //StatusText = "";
+                StatusText = "";
             }
 
 
