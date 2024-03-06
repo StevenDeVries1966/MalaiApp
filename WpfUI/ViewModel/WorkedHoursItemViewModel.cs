@@ -69,6 +69,7 @@ namespace WpfUI.ViewModel
                 }
                 _ = LoadClientJobsAsync();
                 RaisePropertyChanged(nameof(Client));
+                RaisePropertyChanged(nameof(Job));
                 RaisePropertyChanged(nameof(IsValid));
             }
         }
@@ -82,6 +83,7 @@ namespace WpfUI.ViewModel
                 {
                     GlobalsViewModel.JobsClients.Add(item);
                 }
+                GlobalsViewModel.SelectedJobId = 0;
             }
             catch (Exception e)
             {

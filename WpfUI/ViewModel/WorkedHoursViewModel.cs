@@ -17,7 +17,7 @@ namespace WpfUI.ViewModel
         private EmployeeItemViewModel? _selectedEmployee;
         private int? _selectedEmployeeId;
         private int? _selectedClientId;
-        private int? _selectedJobId;
+        //private int? _selectedJobId;
 
         public bool IsWorkedHoursSelected => SelectedWorkedHours is not null;
 
@@ -32,6 +32,24 @@ namespace WpfUI.ViewModel
         public ObservableCollection<WorkedHoursItemViewModel> WorkedHours { get; set; } = new();
         public ObservableCollection<DtoEmployee> Employees { get; set; } = new();
         public ObservableCollection<DtoClient> Clients { get; set; } = new();
+
+        public ObservableCollection<DtoJob> JobsAll
+        {
+            get => GlobalsViewModel.JobsAll;
+            set
+            {
+                GlobalsViewModel.JobsAll = value;
+            }
+        }
+        public ObservableCollection<DtoJob> JobsClients
+        {
+            get => GlobalsViewModel.JobsClients;
+            set
+            {
+                GlobalsViewModel.JobsClients = value;
+            }
+        }
+
         public DelegateCommand AddCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public WorkedHoursItemViewModel? SelectedWorkedHours
@@ -111,13 +129,20 @@ namespace WpfUI.ViewModel
                 if (_selectedWorkedHours != null && _selectedWorkedHours.Job != null)
                 {
                     DtoJob job = GlobalsViewModel.JobsClients.FirstOrDefault(o => o.clt_code == _selectedWorkedHours.Client.clt_code);
-                    return GlobalsViewModel.JobsClients.IndexOf(job);
+                    GlobalsViewModel.SelectedJobId = GlobalsViewModel.JobsClients.IndexOf(job);
+                    return GlobalsViewModel.SelectedJobId;
                 }
-                return -1;
+                else
+                {
+                    GlobalsViewModel.SelectedJobId = -1;
+                    return GlobalsViewModel.SelectedJobId;
+                }
+
+                return GlobalsViewModel.SelectedJobId;
             }
             set
             {
-                _selectedJobId = value;
+                GlobalsViewModel.SelectedJobId = value;
             }
         }
         private string statusText;
