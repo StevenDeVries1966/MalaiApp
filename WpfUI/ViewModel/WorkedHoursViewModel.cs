@@ -59,6 +59,14 @@ namespace WpfUI.ViewModel
                 GlobalsViewModel.JobsClients = value;
             }
         }
+        public ObservableCollection<int> TestObservCol
+        {
+            get => GlobalsViewModel.TestObservCol;
+            set
+            {
+                GlobalsViewModel.TestObservCol = value;
+            }
+        }
 
         public DelegateCommand AddCommand { get; }
         public DelegateCommand DeleteCommand { get; }

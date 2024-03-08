@@ -92,7 +92,12 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid Grid.Column="1" Grid.Row="1">
-                        <controls:WorkedHoursDetailsControl/>
+                        <StackPanel Orientation="Vertical">
+                            <controls:WorkedHoursDetailsControl/>
+                            <ComboBox Grid.Column="1" Grid.Row="12" 
+                                      ItemsSource="{Binding TestObservCol,Mode=OneWay}"
+                                      Margin="2"/>
+                        </StackPanel>
                     </Grid>
                  </Grid>
 
