@@ -59,7 +59,9 @@ namespace DataLayer.Classes
         public string GetAllWorkedHours()
         {
             string message = "";
-            lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
+            //lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
+            lstWorkedHours = GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", 1, 2024, "", out _)!;
+
             foreach (var wh in lstWorkedHours)
             {
                 wh.Client = lstClients.Where(o => o.clt_code == wh.clt_code).FirstOrDefault();
