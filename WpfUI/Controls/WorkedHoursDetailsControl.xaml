@@ -26,7 +26,7 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" FontWeight="Bold">emp_code</Label>
+        <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" FontWeight="Bold">Employee</Label>
         <!--<TextBox Margin="2" Grid.Column="1" Grid.Row="1" Text="{Binding SelectedWorkedHours.emp_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
         <ComboBox Grid.Column="1" Grid.Row="1" 
                SelectedItem="{Binding SelectedWorkedHours.Employee}"
@@ -35,28 +35,27 @@
                ItemsSource="{Binding Employees,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                DisplayMemberPath="display_name"
                Margin="2"/>
-        <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" FontWeight="Bold">clt_code</Label>
+        <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" FontWeight="Bold">Client</Label>
         <!--<StackPanel Margin="2" Grid.Column="1" Grid.Row="2">
             <TextBox  Text="{Binding SelectedWorkedHours.clt_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>-->
         <ComboBox Grid.Column="1" Grid.Row="2" 
-           x:Name="comboBox_Clients"
+           x:Name="ComboBoxClients"
            SelectedItem="{Binding SelectedWorkedHours.Client}"
            SelectedIndex= "{Binding SelectedClientId}"
            SelectedValue="clt_code"
            ItemsSource="{Binding Clients,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
            DisplayMemberPath="clt_code"
            Margin="2"/>
-        <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" FontWeight="Bold">job_code</Label>
+        <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" FontWeight="Bold">Job</Label>
         <!--<StackPanel Margin="2" Grid.Column="1" Grid.Row="2">
            <TextBox  Text="{Binding SelectedWorkedHours.clt_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
        </StackPanel>-->
         <ComboBox Grid.Column="1" Grid.Row="3" 
-          x:Name="comboBox_Jobs"
+          x:Name="ComboBoxJobs"
           SelectedItem="{Binding SelectedWorkedHours.Job}"
-          SelectedIndex= "{Binding SelectedJobId}"
-          SelectedValue="job_name"
           ItemsSource="{Binding JobsClients,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          SelectedValue="job_name"
           DisplayMemberPath="job_name"
           Margin="2"/>
         <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" FontWeight="Bold">notes</Label>

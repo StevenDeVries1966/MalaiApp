@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Specialized;
+using System.Windows.Controls;
+using WpfUI.ViewModel;
 
 namespace WpfUI.Controls
 {
@@ -10,6 +12,11 @@ namespace WpfUI.Controls
         public WorkedHoursDetailsControl()
         {
             InitializeComponent();
+            GlobalsViewModel.Clients.CollectionChanged += Data_CollectionChanged;
+        }
+        private void Data_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            ComboBoxJobs.SelectedIndex = 0;
         }
 
     }

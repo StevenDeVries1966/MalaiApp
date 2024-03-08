@@ -31,7 +31,17 @@ namespace WpfUI.ViewModel
         public MalaiContext? Ctx { get; set; }
         public ObservableCollection<WorkedHoursItemViewModel> WorkedHours { get; set; } = new();
         public ObservableCollection<DtoEmployee> Employees { get; set; } = new();
-        public ObservableCollection<DtoClient> Clients { get; set; } = new();
+        public ObservableCollection<DtoClient> Clients
+        {
+            get
+            {
+                return GlobalsViewModel.Clients;
+            }
+            set
+            {
+                GlobalsViewModel.Clients = value;
+            }
+        }
 
         public ObservableCollection<DtoJob> JobsAll
         {
@@ -109,6 +119,7 @@ namespace WpfUI.ViewModel
 
 
                         RaisePropertyChanged(nameof(GlobalsViewModel.JobsClients));
+                        RaisePropertyChanged(nameof(SelectedJobId));
                         RaisePropertyChanged(nameof(SelectedJobId));
                         return Clients.IndexOf(client);
                     }
