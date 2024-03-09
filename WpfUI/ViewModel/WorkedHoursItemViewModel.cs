@@ -220,6 +220,18 @@ namespace WpfUI.ViewModel
                 }
             }
         }
+        public string date_display
+        {
+            get
+            {
+                return _model.date_display;
+            }
+            set
+            {
+                _model.date_display = value;
+                RaisePropertyChanged();
+            }
+        }
         public string hours_worked_display
         {
             get => _model.hours_worked_display;
@@ -309,7 +321,7 @@ namespace WpfUI.ViewModel
 
         public string date_worked_total_displaystring
         {
-            get => $"{start_time.ToString("yyyy-MM-dd")}";
+            get => $"{start_time.ToString("yyyy-MM-dd")} week({week})";
         }
         public string hours_worked_total_displaystring
         {

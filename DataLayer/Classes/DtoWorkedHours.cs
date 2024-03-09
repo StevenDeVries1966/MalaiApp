@@ -28,6 +28,7 @@ namespace DataLayer.Classes
         public int week { get; set; }
         public int month { get; set; }
         public int year { get; set; }
+
         public string notes { get; set; }
 
         public DateTime start_time { get; set; }
@@ -49,7 +50,19 @@ namespace DataLayer.Classes
             }
             set => hours_worked_display = value;
         }
-
+        public string date_display
+        {
+            get
+            {
+                string monthLoc = start_time.ToString("MM");
+                string dayLoc = start_time.ToString("dd");
+                return $"{year.ToString()}-{monthLoc}-{dayLoc}";
+            }
+            set
+            {
+                date_display = value;
+            }
+        }
         public double hours_worked { get; set; }
 
         public string hours_worked_display

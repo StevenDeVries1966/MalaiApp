@@ -59,21 +59,20 @@
           SelectedValue="job_name"
           DisplayMemberPath="job_name"
           Margin="2"/>
-        <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" FontWeight="Bold">notes</Label>
+        <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" FontWeight="Bold">Notes</Label>
         <TextBox Grid.Column="1" Grid.Row="4" Margin="2" Text="{Binding SelectedWorkedHours.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="true" TextWrapping="Wrap"/>
-        <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" FontWeight="Bold">week</Label>
-        <TextBox Grid.Column="1" Grid.Row="5" Margin="2" Text="{Binding SelectedWorkedHours.week, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-        <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" FontWeight="Bold">month</Label>
-        <TextBox Grid.Column="1" Grid.Row="6" Margin="2" Text="{Binding SelectedWorkedHours.month, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-        <Label Grid.Column="0" Grid.Row="7" HorizontalAlignment="Left" FontWeight="Bold">year</Label>
-        <TextBox  Grid.Column="1" Grid.Row="7" Margin="2" Text="{Binding SelectedWorkedHours.year, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-        <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Left" FontWeight="Bold">start_time</Label>
-        <TextBox Grid.Column="1" Grid.Row="8" Margin="2" Text="{Binding SelectedWorkedHours.start_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Grid.Column="0" Grid.Row="9" HorizontalAlignment="Left" FontWeight="Bold">end_time</Label>
-        <TextBox Grid.Column="1" Grid.Row="9" Margin="2" Text="{Binding SelectedWorkedHours.end_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Grid.Column="0" Grid.Row="10" HorizontalAlignment="Left" FontWeight="Bold">hours_worked</Label>
-        <TextBox Grid.Column="1" Grid.Row="10" Margin="2" Text="{Binding SelectedWorkedHours.hours_worked_display, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-        <StackPanel Grid.Column="1" Grid.Row="11"  Orientation="Horizontal">
+           <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" FontWeight="Bold">Date</Label>
+        <StackPanel Grid.Column="1" Grid.Row="5" Margin="2" Orientation="Horizontal">
+            <DatePicker x:Name="DatePicker" />
+            <TextBox  Text="{Binding SelectedWorkedHours.date_worked_total_displaystring, Mode=OneWay}" IsEnabled="True" HorizontalAlignment="Stretch" Width="300"/>
+        </StackPanel>
+        <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" FontWeight="Bold">start_time</Label>
+        <TextBox Grid.Column="1" Grid.Row="6" Margin="2" Text="{Binding SelectedWorkedHours.start_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Column="0" Grid.Row="7" HorizontalAlignment="Left" FontWeight="Bold">end_time</Label>
+        <TextBox Grid.Column="1" Grid.Row="7" Margin="2" Text="{Binding SelectedWorkedHours.end_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Left" FontWeight="Bold">hours_worked</Label>
+        <TextBox Grid.Column="1" Grid.Row="8" Margin="2" Text="{Binding SelectedWorkedHours.hours_worked_display, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+        <StackPanel Grid.Column="1" Grid.Row="9"  Orientation="Horizontal">
             <Button Margin="10" 
                     Width="40" 
                     Height="20" 

@@ -29,6 +29,27 @@
                          ScrollViewer.CanContentScroll="False" 
                          AutoGenerateColumns="False"
                          AlternationCount="2">
+                        <DataGrid.Resources>
+                            <!-- Style for DataGridRow -->
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#EA6834" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+
+                            <!-- Style for DataGridCell -->
+                            <Style TargetType="DataGridCell">
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#EA6834" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.Resources>
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
                                 <Style.Triggers>
@@ -88,15 +109,20 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
+                            <DataGridTextColumn Header="Notes" Binding="{Binding notes}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock" >
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="Margin" Value="2" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                             <!-- Other columns go here -->
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid Grid.Column="1" Grid.Row="1">
                         <StackPanel Orientation="Vertical">
                             <controls:WorkedHoursDetailsControl/>
-                            <ComboBox Grid.Column="1" Grid.Row="12" 
-                                      ItemsSource="{Binding TestObservCol,Mode=OneWay}"
-                                      Margin="2"/>
                         </StackPanel>
                     </Grid>
                  </Grid>

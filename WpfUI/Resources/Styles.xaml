@@ -3,8 +3,20 @@
     <Style TargetType="ToolTip">
         <Setter Property="FontSize" Value="14"/>
     </Style>
+    <Style x:Key="WithoutButtonPickerStyle" TargetType="{x:Type DatePicker}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DatePicker}">
+                    <Grid x:Name="PART_Root" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <DatePickerTextBox x:Name="PART_TextBox">Select date</DatePickerTextBox>
+                        <!--<Button x:Name="PART_Button" Visibility="Visible"/>-->
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style TargetType="TextBox">
-        <Setter Property="Background" Value="{StaticResource ColorMalaiOrange}" />
+        <!--<Setter Property="Background" Value="{StaticResource ColorMalaiOrange}" />-->
         <!--<Setter Property="Foreground" Value="White" />-->
         <Setter Property="Padding" Value="5" />
         <Setter Property="Validation.ErrorTemplate">
@@ -38,7 +50,7 @@
         <Setter Property="Padding" Value="5" />
         <Style.Triggers>
             <Trigger Property="IsFocused" Value="True">
-                <Setter Property="Background" Value="#FFB300"/>
+                <!--<Setter Property="Background" Value="#FFB300"/>-->
             </Trigger>
         </Style.Triggers>
     </Style>
