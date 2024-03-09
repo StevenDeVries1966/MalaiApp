@@ -10,5 +10,12 @@ namespace WpfUI.ViewModel
         public static ObservableCollection<DtoJob> JobsAll { get; set; } = new();
         public static ObservableCollection<DtoJob> JobsClients { get; set; } = new();
         public static int SelectedJobId { get; set; }
+
+        public static string TestTime
+        {
+            get => "02:33";
+            set { TestTime = value; }
+
+        }
     }
 }

@@ -146,6 +146,7 @@ namespace WpfUI.ViewModel
                 {
                     ClearError();
                 }
+                RaisePropertyChanged(nameof(time_start_displaystring));
                 RaisePropertyChanged(nameof(IsValid));
             }
         }
@@ -164,6 +165,7 @@ namespace WpfUI.ViewModel
                 {
                     ClearError();
                 }
+                RaisePropertyChanged(nameof(time_end_displaystring));
                 RaisePropertyChanged(nameof(IsValid));
             }
         }
@@ -316,6 +318,7 @@ namespace WpfUI.ViewModel
                 RaisePropertyChanged(nameof(emp_id));
                 RaisePropertyChanged(nameof(emp_code));
                 RaisePropertyChanged(nameof(IsValid));
+
             }
         }
 
@@ -326,6 +329,22 @@ namespace WpfUI.ViewModel
         public string hours_worked_total_displaystring
         {
             get => $"from {start_time.ToString("HH:mm")} to {end_time.ToString("HH:mm")} ({hours_worked_display})";
+        }
+        public string time_start_displaystring
+        {
+            get => $"{start_time.ToString("HH:mm")}";
+            set
+            {
+                time_start_displaystring = value;
+            }
+        }
+        public string time_end_displaystring
+        {
+            get => $"{end_time.ToString("HH:mm")}";
+            set
+            {
+                time_end_displaystring = value;
+            }
         }
         public bool IsValid
         {

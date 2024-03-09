@@ -66,8 +66,16 @@
             <DatePicker x:Name="DatePicker" />
             <TextBox  Text="{Binding SelectedWorkedHours.date_worked_total_displaystring, Mode=OneWay}" IsEnabled="True" HorizontalAlignment="Stretch" Width="300"/>
         </StackPanel>
-        <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" FontWeight="Bold">start_time</Label>
-        <TextBox Grid.Column="1" Grid.Row="6" Margin="2" Text="{Binding SelectedWorkedHours.start_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal">
+            <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" FontWeight="Bold">Start</Label>
+            <TextBox Text="{Binding SelectedWorkedHours.time_start_displaystring, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+            </TextBox>
+            <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" FontWeight="Bold">End</Label>
+            <TextBox Text="{Binding SelectedWorkedHours.time_end_displaystring, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+            </TextBox>
+        </StackPanel>
         <Label Grid.Column="0" Grid.Row="7" HorizontalAlignment="Left" FontWeight="Bold">end_time</Label>
         <TextBox Grid.Column="1" Grid.Row="7" Margin="2" Text="{Binding SelectedWorkedHours.end_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Left" FontWeight="Bold">hours_worked</Label>
