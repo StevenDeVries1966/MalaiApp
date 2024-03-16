@@ -47,6 +47,8 @@ namespace MalaiReport.Reports
         {
             try
             {
+                if (clt_code == "PHC")
+                { }
                 InclCharge = inclCharge;
                 MonthString = new DateTime(DateTime.Now.Year, month, 1).ToString("MM");
                 Period = $"{year}-{MonthString}";
@@ -77,7 +79,9 @@ namespace MalaiReport.Reports
                 foreach (var groep in GroupedByJobName)
                 {
                     DtoJob job = Globals.ConMan.lstJobs
-                        .FirstOrDefault(o => o.job_name.Equals(groep.Key, StringComparison.CurrentCultureIgnoreCase));
+                        .FirstOrDefault(o => o.job_name.TrimEnd().Equals(groep.Key.TrimEnd(), StringComparison.CurrentCultureIgnoreCase));
+                    if (job == null)
+                    { }
                     LstWorkedHoursByJobReports.Add(new DtoWorkedHoursByJobReport(Client, groep.ToList(), job));
                 }
 
@@ -415,7 +419,6 @@ namespace MalaiReport.Reports
 
         private string CreateHtml_Report_Retainer()
         {
-
             double es001Additional = IntEs001MinutesReportTotal - (Client.retainer_ES001 * 60);
             double as001Additional = IntAs001MinutesReportTotal - (Client.retainer_AS001 * 60);
             double totalAdditional = es001Additional + as001Additional;
