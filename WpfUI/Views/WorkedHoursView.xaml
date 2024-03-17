@@ -17,10 +17,14 @@
                         <RowDefinition Height="20"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition Width="2.8*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <DataGrid  Grid.Column="0" Grid.Row="1" 
+                    <StackPanel  Grid.Column="0" Grid.Row="1" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <controls:MonthPickerControl x:Name="myComboBoxMonthYear" />
+                              </StackPanel>
+                        <DataGrid
                          ItemsSource="{Binding WorkedHours, ValidatesOnNotifyDataErrors=False}"
                          SelectedItem="{Binding Path=SelectedWorkedHours, Mode=TwoWay}"
                          Margin="10"
@@ -29,98 +33,99 @@
                          ScrollViewer.CanContentScroll="False" 
                          AutoGenerateColumns="False"
                          AlternationCount="2">
-                        <DataGrid.Resources>
-                            <!-- Style for DataGridRow -->
-                            <Style TargetType="DataGridRow">
-                                <Style.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="#EA6834" />
-                                        <Setter Property="Foreground" Value="Black" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
+                            <DataGrid.Resources>
+                                <!-- Style for DataGridRow -->
+                                <Style TargetType="DataGridRow">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#EA6834" />
+                                            <Setter Property="Foreground" Value="Black" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
 
-                            <!-- Style for DataGridCell -->
-                            <Style TargetType="DataGridCell">
-                                <Style.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="#EA6834" />
-                                        <Setter Property="Foreground" Value="Black" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGrid.Resources>
-                        <DataGrid.RowStyle>
-                            <Style TargetType="DataGridRow">
-                                <Style.Triggers>
-                                    <!-- Trigger to set alternate row background color -->
-                                    <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGrid.RowStyle>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Date" Binding="{Binding date_worked_total_displaystring}" >
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock" >
-                                        <Setter Property="FontWeight" Value="Bold"/>
-                                        <Setter Property="Margin" Value="2" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Week" Binding="{Binding week}"  >
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock" >
-                                        <Setter Property="FontWeight" Value="Bold"/>
-                                        <Setter Property="Margin" Value="2" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Employee" Binding="{Binding emp_code}"  >
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock" >
-                                        <Setter Property="FontWeight" Value="Bold"/>
-                                        <Setter Property="Margin" Value="2" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Client" Binding="{Binding clt_code}"  >
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock" >
-                                        <Setter Property="FontWeight" Value="Bold"/>
-                                        <Setter Property="Margin" Value="2" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Job" Binding="{Binding job_name}"  >
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock" >
-                                        <Setter Property="FontWeight" Value="Bold"/>
-                                        <Setter Property="Margin" Value="2" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Hours" Binding="{Binding hours_worked_total_displaystring}">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock" >
-                                        <Setter Property="FontWeight" Value="Bold"/>
-                                        <Setter Property="Margin" Value="2" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Notes" Binding="{Binding notes}" Width="*">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock" >
-                                        <Setter Property="FontWeight" Value="Bold"/>
-                                        <Setter Property="Margin" Value="2" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <!-- Other columns go here -->
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <Grid Grid.Column="1" Grid.Row="1">
+                                <!-- Style for DataGridCell -->
+                                <Style TargetType="DataGridCell">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#EA6834" />
+                                            <Setter Property="Foreground" Value="Black" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Style.Triggers>
+                                        <!-- Trigger to set alternate row background color -->
+                                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                            <Setter Property="Background" Value="LightGray"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Date" Binding="{Binding date_worked_total_displaystring}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" >
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Margin" Value="2" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Week" Binding="{Binding week}"  >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" >
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Margin" Value="2" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Employee" Binding="{Binding emp_code}"  >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" >
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Margin" Value="2" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Client" Binding="{Binding clt_code}"  >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" >
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Margin" Value="2" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Job" Binding="{Binding job_name}"  >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" >
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Margin" Value="2" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Hours" Binding="{Binding hours_worked_total_displaystring}">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" >
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Margin" Value="2" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Notes" Binding="{Binding notes}" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" >
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Margin" Value="2" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <!-- Other columns go here -->
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </StackPanel> <Grid Grid.Column="1" Grid.Row="1">
                         <StackPanel Orientation="Vertical">
                             <controls:WorkedHoursDetailsControl/>
                         </StackPanel>

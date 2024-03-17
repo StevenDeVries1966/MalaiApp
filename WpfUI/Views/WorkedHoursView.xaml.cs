@@ -16,6 +16,8 @@ namespace WpfUI.Views
         {
             InitializeComponent();
             _viewModel = new WorkedHoursViewModel(new MalaiDataProvider());
+            //_viewModel.SelectedMonth = myComboBoxMonthYear.monthComboBox.SelectionBoxItem.ToString();
+            //_viewModel.SelectedYear = (int)myComboBoxMonthYear.yearComboBox.SelectionBoxItem;
             DataContext = _viewModel;
             Loaded += WorkedHoursView_Loaded;
         }

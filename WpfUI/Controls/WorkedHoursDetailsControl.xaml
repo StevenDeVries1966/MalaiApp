@@ -24,8 +24,8 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" FontWeight="Bold">Employee</Label>
         <!--<TextBox Margin="2" Grid.Column="1" Grid.Row="1" Text="{Binding SelectedWorkedHours.emp_code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
@@ -63,25 +63,18 @@
         <TextBox Grid.Column="1" Grid.Row="4" Margin="2" Text="{Binding SelectedWorkedHours.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="true" TextWrapping="Wrap"/>
            <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" FontWeight="Bold">Date</Label>
         <StackPanel Grid.Column="1" Grid.Row="5" Margin="2" Orientation="Horizontal">
+            <TextBox  Text="{Binding SelectedWorkedHours.date_worked_total_displaystring, Mode=OneWay}" IsEnabled="True" HorizontalAlignment="Stretch" Width="105"/>
             <DatePicker x:Name="DatePicker" />
-            <TextBox  Text="{Binding SelectedWorkedHours.date_worked_total_displaystring, Mode=OneWay}" IsEnabled="True" HorizontalAlignment="Stretch" Width="300"/>
         </StackPanel>
+        <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" FontWeight="Bold">Start -> End</Label>
         <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal">
-            <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" FontWeight="Bold">Start</Label>
-            <TextBox Text="{Binding SelectedWorkedHours.time_start_displaystring, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-
-            </TextBox>
-            <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" FontWeight="Bold">End</Label>
-            <TextBox Text="{Binding SelectedWorkedHours.time_end_displaystring, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-
-            </TextBox>
+            <TextBox Text="{Binding SelectedWorkedHours.time_start_displaystring, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="2 0 0 0"/>
+            <TextBox Text="{Binding SelectedWorkedHours.time_end_displaystring, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="5 0 0 0"/>
         </StackPanel>
-        <Label Grid.Column="0" Grid.Row="7" HorizontalAlignment="Left" FontWeight="Bold">end_time</Label>
-        <TextBox Grid.Column="1" Grid.Row="7" Margin="2" Text="{Binding SelectedWorkedHours.end_time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Left" FontWeight="Bold">hours_worked</Label>
+        <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Left" FontWeight="Bold">Worked hours</Label>
         <TextBox Grid.Column="1" Grid.Row="8" Margin="2" Text="{Binding SelectedWorkedHours.hours_worked_display, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
         <StackPanel Grid.Column="1" Grid.Row="9"  Orientation="Horizontal">
-            <Button Margin="10" 
+            <Button Margin="2" 
                     Width="40" 
                     Height="20" 
                     Content="Add" 
@@ -89,7 +82,7 @@
                     VerticalAlignment="Top"
                     Command="{Binding AddCommand}">
             </Button>
-            <Button Margin="10" 
+            <Button Margin="2" 
                     Width="40" 
                     Height="20" 
                     Content="Del" 
