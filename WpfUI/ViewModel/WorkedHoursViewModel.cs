@@ -73,38 +73,13 @@ namespace WpfUI.ViewModel
 
         public string? SelectedMonth
         {
-            get
-            {
-                if (string.IsNullOrEmpty(SelectedMonth))
-                {
-                    return "January";
-                }
-                else
-                {
-                    return SelectedMonth;
-                }
-            }
-            set
-            {
-                SelectedMonth = value;
-
-            }
+            get => GlobalsViewModel.SelectedMonth;
+            set => GlobalsViewModel.SelectedMonth = value;
         }
         public int SelectedYear
         {
-            get
-            {
-                if (SelectedYear == 0)
-                {
-                    return DateTime.Now.Year;
-                }
-                return SelectedYear;
-            }
-            set
-            {
-                SelectedYear = value;
-
-            }
+            get => GlobalsViewModel.SelectedYear;
+            set => GlobalsViewModel.SelectedYear = value;
         }
         public WorkedHoursItemViewModel? SelectedWorkedHours
         {

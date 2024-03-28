@@ -43,8 +43,25 @@
                 }
                 else if (client.report_type.Equals("Ret", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    // ignore PayRoll hrs
-                    if (!wh.job_name.Contains("Payroll", StringComparison.CurrentCultureIgnoreCase))
+                    // ignore PayRoll and Taxes hrs
+                    // if client is PHC
+                    if (Client.clt_code.Equals("PHC"))
+                    {
+
+                        if (!wh.job_name.Contains("Payroll", StringComparison.CurrentCultureIgnoreCase)
+                            && !wh.job_name.Contains("Taxes", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            if (wh.emp_code.Equals("ES001"))
+                            {
+                                DblEs001MinutesTotal += wh.minutes_worked;
+                            }
+                            if (wh.emp_code.Equals("AS001"))
+                            {
+                                DblAs001MinutesTotal += wh.minutes_worked;
+                            }
+                        }
+                    }
+                    else
                     {
                         if (wh.emp_code.Equals("ES001"))
                         {
@@ -85,8 +102,7 @@
         public double ChargeEs001 => Math.Round((DblEs001MinutesTotal / 60) * Client.rate_ES001, 2);
         public double ChargeAs001 => Math.Round((DblAs001MinutesTotal / 60) * Client.rate_AS001, 2);
         public double ChargeHr => Math.Round((DblHrMinutesTotal / 60) * Client.rate_ES001, 2); //Todo : Is er een appart HR rate
-
-        public double Charge => Math.Round(ChargeEs001 + ChargeAs001 + ChargeHr, 2);
+        public double Charge => Math.Round((DblEs001MinutesTotal / 60) * Client.rate_ES001 + (DblAs001MinutesTotal / 60) * Client.rate_AS001 + (DblHrMinutesTotal / 60) * Client.rate_ES001, 2);
 
         public readonly List<string> jobs = new();
         public string JobTotal
@@ -96,6 +112,10 @@
                 string jobTotal = default;
                 foreach (string job in jobs)
                 {
+                    //exception description
+                    if (Client.clt_code.Equals("PHC", StringComparison.OrdinalIgnoreCase)
+                        && (job.Equals("PayRoll", StringComparison.OrdinalIgnoreCase)
+                        || job.Equals("Taxes", StringComparison.OrdinalIgnoreCase))) continue;
                     jobTotal += job + " / ";
                 }
                 jobTotal = jobTotal?.Remove(jobTotal.Length - 3);

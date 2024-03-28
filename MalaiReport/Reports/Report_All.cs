@@ -47,8 +47,6 @@ namespace MalaiReport.Reports
         {
             try
             {
-                if (clt_code == "PHC")
-                { }
                 InclCharge = inclCharge;
                 MonthString = new DateTime(DateTime.Now.Year, month, 1).ToString("MM");
                 Period = $"{year}-{MonthString}";
@@ -185,7 +183,7 @@ namespace MalaiReport.Reports
             // Create table header
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine("<th>Date</th>");
-            HtmlBuilder.AppendLine("<th>Desciption</th>");
+            HtmlBuilder.AppendLine("<th>Description</th>");
             HtmlBuilder.AppendLine("<th>Esther</th>");
             HtmlBuilder.AppendLine("<th>Ashia</th>");
             HtmlBuilder.AppendLine("<th>HR - Hours</th>");
@@ -193,7 +191,7 @@ namespace MalaiReport.Reports
             if (InclCharge)
             {
                 HtmlBuilder.AppendLine("<th style=\"border-left-style:none;border-right-style:none;\"></th>");
-                HtmlBuilder.AppendLine("<th style=\"border-left-style: none;text-align:right;\">Carge</th>");
+                HtmlBuilder.AppendLine("<th style=\"border-left-style: none;text-align:right;\">Charge</th>");
             }
 
             HtmlBuilder.AppendLine("</tr>");
@@ -432,9 +430,9 @@ namespace MalaiReport.Reports
             // Create table header
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine("<th>Date</th>");
-            HtmlBuilder.AppendLine("<th>Desciption</th>");
+            HtmlBuilder.AppendLine("<th>Description</th>");
             HtmlBuilder.AppendLine("<th>Esther</th>");
-            HtmlBuilder.AppendLine("<th>Aihsa</th>");
+            HtmlBuilder.AppendLine("<th>Aisha</th>");
             HtmlBuilder.AppendLine("<th>TotalHours</th>");
             HtmlBuilder.AppendLine("</tr>");
 
