@@ -13,27 +13,16 @@
 using DataLayer.Classes;
 
 
-//string clientJobCode = "ME - Project Management";
-//string JobName = clientJobCode.Split(" - ")[1];
-
-
 DateTime start = DateTime.Now;
 MalaiContext conMan = new MalaiContext("Server=.;Database=malai_prod;Integrated Security=True;", true);
-//MalaiContext conMan = new MalaiContext("127.0.0.1", @"Malai_test", "root", "wqEQW5Ag/&6%JT+");
-//conMan.GetAllWorkedHours();
 var test = conMan.lstJobs;
 DateTime end = DateTime.Now;
 TimeSpan ts = end - start;
 Console.WriteLine($"Done {ts.TotalSeconds}");
 
 string filePath = @"C:\Prive\Malai\Docs\CsvImport\";
-//conMan.ReadCsv(Path.Combine(filePath, "23_08.csv"));
-//conMan.ReadCsv(Path.Combine(filePath, "23_09.csv"));
-//conMan.ReadCsv(Path.Combine(filePath, "23_10.csv"));
-//conMan.ReadCsv(Path.Combine(filePath, "23_11.csv"));
-//conMan.ReadCsv(Path.Combine(filePath, "23_12.csv"));
-//conMan.ReadCsv(Path.Combine(filePath, "24_01_new3.csv"));
-conMan.ReadCsv(Path.Combine(filePath, "24_02.csv"));
+//conMan.ReadCsv(Path.Combine(filePath, "24_02.csv"));
+conMan.ReadCsv(Path.Combine(filePath, "24_03.csv"));
 Console.WriteLine("Done");
 Console.ReadLine();
 

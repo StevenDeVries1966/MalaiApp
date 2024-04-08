@@ -36,15 +36,7 @@ foreach (DtoClient clt in Globals.ConMan.lstClients)
 {
     foreach (int month in Globals.Months)
     {
-        //debug
-        //if (clt.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase))
-        //{
-        //    ReportAll rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath);
-        //    if (clt.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase))
-        //    {
-        //        rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath, false);
-        //    }
-        //}
+
         ReportAll rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath);
         if (clt.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase))
         {

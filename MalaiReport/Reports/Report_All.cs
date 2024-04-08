@@ -83,10 +83,6 @@ namespace MalaiReport.Reports
                     LstWorkedHoursByJobReports.Add(new DtoWorkedHoursByJobReport(Client, groep.ToList(), job));
                 }
 
-                //TotalCharge = LstWorkedHoursByEmpReports.Sum(item => item.Charge);
-                //DblEs001TotalCharge = LstWorkedHoursByEmpReports.Sum(item => item.ChargeEs001);
-                //DblAs001TotalCharge = LstWorkedHoursByEmpReports.Sum(item => item.ChargeAs001);
-
                 HtmlTemplateContent = AssistHtml.GetHtmlResourceContent(Globals.HtmlTemplatePath);
 
                 // this report must be created for all clients
@@ -173,10 +169,6 @@ namespace MalaiReport.Reports
             {
                 HtmlBuilder.AppendLine($"<td colspan=\"3\"></td>");
             }
-            else
-            {
-                //HtmlBuilder.AppendLine($"<td></td>");
-            }
 
             HtmlBuilder.AppendLine("</tr>");
 
@@ -185,7 +177,7 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine("<th>Date</th>");
             HtmlBuilder.AppendLine("<th>Description</th>");
             HtmlBuilder.AppendLine("<th>Esther</th>");
-            HtmlBuilder.AppendLine("<th>Ashia</th>");
+            HtmlBuilder.AppendLine("<th>Aisha</th>");
             HtmlBuilder.AppendLine("<th>HR - Hours</th>");
             HtmlBuilder.AppendLine("<th style=\"border-right-style:none;\">Total Hours</th>");
             if (InclCharge)
