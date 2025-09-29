@@ -22,17 +22,23 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel  Grid.Column="0" Grid.Row="1" Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <controls:MonthPickerControl x:Name="myComboBoxMonthYear" />
-                              </StackPanel>
+                            <Grid>
+                                <ComboBox x:Name="monthComboBox" ItemsSource="{Binding Months}" SelectedItem="{Binding SelectedMonth, Mode=TwoWay}"
+                                          HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" >
+                                </ComboBox>
+                                <ComboBox x:Name="yearComboBox"  ItemsSource="{Binding Years}"  SelectedItem="{Binding SelectedYear, Mode=TwoWay}"
+                                          HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="120,0,0,0" >
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
                         <DataGrid
                          ItemsSource="{Binding WorkedHours, ValidatesOnNotifyDataErrors=False}"
                          SelectedItem="{Binding Path=SelectedWorkedHours, Mode=TwoWay}"
                          Margin="10"
                          IsReadOnly="True"
-                         ScrollViewer.VerticalScrollBarVisibility="Visible"
-                         ScrollViewer.CanContentScroll="False" 
+                         Height="570"
                          AutoGenerateColumns="False"
-                         AlternationCount="2">
+                         AlternationCount="2" SelectionChanged="DataGrid_SelectionChanged">
                             <DataGrid.Resources>
                                 <!-- Style for DataGridRow -->
                                 <Style TargetType="DataGridRow">

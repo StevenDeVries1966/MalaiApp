@@ -146,7 +146,7 @@ namespace WpfUI.ViewModel
                 {
                     ClearError();
                 }
-                RaisePropertyChanged(nameof(time_start_displaystring));
+                //RaisePropertyChanged(nameof(time_start_displaystring));
                 RaisePropertyChanged(nameof(IsValid));
             }
         }
@@ -165,7 +165,7 @@ namespace WpfUI.ViewModel
                 {
                     ClearError();
                 }
-                RaisePropertyChanged(nameof(time_end_displaystring));
+                //RaisePropertyChanged(nameof(time_end_displaystring));
                 RaisePropertyChanged(nameof(IsValid));
             }
         }
@@ -330,20 +330,45 @@ namespace WpfUI.ViewModel
         {
             get => $"from {start_time.ToString("HH:mm")} to {end_time.ToString("HH:mm")} ({hours_worked_display})";
         }
+
+        private string _time_start_displaystring;
         public string time_start_displaystring
         {
-            get => $"{start_time.ToString("HH:mm")}";
+            get
+            {
+                _time_start_displaystring = $"{start_time.ToString("HH:mm")}";
+                return _time_start_displaystring;
+
+            }
             set
             {
-                time_start_displaystring = value;
+                try
+                {
+                    _time_start_displaystring = value;
+                }
+                catch (Exception e)
+                {
+                }
             }
         }
+        private string _time_end_displaystring;
         public string time_end_displaystring
         {
-            get => $"{end_time.ToString("HH:mm")}";
+            get
+            {
+                _time_end_displaystring = $"{end_time.ToString("HH:mm")}";
+                return _time_end_displaystring;
+
+            }
             set
             {
-                time_end_displaystring = value;
+                try
+                {
+                    _time_end_displaystring = value;
+                }
+                catch (Exception e)
+                {
+                }
             }
         }
         public bool IsValid

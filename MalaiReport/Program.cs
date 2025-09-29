@@ -7,46 +7,20 @@ using System.Globalization;
 
 
 //TestCode();
+DateTime start = DateTime.Now;
+Console.WriteLine(Globals.ConnectionString);
+Console.WriteLine();
+Globals.ConMan = new MalaiContext(Globals.ConnectionString, true);
+Globals.ConMan.DeleteWorkedHours(Globals.Months, Globals.Year, out string msg);
+Console.WriteLine($"DeleteWorkedHours {msg}");
+Console.WriteLine();
+ImportExcel();
+Console.WriteLine();
+CreateReports();
 
-string message;
-var culture = new CultureInfo("en-US");
-CultureInfo.DefaultThreadCurrentCulture = culture;
-CultureInfo.DefaultThreadCurrentUICulture = culture;
-
-Globals.ReportPath = Path.Combine(Globals.ReportPath, DateTime.Now.ToString("yyyyMMdd_HHmm"));
-if (!Directory.Exists(Globals.ReportPath)) Directory.CreateDirectory(Globals.ReportPath);
-Globals.ConMan = new MalaiContext("Server=.;Database=malai_prod;Integrated Security=True;");
-Globals.ConMan.GetAllEmployees();
-Globals.ConMan.GetAllJobs();
-//Globals.EmployeeCurrent = Globals.ConMan.lstEmployee.FirstOrDefault(o => o.login.Equals(Environment.UserName, StringComparison.CurrentCultureIgnoreCase));
-Globals.EmployeeCurrent = Globals.ConMan.lstEmployee.FirstOrDefault(o => o.login.Equals("ES001", StringComparison.CurrentCultureIgnoreCase));
-
-if (Globals.ConMan == null)
-{
-    Console.BackgroundColor = ConsoleColor.White;
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine("Problem with database connection");
-    Console.BackgroundColor = ConsoleColor.Black;
-    Console.ForegroundColor = ConsoleColor.White;
-    Console.ReadLine(); return;
-}
-
-Globals.ConMan.GetAllClients();
-foreach (DtoClient clt in Globals.ConMan.lstClients)
-{
-    foreach (int month in Globals.Months)
-    {
-
-        ReportAll rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath);
-        if (clt.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase))
-        {
-            rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath, false);
-        }
-    }
-}
+Console.WriteLine();
 Console.WriteLine("Done");
 Console.ReadLine();
-
 
 
 void TestCode()
@@ -84,7 +58,62 @@ void TestCode()
     // Parse the string to a TimeSpan
 }
 
+void CreateReports()
+{
+    string message;
+    var culture = new CultureInfo("en-US");
+    CultureInfo.DefaultThreadCurrentCulture = culture;
+    CultureInfo.DefaultThreadCurrentUICulture = culture;
 
+    Globals.ReportPath = Path.Combine(Globals.ReportPath, DateTime.Now.ToString("yyyyMMdd_HHmm"));
+    Console.WriteLine($"Reports written to : {Globals.ReportPath}");
+    Console.WriteLine();
+    if (!Directory.Exists(Globals.ReportPath)) Directory.CreateDirectory(Globals.ReportPath);
+    Globals.ConMan = new MalaiContext(Globals.ConnectionString);
+    Globals.ConMan.GetAllEmployees();
+    Globals.ConMan.GetAllJobs();
+    //Globals.EmployeeCurrent = Globals.ConMan.lstEmployee.FirstOrDefault(o => o.login.Equals(Environment.UserName, StringComparison.CurrentCultureIgnoreCase));
+    Globals.EmployeeCurrent = Globals.ConMan.lstEmployee.FirstOrDefault(o => o.login.Equals("ES001", StringComparison.CurrentCultureIgnoreCase));
+
+    if (Globals.ConMan == null)
+    {
+        Console.BackgroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Problem with database connection");
+        Console.BackgroundColor = ConsoleColor.Black;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.ReadLine(); return;
+    }
+
+    Globals.ConMan.GetAllClients();
+    foreach (DtoClient clt in Globals.ConMan.lstClients)
+    {
+        foreach (int month in Globals.Months)
+        {
+
+            ReportAll rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath);
+            if (clt.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase))
+            {
+                rIMC = new ReportAll(month, Globals.Year, clt.clt_code, Globals.ReportPath, false);
+            }
+        }
+    }
+}
+
+void ImportExcel()
+{
+    AssistExcel excel = new AssistExcel();
+    List<DtoWorkedHours> lst = excel.ReadExcel(Globals.PathInputTimeSheet);
+
+
+    //var test = conMan.lstJobs;
+    string msg;
+    Globals.ConMan!.AddWorkedHours(lst, out msg);
+    Console.WriteLine($"AddWorkedHours {msg}");
+    DateTime end = DateTime.Now;
+    TimeSpan ts = end - start;
+    Console.WriteLine($"Import done {ts.TotalSeconds}");
+}
 
 
 

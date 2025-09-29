@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using WpfUI.Data;
@@ -17,6 +18,8 @@ namespace WpfUI
             DataContext = _viewModel;
             Loaded += MainWindow_Loaded;
 
+            Globals.SelectedYear = DateTime.Now.Year;
+            Globals.SelectedMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Now.Month);
             Globals.Employees = new MalaiDataProvider().GetEmployees();
             Globals.Employee_Current =
                 Globals.Employees.Where(o => o.login.Equals(Globals.Current_Emp_Code, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();

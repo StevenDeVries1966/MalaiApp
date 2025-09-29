@@ -127,6 +127,7 @@ namespace MalaiReport.Reports
                 }
                 // Save HTML content to a file
                 AssistHtml.SaveHtmlToFile(HtmlContent, htmlFilePath);
+                //AssistHtml.ConvertHtmlToPdf(HtmlContent, Path.ChangeExtension(htmlFilePath, ".pdf"));
             }
             catch (Exception e)
             {

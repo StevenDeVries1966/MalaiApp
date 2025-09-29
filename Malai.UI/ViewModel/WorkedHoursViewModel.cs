@@ -1,16 +1,12 @@
 ﻿using DataLayer.Classes;
-using System;
-using System.Collections.Generic;
+using Malai.UI.Command;
+using Malai.UI.Data;
+using Malai.UI.Helpers;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using WpfUI.Command;
-using WpfUI.Data;
-using WpfUI.Helpers;
 
-namespace WpfUI.ViewModel
+namespace Malai.UI.ViewModel
 {
     public class WorkedHoursViewModel : ViewModelBase
     {
@@ -303,7 +299,6 @@ namespace WpfUI.ViewModel
             var viewModel = new WorkedHoursItemViewModel(wh);
             WorkedHours.Add(viewModel);
             SelectedWorkedHours = viewModel;
-
         }
 
         private void Delete(object? parameter)

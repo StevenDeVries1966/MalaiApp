@@ -7,10 +7,8 @@ namespace MalaiReport.Helpers
     internal static class Globals
     {
         private static IConfiguration _config;
-        private static string _server;
-        private static string _database;
-        private static string _username;
-        private static string _password;
+        private static string _connectionstring;
+        private static string _pathInputTimeSheet;
         private static string _logoPath;
         private static string _reportPath;
         private static string _htmlTemplatePath;
@@ -21,7 +19,6 @@ namespace MalaiReport.Helpers
             get
             {
                 _config = new ConfigurationBuilder()
-                    .AddJsonFile("appsettings.json", false, true)
                     .AddJsonFile("appsettings.Development.json", true, true)
                     .Build();
                 return _config;
@@ -33,48 +30,27 @@ namespace MalaiReport.Helpers
         {
             return Config[key];
         }
-        public static string Server
+
+        public static string ConnectionString
         {
             get
             {
-                if (string.IsNullOrEmpty(_server))
+                if (string.IsNullOrEmpty(_connectionstring))
                 {
-                    _server = GetConfigValue("DataBaseAccount:Server");
+                    _connectionstring = GetConfigValue("DataBase:connectionstring");
                 }
-                return _server;
+                return _connectionstring;
             }
         }
-        public static string DataBase
+        public static string PathInputTimeSheet
         {
             get
             {
-                if (string.IsNullOrEmpty(_database))
+                if (string.IsNullOrEmpty(_pathInputTimeSheet))
                 {
-                    _database = GetConfigValue("DataBaseAccount:DataBase");
+                    _pathInputTimeSheet = Path.Combine(GetConfigValue("Input:Path"), GetConfigValue("Input:ExcelTimeSheet"));
                 }
-                return _database;
-            }
-        }
-        public static string UserName
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_username))
-                {
-                    _username = GetConfigValue("DataBaseAccount:UserName");
-                }
-                return _username;
-            }
-        }
-        public static string PassWord
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_password))
-                {
-                    _password = GetConfigValue("DataBaseAccount:PassWord");
-                }
-                return _password;
+                return _pathInputTimeSheet;
             }
         }
         public static string LogoPath

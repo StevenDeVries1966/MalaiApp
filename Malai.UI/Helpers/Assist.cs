@@ -1,8 +1,7 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace WpfUI.Helpers
+namespace Malai.UI.Helpers
 {
     public class Assist
     {

@@ -16,16 +16,21 @@ namespace WpfUI.Views
         {
             InitializeComponent();
             _viewModel = new WorkedHoursViewModel(new MalaiDataProvider());
-            //_viewModel.SelectedMonth = myComboBoxMonthYear.monthComboBox.SelectionBoxItem.ToString();
-            //_viewModel.SelectedYear = (int)myComboBoxMonthYear.yearComboBox.SelectionBoxItem;
             DataContext = _viewModel;
             Loaded += WorkedHoursView_Loaded;
         }
-
         private async void WorkedHoursView_Loaded(object sender, RoutedEventArgs e)
         {
             await _viewModel.LoadAsync();
         }
 
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is DataGrid dataGrid && dataGrid.SelectedItem != null)
+            {
+                dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+                dataGrid.Focus();
+            }
+        }
     }
 }

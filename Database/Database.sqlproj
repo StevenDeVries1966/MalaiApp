@@ -59,6 +59,7 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\worked_hours.sql" />
@@ -76,5 +77,6 @@
     <Build Include="dbo\Stored Procedures\AddJob.sql" />
     <Build Include="dbo\Stored Procedures\AddEmployee.sql" />
     <Build Include="dbo\Stored Procedures\AddClient.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteWorkedHours.sql" />
   </ItemGroup>
 </Project>

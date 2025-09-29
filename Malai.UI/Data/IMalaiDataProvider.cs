@@ -1,10 +1,7 @@
 ﻿using DataLayer.Classes;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using WpfUI.Helpers;
+using Malai.UI.Helpers;
 
-namespace WpfUI.Data
+namespace Malai.UI.Data
 {
     public interface IMalaiDataProvider
     {

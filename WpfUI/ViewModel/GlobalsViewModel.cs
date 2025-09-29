@@ -1,5 +1,4 @@
 ﻿using DataLayer.Classes;
-using System;
 using System.Collections.ObjectModel;
 
 namespace WpfUI.ViewModel
@@ -16,14 +15,15 @@ namespace WpfUI.ViewModel
         {
             get
             {
-                if (string.IsNullOrEmpty(SelectedMonth))
-                {
-                    return "December";
-                }
-                else
-                {
-                    return SelectedMonth;
-                }
+                return SelectedMonth;
+                //if (string.IsNullOrEmpty(SelectedMonth))
+                //{
+                //    return "December";
+                //}
+                //else
+                //{
+                //    return SelectedMonth;
+                //}
             }
             set
             {
@@ -31,22 +31,22 @@ namespace WpfUI.ViewModel
 
             }
         }
-        public static int SelectedYear
-        {
-            get
-            {
-                if (SelectedYear == 0)
-                {
-                    return DateTime.Now.Year;
-                }
-                return SelectedYear;
-            }
-            set
-            {
-                SelectedYear = value;
+        //public static int SelectedYear
+        //{
+        //    get
+        //    {
+        //        if (SelectedYear == 0)
+        //        {
+        //            return DateTime.Now.Year;
+        //        }
+        //        return SelectedYear;
+        //    }
+        //    set
+        //    {
+        //        SelectedYear = value;
 
-            }
-        }
+        //    }
+        //}
 
         public static string TestTime
         {

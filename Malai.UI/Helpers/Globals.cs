@@ -1,9 +1,8 @@
 ﻿using DataLayer.Classes;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
 using System.Reflection;
 
-namespace WpfUI.Helpers
+namespace Malai.UI.Helpers
 {
     public static class Globals
     {
