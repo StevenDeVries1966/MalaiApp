@@ -9,8 +9,11 @@ namespace AiWpf
             base.OnStartup(e);
 
             // Launch the DtoClientWindow on startup
-            var dtoClientWindow = new DtoClientWindow();
+            var dtoClientWindow = new AddClientWindow();
             dtoClientWindow.Show();
+            //// Launch the DtoClientWindow on startup
+            //var dtoClientWindow = new DtoClientWindow();
+            //dtoClientWindow.Show();
         }
     }
 }

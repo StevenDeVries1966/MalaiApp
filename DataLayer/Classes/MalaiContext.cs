@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿        using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -355,6 +355,46 @@ namespace DataLayer.Classes
                 Console.WriteLine(e.Message);
             }
             return result;
+        }
+        // Add this method to MalaiContext to fix CS1061
+        public bool UpdateClient(DtoClient client, out string message)
+        {
+            try
+            {
+                // Find the client by clt_code
+                var existingClient = lstClients.FirstOrDefault(c => c.clt_code == client.clt_code);
+                if (existingClient == null)
+                {
+                    message = "Client not found.";
+                    return false;
+                }
+
+                // Update properties
+                existingClient.clt_name = client.clt_name;
+                existingClient.address = client.address;
+                existingClient.postalcode = client.postalcode;
+                existingClient.city = client.city;
+                existingClient.country = client.country;
+                existingClient.email = client.email;
+                existingClient.phone = client.phone;
+                existingClient.rate_ES001 = client.rate_ES001;
+                existingClient.rate_AS001 = client.rate_AS001;
+                existingClient.retainer_ES001 = client.retainer_ES001;
+                existingClient.retainer_AS001 = client.retainer_AS001;
+                existingClient.report_type = client.report_type;
+
+                // If using EF, update and save changes
+                // Entry(existingClient).State = EntityState.Modified;
+                // SaveChanges();
+
+                message = "OK";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                return false;
+            }
         }
         public bool ReadCsv(string csvPath)
         {

@@ -3,17 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="DtoClient Viewer" Height="600" Width="1200"
         WindowStartupLocation="CenterScreen">
-	<Grid Margin="10">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
-		
-		<TextBlock Grid.Row="0" Text="Client Data" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
-		
-		<DataGrid x:Name="DtoClientGrid" 
-				  Grid.Row="1"
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="133*"/>
+            <ColumnDefinition Width="1047*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Client Data" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
+
+        <DataGrid x:Name="DtoClientGrid"
 				  AutoGenerateColumns="True"
 				  IsReadOnly="True"
 				  AlternatingRowBackground="LightGray"
@@ -22,10 +25,10 @@
 				  CanUserAddRows="False"
 				  CanUserDeleteRows="False"
 				  CanUserResizeColumns="True"
-				  CanUserSortColumns="True" />
-		
-		<StatusBar Grid.Row="2" Margin="0,10,0,0">
-			<StatusBarItem x:Name="StatusBarText" Content="Loading client data..."/>
-		</StatusBar>
-	</Grid>
+				  CanUserSortColumns="True" Grid.ColumnSpan="2" Margin="0,31,0,0" Grid.RowSpan="2" />
+
+        <StatusBar Grid.Row="2" Margin="0,10,0,0" Grid.ColumnSpan="2">
+            <StatusBarItem x:Name="StatusBarText" Content="Loading client data..."/>
+        </StatusBar>
+    </Grid>
 </Window>
