@@ -526,11 +526,15 @@ namespace MalaiReport.Reports
             {
                 HtmlBuilder.AppendLine("<table class=\"header\"'>");
                 HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">Client : {Client.clt_name}</td>");
-                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">Client :</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">{Client.clt_name.TrimEnd()}</td>");
                 HtmlBuilder.AppendLine("</tr>");
                 HtmlBuilder.AppendLine("<tr>");
+                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
                 HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Period : {Period}</td>");
+                HtmlBuilder.AppendLine("</tr>");
+                HtmlBuilder.AppendLine("<tr>");
+                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
                 if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 1: $ {Client.rate_ES001.ToString("0.00")}</td>");
                 HtmlBuilder.AppendLine("</tr>");
                 HtmlBuilder.AppendLine("<tr>");
@@ -541,14 +545,18 @@ namespace MalaiReport.Reports
             }
             else
             {
-                HtmlBuilder.AppendLine("<table class=\"header\" 'border:5px solid black;border-collapse:collapse;'>");
+                HtmlBuilder.AppendLine("<table class=\"header\"'>");
                 HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;\">Client : {Client.clt_name}</td>");
-                HtmlBuilder.AppendLine($"<td></td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">Client :</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">{Client.clt_name.TrimEnd()}</td>");
                 HtmlBuilder.AppendLine("</tr>");
                 HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td>Period : {Period}</td>");
-                if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Hourly Rate: $ {Client.rate_ES001.ToString("0.00")}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
+                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Period : {Period}</td>");
+                HtmlBuilder.AppendLine("</tr>");
+                HtmlBuilder.AppendLine("<tr>");
+                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
+                if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 1: $ {Client.rate_ES001.ToString("0.00")}</td>");
                 HtmlBuilder.AppendLine("</tr>");
                 HtmlBuilder.AppendLine("</table>");
             }
