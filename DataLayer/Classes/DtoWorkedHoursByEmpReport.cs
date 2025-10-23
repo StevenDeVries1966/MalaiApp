@@ -8,7 +8,7 @@
             Client = client;
             foreach (DtoWorkedHours wh in lstWorkedHours)
             {
-                if (client.report_type.Equals("Hrs_B", StringComparison.CurrentCultureIgnoreCase))
+                if (client.report_type.Equals("Hrs_B", StringComparison.CurrentCultureIgnoreCase) || client.report_type.Equals("Hrs_D", StringComparison.CurrentCultureIgnoreCase))
                 {
                     // PayRoll hrs in own HR column
                     if (!wh.job_name.Contains("Payroll", StringComparison.CurrentCultureIgnoreCase))

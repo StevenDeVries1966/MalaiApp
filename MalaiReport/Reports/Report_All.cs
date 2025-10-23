@@ -96,6 +96,10 @@ namespace MalaiReport.Reports
                 {
                     HtmlContent = CreateHtml_Report_Hrs_B();
                 }
+                else if (Client.report_type.Equals("Hrs_D", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    HtmlContent = CreateHtml_Report_Hrs_D();
+                }
                 else if (Client.report_type.Equals("Hrs_A", StringComparison.CurrentCultureIgnoreCase))
                 {
                     HtmlContent = CreateHtml_Report_Hrs_A();
@@ -148,7 +152,7 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine("</tr>");
             HtmlBuilder.AppendLine(@"<tr>");
             HtmlBuilder.AppendLine(@"<td>");
-            DoData_Hrs_B();
+            DoData_Hrs_BorD(true);
             HtmlBuilder.AppendLine("</td>");
             HtmlBuilder.AppendLine("</tr>");
             HtmlBuilder.AppendLine("</table>");
@@ -156,22 +160,46 @@ namespace MalaiReport.Reports
 
             return HtmlBuilder.ToString();
         }
+        private string CreateHtml_Report_Hrs_D()
+        {
 
-        private void DoData_Hrs_B()
+            HtmlBuilder = new StringBuilder();
+
+            // Start HTML table
+            HtmlBuilder.AppendLine("<table>");
+            HtmlBuilder.AppendLine(@"<tr>");
+            HtmlBuilder.AppendLine(@"<td>");
+            DoRateHeader0();
+            HtmlBuilder.AppendLine("</td>");
+            HtmlBuilder.AppendLine("</tr>");
+            HtmlBuilder.AppendLine(@"<tr>");
+            HtmlBuilder.AppendLine(@"<td>");
+            DoData_Hrs_BorD(false);
+            HtmlBuilder.AppendLine("</td>");
+            HtmlBuilder.AppendLine("</tr>");
+            HtmlBuilder.AppendLine("</table>");
+
+
+            return HtmlBuilder.ToString();
+        }
+        private void DoData_Hrs_BorD(bool isB)
         {
             HtmlBuilder.AppendLine(@"<br>");
             HtmlBuilder.AppendLine("<table class=\"data\" style=\"width:100%\">");
-            HtmlBuilder.AppendLine("<tr>");
-            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\" colspan=\"2\"></td>");
-            HtmlBuilder.AppendLine(
-                $"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\" colspan=\"2\">IMC - AP</td>");
-            HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\">IMC - HR</td>");
-            if (InclCharge)
-            {
-                HtmlBuilder.AppendLine($"<td colspan=\"3\"></td>");
-            }
+            if (isB)
+            {               
+                HtmlBuilder.AppendLine("<tr>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\" colspan=\"2\"></td>");
+                HtmlBuilder.AppendLine(
+                    $"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\" colspan=\"2\">IMC - AP</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\">IMC - HR</td>");
+                if (InclCharge)
+                {
+                    HtmlBuilder.AppendLine($"<td colspan=\"3\"></td>");
+                }
 
-            HtmlBuilder.AppendLine("</tr>");
+                HtmlBuilder.AppendLine("</tr>");
+            }
 
             // Create table header
             HtmlBuilder.AppendLine(@"<tr>");
