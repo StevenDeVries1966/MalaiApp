@@ -526,15 +526,16 @@ namespace MalaiReport.Reports
             {
                 HtmlBuilder.AppendLine("<table class=\"header\"'>");
                 HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;\">Client : {Client.clt_name}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">Client : {Client.clt_name}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
                 HtmlBuilder.AppendLine("</tr>");
                 HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td>Period : {Period}</td>");
-                if (InclCharge) HtmlBuilder.AppendLine($"<td>Rate 1: $ {Client.rate_ES001.ToString("0.00")}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Period : {Period}</td>");
+                if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 1: $ {Client.rate_ES001.ToString("0.00")}</td>");
                 HtmlBuilder.AppendLine("</tr>");
                 HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td></td>");
-                if (InclCharge) HtmlBuilder.AppendLine($"<td>Rate 2: $ {Client.rate_AS001.ToString("0.00")}</td>");
+                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
+                if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 2: $ {Client.rate_AS001.ToString("0.00")}</td>");
                 HtmlBuilder.AppendLine("</tr>");
                 HtmlBuilder.AppendLine("</table>");
             }
@@ -547,7 +548,7 @@ namespace MalaiReport.Reports
                 HtmlBuilder.AppendLine("</tr>");
                 HtmlBuilder.AppendLine("<tr>");
                 HtmlBuilder.AppendLine($"<td>Period : {Period}</td>");
-                if (InclCharge) HtmlBuilder.AppendLine($"<td>Hourly Rate: $ {Client.rate_ES001.ToString("0.00")}</td>");
+                if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Hourly Rate: $ {Client.rate_ES001.ToString("0.00")}</td>");
                 HtmlBuilder.AppendLine("</tr>");
                 HtmlBuilder.AppendLine("</table>");
             }
