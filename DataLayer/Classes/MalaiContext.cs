@@ -16,10 +16,9 @@ namespace DataLayer.Classes
         public MalaiContext(string con, bool allData = false)
         {
             ConManager = new ConnectionManager(con);
-            string message = "";
             if (allData)
             {
-                LstClients = GetRecords<DtoClient>("GetAllClients", out message);
+                LstClients = GetRecords<DtoClient>("GetAllClients", out var message);
                 if (message != "OK") WriteErrorMessage(message);
                 LstJobs = GetRecords<DtoJob>("GetAllJobs", out message);
                 if (message != "OK") WriteErrorMessage(message);
@@ -55,7 +54,7 @@ namespace DataLayer.Classes
         public string GetAllWorkedHours(int month, int year)
         {
             string message = "";
-            LstWorkedHours = GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", month, year, "", out _)!;
+            LstWorkedHours = GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", month, year, "", out _);
 
             foreach (var wh in LstWorkedHours)
             {
@@ -106,9 +105,8 @@ namespace DataLayer.Classes
                 {
                     using (SqlCommand cmd = new SqlCommand(storedProcedure, con))
                     {
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                        DateTime start = DateTime.Now;
                         using (IDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -117,9 +115,6 @@ namespace DataLayer.Classes
                                 result.Add(obj);
                             }
                         }
-
-                        DateTime end = DateTime.Now;
-                        TimeSpan ts = end - start;
                     }
                 }
             }
@@ -130,21 +125,20 @@ namespace DataLayer.Classes
             return result;
         }
 
-        public List<T> GetDataClientMonth<T>(string storedProcedure, int month, int year, string clt_code, out string message) where T : new()
+        public List<T> GetDataClientMonth<T>(string storedProcedure, int month, int year, string cltCode, out string message) where T : new()
         {
             List<T> result = new List<T>();
             message = "OK";
             try
             {
-                using (SqlConnection con = ConManager.GetConnection())
+                using (SqlConnection? con = ConManager.GetConnection())
                 {
                     using (SqlCommand cmd = new SqlCommand(storedProcedure, con))
                     {
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@month", month);
                         cmd.Parameters.AddWithValue("@year", year);
-                        cmd.Parameters.AddWithValue("@clt_code", clt_code);
-                        DateTime start = DateTime.Now;
+                        cmd.Parameters.AddWithValue("@clt_code", cltCode);
                         using (IDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -153,9 +147,6 @@ namespace DataLayer.Classes
                                 result.Add(obj);
                             }
                         }
-
-                        DateTime end = DateTime.Now;
-                        TimeSpan ts = end - start;
                     }
                 }
             }
@@ -165,37 +156,36 @@ namespace DataLayer.Classes
             }
             return result;
         }
-        public bool AddLog(string error_message, string stack, int emp_id)
+        public bool AddLog(string errorMessage, string stack, int empId)
         {
-            bool bool_result = false;
+            bool boolResult = false;
             try
             {
-                using (SqlConnection con = ConManager.GetConnection())
+                using (SqlConnection? con = ConManager.GetConnection())
                 {
                     using (SqlCommand cmd = new SqlCommand("AddLog", con))
                     {
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandType = CommandType.StoredProcedure;
 
                         // Add parameters if your stored procedure has any
-                        cmd.Parameters.AddWithValue("@message", error_message);
+                        cmd.Parameters.AddWithValue("@message", errorMessage);
                         cmd.Parameters.AddWithValue("@stack", stack);
-                        cmd.Parameters.AddWithValue("@emp_id", emp_id);
+                        cmd.Parameters.AddWithValue("@emp_id", empId);
                         cmd.Parameters.AddWithValue("@date_created", DateTime.Now);
 
-                        int rowsAffected = cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery();
 
-                        string str_result = $"OK {rowsAffected} rows affected";
-                        bool_result = true;
+                        boolResult = true;
                     }
                 }
 
             }
             catch (Exception e)
             {
-                //str_result = e.Message;
+                WriteErrorMessage(e.Message);
             }
 
-            return bool_result;
+            return boolResult;
         }
         public bool AddWorkedHours(List<DtoWorkedHours> workedHours, out string message)
         {
@@ -203,7 +193,7 @@ namespace DataLayer.Classes
             message = "OK";
             try
             {
-                using (SqlConnection con = ConManager.GetConnection())
+                using (SqlConnection? con = ConManager.GetConnection())
                 {
                     foreach (DtoWorkedHours item in workedHours)
                     {
@@ -211,23 +201,24 @@ namespace DataLayer.Classes
                         {
                             try
                             {
-                                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                                cmd.CommandType = CommandType.StoredProcedure;
 
                                 // Add parameters if your stored procedure has any
                                 cmd.Parameters.AddWithValue("@emp_code", item.emp_code);
                                 cmd.Parameters.AddWithValue("@clt_code", item.clt_code);
                                 cmd.Parameters.AddWithValue("@clt_job_code", item.clt_job_code);
+                                // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
                                 cmd.Parameters.AddWithValue("@notes", item.notes ?? "");
                                 cmd.Parameters.AddWithValue("@start_time", item.start_time);
                                 cmd.Parameters.AddWithValue("@end_time", item.end_time);
 
-                                int rowsAffected = cmd.ExecuteNonQuery();
+                                cmd.ExecuteNonQuery();
 
-                                //message += $"OK {rowsAffected} rows affected";
                                 result = true;
                             }
                             catch (Exception e)
                             {
+                                WriteErrorMessage(e.Message);
                             }
 
                         }
@@ -249,26 +240,26 @@ namespace DataLayer.Classes
             message = "OK";
             try
             {
-                using (SqlConnection con = ConManager.GetConnection())
+                using (SqlConnection? con = ConManager.GetConnection())
                 {
                     using (SqlCommand cmd = new SqlCommand("AddClient", con))
                     {
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandType = CommandType.StoredProcedure;
 
                         // Add parameters for the stored procedure
-                        cmd.Parameters.AddWithValue("@clt_code", client.clt_code ?? "");
-                        cmd.Parameters.AddWithValue("@clt_name", client.clt_name ?? "");
-                        cmd.Parameters.AddWithValue("@address", client.address ?? "");
-                        cmd.Parameters.AddWithValue("@postalcode", client.postalcode ?? "");
-                        cmd.Parameters.AddWithValue("@city", client.city ?? "");
-                        cmd.Parameters.AddWithValue("@country", client.country ?? "");
-                        cmd.Parameters.AddWithValue("@email", client.email ?? "");
-                        cmd.Parameters.AddWithValue("@phone", client.phone ?? "");
+                        cmd.Parameters.AddWithValue("@clt_code", client.clt_code);
+                        cmd.Parameters.AddWithValue("@clt_name", client.clt_name);
+                        cmd.Parameters.AddWithValue("@address", client.address);
+                        cmd.Parameters.AddWithValue("@postalcode", client.postalcode);
+                        cmd.Parameters.AddWithValue("@city", client.city);
+                        cmd.Parameters.AddWithValue("@country", client.country);
+                        cmd.Parameters.AddWithValue("@email", client.email);
+                        cmd.Parameters.AddWithValue("@phone", client.phone);
                         cmd.Parameters.AddWithValue("@rate_ES001", client.rate_ES001);
                         cmd.Parameters.AddWithValue("@rate_AS001", client.rate_AS001);
                         cmd.Parameters.AddWithValue("@retainer_ES001", client.retainer_ES001);
                         cmd.Parameters.AddWithValue("@retainer_AS001", client.retainer_AS001);
-                        cmd.Parameters.AddWithValue("@report_type", client.report_type ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@report_type", client.report_type);
 
                         // Execute the stored procedure and check if it returns a result set
                         using (SqlDataReader reader = cmd.ExecuteReader())
@@ -279,13 +270,13 @@ namespace DataLayer.Classes
                                 // Check if it's an error message or success message
                                 if (reader.FieldCount > 0)
                                 {
-                                    string resultMessage = reader["Message"]?.ToString() ?? "";
+                                    string resultMessage = reader["Message"].ToString() ?? "";
                                     if (resultMessage.Contains("successfully"))
                                     {
                                         message = resultMessage;
                                         result = true;
                                     }
-                                    else if (reader["ErrorMessage"] != null)
+                                    else
                                     {
                                         message = reader["ErrorMessage"].ToString() ?? "Unknown error";
                                         result = false;
@@ -311,7 +302,7 @@ namespace DataLayer.Classes
             message = "";
             try
             {
-                using (SqlConnection con = ConManager.GetConnection())
+                using (SqlConnection? con = ConManager.GetConnection())
                 {
 
                     using (SqlCommand cmd = new SqlCommand("DeleteWorkedHours", con))
@@ -320,7 +311,7 @@ namespace DataLayer.Classes
                         {
                             foreach (int month in months)
                             {
-                                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                                cmd.CommandType = CommandType.StoredProcedure;
 
                                 // Add parameters if your stored procedure has any
                                 cmd.Parameters.AddWithValue("@month", month);
@@ -413,7 +404,7 @@ namespace DataLayer.Classes
                     while (!reader.EndOfStream)
                     {
                         // Read the line
-                        string line = reader.ReadLine();
+                        string line = reader.ReadLine()!;
                         debugLine = line;
                         if (!skipHeaders)
                         {
@@ -477,7 +468,7 @@ namespace DataLayer.Classes
 
         private string ConvertToDateTime(string date, string time)
         {
-            string result = default;
+            string result;
             if (time.Count(c => c == ':') > 1)
             {
                 result = $"{date} {time}";
