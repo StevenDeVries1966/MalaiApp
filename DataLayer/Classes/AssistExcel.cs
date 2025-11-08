@@ -24,7 +24,7 @@ namespace DataLayer.Classes
 
                 // Get the total rows and columns in the range
                 int totalRows = range.RowCount();
-                int totalColumns = range.ColumnCount();
+                range.ColumnCount();
 
                 // Loop through the rows and columns
                 for (int row = 4; row <= totalRows; row++) // Start at row 1 (ClosedXML is 1-based)

@@ -7,43 +7,38 @@ namespace DataLayer.Classes
     {
         public static string ConvertMinutesToString(double minutesWorked)
         {
-            bool Isnegative = false;
-            if (minutesWorked < 0) Isnegative = true;
+            bool isNegative = minutesWorked < 0;
+
             minutesWorked = Math.Abs(minutesWorked);
-            if (minutesWorked == 1425)
-            {
-
-            }
             int hours = (int)minutesWorked / 60;
-            int minutesInHours = (int)hours * 60;
+            int minutesInHours = hours * 60;
             int minutes = (int)minutesWorked - minutesInHours;
-            string strminutes = minutes < 10 ? $"0{minutes}" : Convert.ToString(minutes);
+            string strMinutes = minutes < 10 ? $"0{minutes}" : Convert.ToString(minutes);
 
-            if (Isnegative)
+            if (isNegative)
             {
-                return $"-{hours}:{strminutes}";
+                return $"-{hours}:{strMinutes}";
             }
             else
             {
-                return $"{hours}:{strminutes}";
+                return $"{hours}:{strMinutes}";
             }
         }
-        public static string ConvertHoursToString(double hours_worked)
+        public static string ConvertHoursToString(double hoursWorked)
         {
-            bool Isnegative = false;
-            if (hours_worked < 0) Isnegative = true;
-            hours_worked = Math.Abs(hours_worked);
+            bool isNegative = hoursWorked < 0;
+            hoursWorked = Math.Abs(hoursWorked);
 
-            int hours = (int)hours_worked;
-            int minutes = (int)((hours_worked - hours) * 60);
-            string strminutes = minutes < 10 ? $"0{minutes}" : Convert.ToString(minutes);
-            if (Isnegative)
+            int hours = (int)hoursWorked;
+            int minutes = (int)((hoursWorked - hours) * 60);
+            string strMinutes = minutes < 10 ? $"0{minutes}" : Convert.ToString(minutes);
+            if (isNegative)
             {
-                return $"-{hours}:{strminutes}";
+                return $"-{hours}:{strMinutes}";
             }
             else
             {
-                return $"{hours}:{strminutes}";
+                return $"{hours}:{strMinutes}";
             }
         }
         public static void WriteToCsv<T>(List<T> objects, string filePath)
