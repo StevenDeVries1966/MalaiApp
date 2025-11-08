@@ -73,7 +73,7 @@ void CreateReports()
     Globals.ConMan.GetAllEmployees();
     Globals.ConMan.GetAllJobs();
     //Globals.EmployeeCurrent = Globals.ConMan.lstEmployee.FirstOrDefault(o => o.login.Equals(Environment.UserName, StringComparison.CurrentCultureIgnoreCase));
-    Globals.EmployeeCurrent = Globals.ConMan.lstEmployee.FirstOrDefault(o => o.login.Equals("ES001", StringComparison.CurrentCultureIgnoreCase));
+    Globals.EmployeeCurrent = Globals.ConMan.LstEmployee.FirstOrDefault(o => o.login.Equals("ES001", StringComparison.CurrentCultureIgnoreCase));
 
     if (Globals.ConMan == null)
     {
@@ -86,7 +86,7 @@ void CreateReports()
     }
 
     Globals.ConMan.GetAllClients();
-    foreach (DtoClient clt in Globals.ConMan.lstClients)
+    foreach (DtoClient clt in Globals.ConMan.LstClients)
     {
         foreach (int month in Globals.Months)
         {

@@ -57,7 +57,7 @@ namespace MalaiReport.Reports
                 MonthString = new DateTime(DateTime.Now.Year, month, 1).ToString("MM");
                 Period = $"{year}-{MonthString}";
                 LstWorkedHours = Globals.ConMan?.GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", month, year, cltCode, out _)!;
-                Client = Globals.ConMan?.lstClients.FirstOrDefault(o => o.clt_code.Equals(cltCode, StringComparison.CurrentCultureIgnoreCase))!;
+                Client = Globals.ConMan?.LstClients.FirstOrDefault(o => o.clt_code.Equals(cltCode, StringComparison.CurrentCultureIgnoreCase))!;
                 if (LstWorkedHours != null && LstWorkedHours.Count == 0)
                 {
                     Console.WriteLine($"No hours for {cltCode} in {Period}");
@@ -77,7 +77,7 @@ namespace MalaiReport.Reports
                 LstWorkedHoursByJobReports = new List<DtoWorkedHoursByJobReport>();
                 foreach (var groep in GroupedByJobName)
                 {
-                    DtoJob job = Globals.ConMan!.lstJobs
+                    DtoJob job = Globals.ConMan!.LstJobs
                         .FirstOrDefault(o => o.job_name.TrimEnd().Equals(groep.Key.TrimEnd(), StringComparison.CurrentCultureIgnoreCase))!;
                     LstWorkedHoursByJobReports.Add(new DtoWorkedHoursByJobReport(Client, groep.ToList(), job));
                 }

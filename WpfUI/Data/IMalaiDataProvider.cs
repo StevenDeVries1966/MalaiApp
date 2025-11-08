@@ -39,7 +39,7 @@ namespace WpfUI.Data
         {
             MalaiContext ctx = new MalaiContext(Globals.ConnectionString);
             ctx.GetAllEmployees();
-            return ctx.lstEmployee;
+            return ctx.LstEmployee;
         }
 
         public async Task<List<DtoClient>?> GetClientsAsync()
@@ -52,7 +52,7 @@ namespace WpfUI.Data
         {
             MalaiContext ctx = new MalaiContext(Globals.ConnectionString);
             ctx.GetAllClients();
-            return ctx.lstClients;
+            return ctx.LstClients;
         }
 
         public async Task<List<DtoJob>?> GetJobsAsync()
@@ -65,7 +65,7 @@ namespace WpfUI.Data
         {
             MalaiContext ctx = new MalaiContext(Globals.ConnectionString);
             ctx.GetAllJobs();
-            return ctx.lstJobs;
+            return ctx.LstJobs;
         }
 
         public async Task<List<DtoWorkedHours>?> GetWorkedHoursAsync()
@@ -77,7 +77,7 @@ namespace WpfUI.Data
         {
             MalaiContext ctx = new MalaiContext(Globals.ConnectionString);
             ctx.GetAllWorkedHours(DateTime.ParseExact(Globals.SelectedMonth, "MMMM", System.Globalization.CultureInfo.CurrentCulture).Month, Globals.SelectedYear);
-            return ctx.lstWorkedHours;
+            return ctx.LstWorkedHours;
         }
     }
 }

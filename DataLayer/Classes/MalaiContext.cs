@@ -7,67 +7,63 @@ namespace DataLayer.Classes
     public class MalaiContext : DbContext
     {
         public ConnectionManager ConManager { get; set; }
-        public List<DtoClient> lstClients { get; set; }
-        public List<DtoJob> lstJobs { get; set; }
-        public List<DtoEmployee> lstEmployee { get; set; }
-        public List<DtoWorkedHours> lstWorkedHours { get; set; }
-        public List<DtoWorkedHours> lst { get; set; }
+        public List<DtoClient> LstClients { get; set; }
+        public List<DtoJob> LstJobs { get; set; }
+        public List<DtoEmployee> LstEmployee { get; set; }
+        public List<DtoWorkedHours> LstWorkedHours { get; set; }
+        public List<DtoWorkedHours> Lst { get; set; }
 
-        //public MalaiContext(string server, string database, string username, string password, bool allData = false)
-        //{
-        //    ConManager = new ConnectionManager(server, database, username, password);
-        //    string message = "";
-        //    if (allData)
-        //    {
-        //        lstClients = GetRecords<DtoClient>("GetAllClients", out message);
-        //        lstJobs = GetRecords<DtoJob>("GetAllJobs", out message);
-        //        lstEmployee = GetRecords<DtoEmployee>("GetAllEmployees", out message);
-        //        lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
-        //    }
-        //}
-        public MalaiContext(string connectionstring, bool allData = false)
+        public MalaiContext(string con, bool allData = false)
         {
-            ConManager = new ConnectionManager(connectionstring);
+            ConManager = new ConnectionManager(con);
             string message = "";
             if (allData)
             {
-                lstClients = GetRecords<DtoClient>("GetAllClients", out message);
-                lstJobs = GetRecords<DtoJob>("GetAllJobs", out message);
-                lstEmployee = GetRecords<DtoEmployee>("GetAllEmployees", out message);
-                //lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
-                //GetAllWorkedHours();
+                LstClients = GetRecords<DtoClient>("GetAllClients", out message);
+                if (message != "OK") WriteErrorMessage(message);
+                LstJobs = GetRecords<DtoJob>("GetAllJobs", out message);
+                if (message != "OK") WriteErrorMessage(message);
+                LstEmployee = GetRecords<DtoEmployee>("GetAllEmployees", out message);
+                if (message != "OK") WriteErrorMessage(message);
             }
+        }
+        public void WriteErrorMessage(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ResetColor(); // Reset to default color
+            AddLog("Test error message", "Stack trace test", 1);
         }
         public string GetAllClients()
         {
-            string message = "";
-            lstClients = GetRecords<DtoClient>("GetAllClients", out message);
+            LstClients = GetRecords<DtoClient>("GetAllClients", out var message);
+            if (message != "OK") WriteErrorMessage(message);
             return message;
         }
         public string GetAllJobs()
         {
-            string message = "";
-            lstJobs = GetRecords<DtoJob>("GetAllJobs", out message);
+            LstJobs = GetRecords<DtoJob>("GetAllJobs", out var message);
+            if (message != "OK") WriteErrorMessage(message);
             return message;
         }
         public string GetAllEmployees()
         {
-            string message = "";
-            lstEmployee = GetRecords<DtoEmployee>("GetAllEmployees", out message);
+            LstEmployee = GetRecords<DtoEmployee>("GetAllEmployees", out var message);
+            if (message != "OK") WriteErrorMessage(message);
             return message;
         }
         public string GetAllWorkedHours(int month, int year)
         {
             string message = "";
-            //lstWorkedHours = GetRecords<DtoWorkedHours>("GetAllWorkedHours", out message);
-            lstWorkedHours = GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", month, year, "", out _)!;
+            LstWorkedHours = GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", month, year, "", out _)!;
 
-            foreach (var wh in lstWorkedHours)
+            foreach (var wh in LstWorkedHours)
             {
-                wh.Client = lstClients.Where(o => o.clt_code == wh.clt_code).FirstOrDefault();
-                wh.Job = lstJobs.Where(o => o.job_id == wh.job_id).FirstOrDefault();
-                wh.Employee = lstEmployee.Where(o => o.emp_id == wh.emp_id).FirstOrDefault();
+                wh.Client = LstClients.FirstOrDefault(o => o.clt_code == wh.clt_code);
+                wh.Job = LstJobs.FirstOrDefault(o => o.job_id == wh.job_id);
+                wh.Employee = LstEmployee.FirstOrDefault(o => o.emp_id == wh.emp_id);
             }
+            if (message != "OK") WriteErrorMessage(message);
             return message;
         }
         public static List<T> MapToList<T>(IDataReader reader) where T : new()
@@ -106,7 +102,7 @@ namespace DataLayer.Classes
             message = "OK";
             try
             {
-                using (SqlConnection con = ConManager.GetConnection())
+                using (SqlConnection? con = ConManager.GetConnection())
                 {
                     using (SqlCommand cmd = new SqlCommand(storedProcedure, con))
                     {
@@ -362,7 +358,7 @@ namespace DataLayer.Classes
             try
             {
                 // Find the client by clt_code
-                var existingClient = lstClients.FirstOrDefault(c => c.clt_code == client.clt_code);
+                var existingClient = LstClients.FirstOrDefault(c => c.clt_code == client.clt_code);
                 if (existingClient == null)
                 {
                     message = "Client not found.";
@@ -403,7 +399,7 @@ namespace DataLayer.Classes
             int intLine = 0;
             try
             {
-                lst = new List<DtoWorkedHours>();
+                Lst = new List<DtoWorkedHours>();
                 // Open the file with a StreamReader
 
                 using (StreamReader reader = new StreamReader(csvPath))
@@ -455,7 +451,7 @@ namespace DataLayer.Classes
                             continue;
                         }
                         DtoWorkedHours wh = new DtoWorkedHours(values[2], values[3], values[4], start, end, values[5]);
-                        lst.Add(wh);
+                        Lst.Add(wh);
                         ++addedRecords;
                         ++intLine;
                     }
@@ -466,7 +462,7 @@ namespace DataLayer.Classes
                     }
                     message += $"Read {addedRecords} records" + Environment.NewLine;
                     Console.WriteLine(message);
-                    AddWorkedHours(lst, out message);
+                    AddWorkedHours(Lst, out message);
                     Console.WriteLine(message);
                     result = true;
                 }

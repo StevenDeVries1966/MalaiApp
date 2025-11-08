@@ -245,23 +245,23 @@ namespace WpfUI.ViewModel
                 if (Ctx != null)
                 {
                     WorkedHours.Clear();
-                    foreach (DtoWorkedHours wh in Ctx.lstWorkedHours)
+                    foreach (DtoWorkedHours wh in Ctx.LstWorkedHours)
                     {
                         WorkedHours.Add(new WorkedHoursItemViewModel(wh));
                     }
                     Employees.Clear();
-                    foreach (DtoEmployee emp in Ctx.lstEmployee)
+                    foreach (DtoEmployee emp in Ctx.LstEmployee)
                     {
                         Employees.Add(emp);
                     }
                     Clients.Clear();
-                    foreach (DtoClient clt in Ctx.lstClients)
+                    foreach (DtoClient clt in Ctx.LstClients)
                     {
                         Clients.Add(clt);
                     }
 
                     GlobalsViewModel.JobsAll.Clear();
-                    foreach (DtoJob job in Ctx.lstJobs)
+                    foreach (DtoJob job in Ctx.LstJobs)
                     {
                         GlobalsViewModel.JobsAll.Add(job);
                     }

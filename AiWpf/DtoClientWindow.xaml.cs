@@ -126,10 +126,10 @@ namespace AiWpf
                 using var context = new MalaiContext(connectionString);
                 var message = context.GetAllClients();
                 
-                if (message == "OK" && context.lstClients != null)
+                if (message == "OK" && context.LstClients != null)
                 {
                     Clients.Clear();
-                    foreach (var client in context.lstClients)
+                    foreach (var client in context.LstClients)
                     {
                         Clients.Add(client);
                     }
