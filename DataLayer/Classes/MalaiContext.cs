@@ -7,11 +7,11 @@ namespace DataLayer.Classes
     public class MalaiContext : DbContext
     {
         public ConnectionManager ConManager { get; set; }
-        public List<DtoClient> LstClients { get; set; }
-        public List<DtoJob> LstJobs { get; set; }
-        public List<DtoEmployee> LstEmployee { get; set; }
-        public List<DtoWorkedHours> LstWorkedHours { get; set; }
-        public List<DtoWorkedHours> Lst { get; set; }
+        public List<DtoClient> LstClients { get; set; } = null!;
+        public List<DtoJob> LstJobs { get; set; } = null!;
+        public List<DtoEmployee> LstEmployee { get; set; } = null!;
+        public List<DtoWorkedHours> LstWorkedHours { get; set; } = null!;
+        public List<DtoWorkedHours> Lst { get; set; } = null!;
 
         public MalaiContext(string con, bool allData = false)
         {
