@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inline CSS Table Border</title>
   <style>
+
+      table.main {
+          border: none;
+          border-collapse: collapse;
+      }
       table.data {
           border: 1px solid black; /* Set the border to solid black */
           border-collapse: collapse; /* Collapse the borders into a single border */
@@ -35,11 +40,25 @@
           table.data tr:nth-child(odd) {
               background-color: #ffffff; /* White color for odd rows */
           }
+      table.blank {
+          border: none;
+          border-collapse: collapse;
+          font-family: Arial, sans-serif;
+          font-weight: bold;
+          background-color: white;
+      }
+              table.blank td {
+                  border: none;
+                  border-collapse: collapse;
+                  padding: 8px;
+                  text-align: center;
+              }
 
       table.header {
           border: none;
           font-family: Arial, sans-serif;
           font-weight: bold;
+          background-color: white;
       }
 
           table.header td {
@@ -47,6 +66,7 @@
               padding: 2px;
               text-align: right;
               color: #275D5D;
+              background-color: white;
           }
   </style>
 </head>
