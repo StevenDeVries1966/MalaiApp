@@ -14,21 +14,19 @@ namespace MalaiReport.Reports
         private string HtmlContentHrsC { get; set; } // this report should be made for every client
 
         private int IntEs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursByEmpReports.Sum(o => o.DblEs001MinutesTotal));
-        private int IntEs001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntEs001MinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
+        private int IntEs001PercentageReportTotal => Convert.ToInt32(Math.Round(IntEs001MinutesReportTotal / (double)IntMinutesReportTotal * 100, 0));
         private string StrEs001MinutesReportTotal => AssistFormat.ConvertMinutesToString(IntEs001MinutesReportTotal);
         private double DblEs001TotalCharge => LstWorkedHoursByEmpReports.Sum(item => item.ChargeEs001);
 
         private int IntAs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursByEmpReports.Sum(o => o.DblAs001MinutesTotal));
-        private int IntAs001PercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntAs001MinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
+        private int IntAs001PercentageReportTotal => Convert.ToInt32(Math.Round(IntAs001MinutesReportTotal / (double)IntMinutesReportTotal * 100, 0));
         private string StrAs001MinutesReportTotal =>
             AssistFormat.ConvertMinutesToString(IntAs001MinutesReportTotal);
         private double DblAs001TotalCharge => LstWorkedHoursByEmpReports.Sum(item => item.ChargeAs001);
 
 
         private int IntHrMinutesReportTotal => Convert.ToInt32(LstWorkedHoursByEmpReports.Sum(o => o.DblHrMinutesTotal));
-        private int IntHrPercentageReportTotal => Convert.ToInt32(Math.Round((double)(((double)IntHrMinutesReportTotal / (double)IntMinutesReportTotal) * 100), 0));
         private string StrHrMinutesReportTotal => AssistFormat.ConvertMinutesToString(IntHrMinutesReportTotal);
-        private double DblHrTotalCharge { get; set; }
 
         private int IntMinutesReportTotal => IntEs001MinutesReportTotal + IntAs001MinutesReportTotal + IntHrMinutesReportTotal;
         private string StrMinutesReportTotal =>
@@ -43,23 +41,18 @@ namespace MalaiReport.Reports
         private IEnumerable<IGrouping<string, DtoWorkedHours>> GroupedByJobName { get; set; }
         private string HtmlTemplateContent { get; set; }
 
-        public ReportAll(int month, int year, string clt_code, string htmlFilePath, bool inclCharge = true)
+        public ReportAll(int month, int year, string cltCode, string htmlFilePath, bool inclCharge = true)
         {
             try
             {
                 InclCharge = inclCharge;
                 MonthString = new DateTime(DateTime.Now.Year, month, 1).ToString("MM");
                 Period = $"{year}-{MonthString}";
-                LstWorkedHours = Globals.ConMan?.GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", month, year, clt_code, out _)!;
-                Client = Globals.ConMan?.lstClients.FirstOrDefault(o => o.clt_code.Equals(clt_code, StringComparison.CurrentCultureIgnoreCase))!;
+                LstWorkedHours = Globals.ConMan?.GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", month, year, cltCode, out _)!;
+                Client = Globals.ConMan?.lstClients.FirstOrDefault(o => o.clt_code.Equals(cltCode, StringComparison.CurrentCultureIgnoreCase))!;
                 if (LstWorkedHours != null && LstWorkedHours.Count == 0)
                 {
-                    Console.WriteLine($"No hours for {clt_code} in {Period}");
-                    return;
-                }
-                if (Client == null)
-                {
-                    Console.WriteLine($"This client is not found in the database: {clt_code} in {Period}");
+                    Console.WriteLine($"No hours for {cltCode} in {Period}");
                     return;
                 }
                 Console.WriteLine($"process {Period} for client {Client.clt_name}");
@@ -76,10 +69,8 @@ namespace MalaiReport.Reports
                 LstWorkedHoursByJobReports = new List<DtoWorkedHoursByJobReport>();
                 foreach (var groep in GroupedByJobName)
                 {
-                    DtoJob job = Globals.ConMan.lstJobs
-                        .FirstOrDefault(o => o.job_name.TrimEnd().Equals(groep.Key.TrimEnd(), StringComparison.CurrentCultureIgnoreCase));
-                    if (job == null)
-                    { }
+                    DtoJob job = Globals.ConMan!.lstJobs
+                        .FirstOrDefault(o => o.job_name.TrimEnd().Equals(groep.Key.TrimEnd(), StringComparison.CurrentCultureIgnoreCase))!;
                     LstWorkedHoursByJobReports.Add(new DtoWorkedHoursByJobReport(Client, groep.ToList(), job));
                 }
 
@@ -89,7 +80,7 @@ namespace MalaiReport.Reports
                 HtmlContentHrsC = CreateHtml_Report_Hrs_C();
                 HtmlContentHrsC = HtmlTemplateContent.Replace("%Content%", HtmlContentHrsC);
                 // Save HTML content to a file
-                AssistHtml.SaveHtmlToFile(HtmlContentHrsC, Path.Combine(htmlFilePath, $"{Period}_{clt_code}_Hrs_C.html"));
+                AssistHtml.SaveHtmlToFile(HtmlContentHrsC, Path.Combine(htmlFilePath, $"{Period}_{cltCode}_Hrs_C.html"));
 
                 // Generate the HTML content
                 if (Client.report_type.Equals("Hrs_B", StringComparison.CurrentCultureIgnoreCase))
@@ -117,17 +108,17 @@ namespace MalaiReport.Reports
                 // PHC && InclCharge = true
                 if (!Client.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase) && InclCharge)
                 {
-                    htmlFilePath = Path.Combine(htmlFilePath, $"{Period}_{clt_code}_{Client.report_type}.html");
+                    htmlFilePath = Path.Combine(htmlFilePath, $"{Period}_{cltCode}_{Client.report_type}.html");
                 }
                 // IMC && InclCharge = true
                 else if (Client.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase) && InclCharge)
                 {
-                    htmlFilePath = Path.Combine(htmlFilePath, $"{Period}_{clt_code}_{Client.report_type}_PLUS.html");
+                    htmlFilePath = Path.Combine(htmlFilePath, $"{Period}_{cltCode}_{Client.report_type}_PLUS.html");
                 }
                 // IMC && InclCharge = false
                 else if (Client.clt_code.Equals("IMC", StringComparison.CurrentCultureIgnoreCase) && !InclCharge)
                 {
-                    htmlFilePath = Path.Combine(htmlFilePath, $"{Period}_{clt_code}_{Client.report_type}.html");
+                    htmlFilePath = Path.Combine(htmlFilePath, $"{Period}_{cltCode}_{Client.report_type}.html");
                 }
                 // Save HTML content to a file
                 AssistHtml.SaveHtmlToFile(HtmlContent, htmlFilePath);
@@ -135,12 +126,11 @@ namespace MalaiReport.Reports
             }
             catch (Exception e)
             {
-                Globals.ConMan!.AddLog(e.Message, e!.StackTrace!, Globals.EmployeeCurrent!.emp_id);
+                Globals.ConMan!.AddLog(e.Message, e.StackTrace!, Globals.EmployeeCurrent!.emp_id);
             }
         }
         private string CreateHtml_Report_Hrs_B()
         {
-
             HtmlBuilder = new StringBuilder();
             
             HtmlBuilder.AppendLine("<table class=\"main\">");
@@ -263,99 +253,6 @@ namespace MalaiReport.Reports
             // End HTML table
             HtmlBuilder.AppendLine("</table>");
         }
-        //private void DoData_Hrs_BorD(bool isB)
-        //{
-        //    HtmlBuilder.AppendLine(@"<br>");
-        //    HtmlBuilder.AppendLine("<table class=\"data\" style=\"width:100%\">");
-        //    if (isB)
-        //    {
-        //        LogoRowPeriod_Only();
-        //        HtmlBuilder.AppendLine("<tr>");
-        //        HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\" colspan=\"2\"></td>");
-        //        HtmlBuilder.AppendLine(
-        //            $"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\" colspan=\"2\">IMC - AP</td>");
-        //        HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#275D5D;\">IMC - HR</td>");
-        //        if (InclCharge)
-        //        {
-        //            HtmlBuilder.AppendLine($"<td colspan=\"3\"></td>");
-        //        }
-
-        //        HtmlBuilder.AppendLine("</tr>");
-        //    }
-        //    else
-        //    {
-        //        LogoRowRate_Single();
-        //    }
-
-        //        // Create table header
-        //        HtmlBuilder.AppendLine(@"<tr>");
-        //    HtmlBuilder.AppendLine("<th>Date</th>");
-        //    HtmlBuilder.AppendLine("<th>Description</th>");
-        //    HtmlBuilder.AppendLine("<th>Esther</th>");
-        //    HtmlBuilder.AppendLine("<th>Aisha</th>");
-        //    HtmlBuilder.AppendLine("<th>HR - Hours</th>");
-        //    HtmlBuilder.AppendLine("<th style=\"border-right-style:none;\">Total Hours</th>");
-        //    if (InclCharge)
-        //    {
-        //        HtmlBuilder.AppendLine("<th style=\"border-left-style:none;border-right-style:none;\"></th>");
-        //        HtmlBuilder.AppendLine("<th style=\"border-left-style: none;text-align:right;\">Charge</th>");
-        //    }
-
-        //    HtmlBuilder.AppendLine("</tr>");
-
-        //    // Create table rows
-        //    foreach (DtoWorkedHoursByEmpReport wh in LstWorkedHoursByEmpReports)
-        //    {
-        //        if (Math.Abs(wh.Charge - (-831.25)) < 0.000001)
-        //        {
-
-        //        }
-        //        HtmlBuilder.AppendLine("<tr>");
-        //        HtmlBuilder.AppendLine(
-        //            $"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
-        //        HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.JobTotal}</td>");
-        //        HtmlBuilder.AppendLine(
-        //            $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrEs001MinutesTotal}</td>");
-        //        HtmlBuilder.AppendLine(
-        //            $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrAs001MinutesTotal}</td>");
-        //        HtmlBuilder.AppendLine(
-        //            $"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrHrMinutesTotal}</td>");
-        //        HtmlBuilder.AppendLine(
-        //            $"<td style=\"font-weight:bold;text-align:center;color:#808080;border-right-style:none;\">{wh.MinutesTotalString}</td>");
-        //        if (InclCharge)
-        //        {
-        //            HtmlBuilder.AppendLine(
-        //                $"<td style=\"border-left-style:none;border-right-style:none;font-weight:bold;\">$</td>");
-        //            HtmlBuilder.AppendLine(
-        //                $"<td style=\"border-left-style:none;text-align:right;font-weight:bold;\">{wh.Charge.ToString("0.00")}</td>");
-        //        }
-
-        //        HtmlBuilder.AppendLine("</tr>");
-        //    }
-
-        //    HtmlBuilder.AppendLine(@"<tr>");
-        //    HtmlBuilder.AppendLine("<th></th>");
-        //    HtmlBuilder.AppendLine("<th></th>");
-        //    HtmlBuilder.AppendLine(
-        //        $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
-        //    HtmlBuilder.AppendLine(
-        //        $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
-        //    HtmlBuilder.AppendLine(
-        //        $"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrHrMinutesReportTotal}</th>");
-        //    HtmlBuilder.AppendLine(
-        //        $"<th style=\"border-right-style:none;font-weight:bold;text-align:center;color:#808080;\">{StrMinutesReportTotal}</th>");
-        //    if (InclCharge)
-        //    {
-        //        HtmlBuilder.AppendLine(
-        //            $"<th style=\"border-left-style:none;border-right-style:none;font-weight:bold;color:#000000;\">$</th>");
-        //        HtmlBuilder.AppendLine(
-        //            $"<th style=\"border-left-style:none;text-align:right;font-weight:bold;color:#000000;\">{TotalCharge.ToString("0.00")}</th>");
-        //    }
-
-        //    HtmlBuilder.AppendLine("</tr>");
-        //    // End HTML table
-        //    HtmlBuilder.AppendLine("</table>");
-        //}
 
         private string CreateHtml_Report_Hrs_A()
         {
@@ -441,33 +338,7 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine("</table>");
         }
 
-        private void LogoRowPeriod_Only()
-        {
-            // Header with logo and client info
-            HtmlBuilder.AppendLine("<tr>");
-            HtmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"125\" height=\"125\"></td>");
-            HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">");
-                HtmlBuilder.AppendLine("<table class=\"header\">");
-                    HtmlBuilder.AppendLine("<tr>");
-                        HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">Client :</td>");
-                        HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">{Client.clt_name.TrimEnd()}</td>");
-                    HtmlBuilder.AppendLine("</tr>");
-                    HtmlBuilder.AppendLine("<tr>");
-                        HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-                        HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Period : {Period}</td>");
-                    HtmlBuilder.AppendLine("</tr>");
-                    HtmlBuilder.AppendLine("<tr>");
-                        HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-                        if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 1: $ {Client.rate_ES001.ToString("0.00")}</td>");
-                    HtmlBuilder.AppendLine("</tr>");
-                    HtmlBuilder.AppendLine("<tr>");
-                        HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-                        if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 2: $ {Client.rate_AS001.ToString("0.00")}</td>");
-                    HtmlBuilder.AppendLine("</tr>");
-                HtmlBuilder.AppendLine("</table>");
-            HtmlBuilder.AppendLine($"</td>");
-            HtmlBuilder.AppendLine("</tr>");
-        }
+
         private void LogoRowPeriod_Only_SepTable()
         {
             // Header with logo and client info
@@ -526,33 +397,7 @@ namespace MalaiReport.Reports
                 HtmlBuilder.AppendLine("</tr>");
             HtmlBuilder.AppendLine("</table>");
         }
-        //private void LogoRowRate_Single()
-        //{
-        //    // Header with logo and client info
-        //    HtmlBuilder.AppendLine("<tr>");
-        //    HtmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"125\" height=\"125\"></td>");
-        //    HtmlBuilder.AppendLine($"<td colspan=\"3\" style=\"text-align:right;\">");
-        //    HtmlBuilder.AppendLine("<table class=\"header\">");
-        //    HtmlBuilder.AppendLine("<tr>");
-        //    HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">Client :</td>");
-        //    HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">{Client.clt_name.TrimEnd()}</td>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //    HtmlBuilder.AppendLine("<tr>");
-        //    HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-        //    HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Period : {Period}</td>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //    HtmlBuilder.AppendLine("<tr>");
-        //    HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-        //    if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 1: $ {Client.rate_ES001.ToString("0.00")}</td>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //    HtmlBuilder.AppendLine("<tr>");
-        //    HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-        //    if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 2: $ {Client.rate_AS001.ToString("0.00")}</td>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //    HtmlBuilder.AppendLine("</table>");
-        //    HtmlBuilder.AppendLine($"</td>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //}
+  
         private void LogoRowRate_Double_SepTable()
         {
             // Header with logo and client info .
@@ -582,33 +427,7 @@ namespace MalaiReport.Reports
                 HtmlBuilder.AppendLine("</tr>");
             HtmlBuilder.AppendLine("</table>");
         }
-        //private void LogoRowRate_Double()
-        //{
-        //    // Header with logo and client info
-        //    HtmlBuilder.AppendLine("<tr>");
-        //    HtmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"125\" height=\"125\"></td>");
-        //    HtmlBuilder.AppendLine($"<td colspan=\"3\" style=\"text-align:right;\">");
-        //    HtmlBuilder.AppendLine("<table class=\"header\">");
-        //    HtmlBuilder.AppendLine("<tr>");
-        //    HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">Client :</td>");
-        //    HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">{Client.clt_name.TrimEnd()}</td>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //    HtmlBuilder.AppendLine("<tr>");
-        //    HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-        //    HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Period : {Period}</td>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //    HtmlBuilder.AppendLine("<tr>");
-        //    HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-        //    if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 1: $ {Client.rate_ES001.ToString("0.00")}</td>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //    HtmlBuilder.AppendLine("<tr>");
-        //    HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-        //    if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 2: $ {Client.rate_AS001.ToString("0.00")}</td>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //    HtmlBuilder.AppendLine("</table>");
-        //    HtmlBuilder.AppendLine($"</td>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //}
+
 
         private string CreateHtml_Report_Hrs_C()
         {
@@ -664,7 +483,7 @@ namespace MalaiReport.Reports
                     }
                     catch (Exception e)
                     {
-                        Globals.ConMan!.AddLog(e.Message, e!.StackTrace!, Globals.EmployeeCurrent!.emp_id);
+                        Globals.ConMan!.AddLog(e.Message, e.StackTrace!, Globals.EmployeeCurrent!.emp_id);
                     }
                 }
 
@@ -682,7 +501,7 @@ namespace MalaiReport.Reports
             }
             catch (Exception e)
             {
-                Globals.ConMan!.AddLog(e.Message, e!.StackTrace!, Globals.EmployeeCurrent!.emp_id);
+                Globals.ConMan!.AddLog(e.Message, e.StackTrace!, Globals.EmployeeCurrent!.emp_id);
             }
 
         }
@@ -754,65 +573,7 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine("</table>");
             return HtmlBuilder.ToString();
         }
-        //private string CreateHtml_Report_Retainer()
-        //{
-        //    double es001Additional = IntEs001MinutesReportTotal - (Client.retainer_ES001 * 60);
-        //    double as001Additional = IntAs001MinutesReportTotal - (Client.retainer_AS001 * 60);
-        //    double totalAdditional = es001Additional + as001Additional;
 
-        //    HtmlBuilder = new StringBuilder();
-        //    DoNameHeader_SepTable();
-
-
-
-        //    HtmlBuilder.AppendLine(@"<br>");
-        //    // Start HTML table
-        //    HtmlBuilder.AppendLine("<table  class=\"data\" 'border:5px solid black;border-collapse:collapse;'>");
-        //    // Create table header
-        //    HtmlBuilder.AppendLine(@"<tr>");
-        //    HtmlBuilder.AppendLine("<th>Date</th>");
-        //    HtmlBuilder.AppendLine("<th>Description</th>");
-        //    HtmlBuilder.AppendLine("<th>Esther</th>");
-        //    HtmlBuilder.AppendLine("<th>Aisha</th>");
-        //    HtmlBuilder.AppendLine("<th>TotalHours</th>");
-        //    HtmlBuilder.AppendLine("</tr>");
-
-        //    // Create table rows
-        //    foreach (DtoWorkedHoursByEmpReport wh in LstWorkedHoursByEmpReports)
-        //    {
-        //        HtmlBuilder.AppendLine("<tr>");
-        //        HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.Today.ToString("dd-MMM-yyyy").Replace(".", "")}</td>");
-        //        HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:left\">{wh.JobTotal}</td>");
-        //        HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrEs001MinutesTotal}</td>");
-        //        HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.StrAs001MinutesTotal}</td>");
-        //        HtmlBuilder.AppendLine($"<td style=\"font-weight:bold;text-align:center;color:#808080;\">{wh.MinutesTotalString}</td>");
-        //        HtmlBuilder.AppendLine("</tr>");
-        //    }
-        //    HtmlBuilder.AppendLine(@"<tr>");
-        //    HtmlBuilder.AppendLine("<th></th>");
-        //    HtmlBuilder.AppendLine("<th></th>");
-        //    HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrEs001MinutesReportTotal}</th>");
-        //    HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#808080;\">{StrAs001MinutesReportTotal}</th>");
-        //    HtmlBuilder.AppendLine($"<th style=\"font-weight:bold;text-align:center;color:#000000;\">{StrMinutesReportTotal}</th>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //    HtmlBuilder.AppendLine("<tr>");
-        //    HtmlBuilder.AppendLine($"<td style=\"border:none\"></td>");
-        //    HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D;font-weight:bold;text-align:right\">Retainer</td>");
-        //    HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertHoursToString(Client.retainer_ES001)}</td>");
-        //    HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\" style=\"border:none\"d>{AssistFormat.ConvertHoursToString(Client.retainer_AS001)}</td>");
-        //    HtmlBuilder.AppendLine($"<td style=\"border:none;color:#000000\">{AssistFormat.ConvertHoursToString(Client.retainer_ES001 + Client.retainer_AS001)}</td>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //    HtmlBuilder.AppendLine("<tr>");
-        //    HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\"></td>");
-        //    HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D;font-weight:bold;text-align:right\">Additional hours</td>");
-        //    HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(es001Additional)}</td>");
-        //    HtmlBuilder.AppendLine($"<td style=\"border:none;color:#275D5D\">{AssistFormat.ConvertMinutesToString(as001Additional)}</td>");
-        //    HtmlBuilder.AppendLine($"<td style=\"border:none;color:#000000\">{AssistFormat.ConvertMinutesToString(totalAdditional)}</td>");
-        //    HtmlBuilder.AppendLine("</tr>");
-        //    HtmlBuilder.AppendLine("</table>");
-        //    HtmlBuilder.AppendLine(@"<br>");
-        //    return HtmlBuilder.ToString();
-        //}
         private void DoNameHeader_SepTable()
         {
             HtmlBuilder.AppendLine("<table class=\"blank\" style=\"width:100%\">");
@@ -830,73 +591,6 @@ namespace MalaiReport.Reports
             HtmlBuilder.AppendLine("</tr>");
             HtmlBuilder.AppendLine("</table>");
         }
-        private void DoNameHeader()
-        {
-            HtmlBuilder.AppendLine("<table class=\"header\" 'border:5px solid black;border-collapse:collapse;'>");
-            HtmlBuilder.AppendLine("<tr>");
-            HtmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"125\" height=\"125\"></td>");
-            HtmlBuilder.AppendLine($"<td style=\"align=right\"><table>");
-            HtmlBuilder.AppendLine("<tr>");
-            HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;\">Client : {Client.clt_name}</td>");
-            HtmlBuilder.AppendLine("</tr>");
-            HtmlBuilder.AppendLine("<tr>");
-            HtmlBuilder.AppendLine($"<td>Period : {Period}</td>");
-            HtmlBuilder.AppendLine("</tr>");
-            HtmlBuilder.AppendLine($"</table></td>");
-            HtmlBuilder.AppendLine("</tr>");
-            HtmlBuilder.AppendLine("</table>");
-        }
-        private void DoRateHeader0()
-        {
-            HtmlBuilder.AppendLine("<table class=\"header\"'>");
-            HtmlBuilder.AppendLine("<tr>");
-            HtmlBuilder.AppendLine($"<td><img src=\"{Globals.LogoPath}\" alt=\"Your Image\" width=\"125\" height=\"125\"></td>");
-            HtmlBuilder.AppendLine($"<td style=\"align=right\"><table>");
-            DoRateHeader1();
-            HtmlBuilder.AppendLine($"</td>");
-            HtmlBuilder.AppendLine("</tr>");
-            HtmlBuilder.AppendLine("</table>");
-        }
-        private void DoRateHeader1()
-        {
-            if (!Client.rate_ES001.Equals(Client.rate_AS001))
-            {
-                HtmlBuilder.AppendLine("<table class=\"header\"'>");
-                HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">Client :</td>");
-                HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">{Client.clt_name.TrimEnd()}</td>");
-                HtmlBuilder.AppendLine("</tr>");
-                HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Period : {Period}</td>");
-                HtmlBuilder.AppendLine("</tr>");
-                HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-                if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 1: $ {Client.rate_ES001.ToString("0.00")}</td>");
-                HtmlBuilder.AppendLine("</tr>");
-                HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-                if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 2: $ {Client.rate_AS001.ToString("0.00")}</td>");
-                HtmlBuilder.AppendLine("</tr>");
-                HtmlBuilder.AppendLine("</table>");
-            }
-            else
-            {
-                HtmlBuilder.AppendLine("<table class=\"header\"'>");
-                HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">Client :</td>");
-                HtmlBuilder.AppendLine($"<td style=\"font-size:21px;important;text-align:right;\">{Client.clt_name.TrimEnd()}</td>");
-                HtmlBuilder.AppendLine("</tr>");
-                HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Period : {Period}</td>");
-                HtmlBuilder.AppendLine("</tr>");
-                HtmlBuilder.AppendLine("<tr>");
-                HtmlBuilder.AppendLine($"<td style=\"text-align:right;\"></td>");
-                if (InclCharge) HtmlBuilder.AppendLine($"<td style=\"text-align:right;\">Rate 1: $ {Client.rate_ES001.ToString("0.00")}</td>");
-                HtmlBuilder.AppendLine("</tr>");
-                HtmlBuilder.AppendLine("</table>");
-            }
-        }
+
     }
 }
