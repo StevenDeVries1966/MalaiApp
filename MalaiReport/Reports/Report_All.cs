@@ -6,12 +6,12 @@ namespace MalaiReport.Reports
 {
     public class ReportAll
     {
-        private List<DtoWorkedHours> LstWorkedHours { get; set; }
-        private List<DtoWorkedHoursByEmpReport> LstWorkedHoursByEmpReports { get; set; }
-        private List<DtoWorkedHoursByJobReport> LstWorkedHoursByJobReports { get; set; }
-        private DtoClient Client { get; set; }
-        private string HtmlContent { get; set; }
-        private string HtmlContentHrsC { get; set; } // this report should be made for every client
+        private List<DtoWorkedHours> LstWorkedHours { get; set; } = null!;
+        private List<DtoWorkedHoursByEmpReport> LstWorkedHoursByEmpReports { get; set; } = null!;
+        private List<DtoWorkedHoursByJobReport> LstWorkedHoursByJobReports { get; set; } = null!;
+        private DtoClient Client { get; set; } = null!;
+        private string HtmlContent { get; set; } = null!;
+        private string HtmlContentHrsC { get; set; } = null!; // this report should be made for every client
 
         private int IntEs001MinutesReportTotal => Convert.ToInt32(LstWorkedHoursByEmpReports.Sum(o => o.DblEs001MinutesTotal));
         private int IntEs001PercentageReportTotal => Convert.ToInt32(Math.Round(IntEs001MinutesReportTotal / (double)IntMinutesReportTotal * 100, 0));
@@ -34,13 +34,21 @@ namespace MalaiReport.Reports
         private double TotalCharge => LstWorkedHoursByEmpReports.Sum(item => item.Charge);
         private bool InclCharge { get; set; }
 
-        private StringBuilder HtmlBuilder { get; set; }
-        private string MonthString { get; set; }
-        private string Period { get; set; }
-        private IEnumerable<IGrouping<DateTime, DtoWorkedHours>> GroupedByDate { get; set; }
-        private IEnumerable<IGrouping<string, DtoWorkedHours>> GroupedByJobName { get; set; }
-        private string HtmlTemplateContent { get; set; }
+        private StringBuilder HtmlBuilder { get; set; } = null!;
+        private string MonthString { get; set; } = null!;
+        private string Period { get; set; } = null!;
+        private IEnumerable<IGrouping<DateTime, DtoWorkedHours>> GroupedByDate { get; set; } = null!;
+        private IEnumerable<IGrouping<string, DtoWorkedHours>> GroupedByJobName { get; set; } = null!;
+        private string HtmlTemplateContent { get; set; } = null!;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="month"></param>
+        /// <param name="year"></param>
+        /// <param name="cltCode"></param>
+        /// <param name="htmlFilePath"></param>
+        /// <param name="inclCharge"></param>
         public ReportAll(int month, int year, string cltCode, string htmlFilePath, bool inclCharge = true)
         {
             try
@@ -122,7 +130,6 @@ namespace MalaiReport.Reports
                 }
                 // Save HTML content to a file
                 AssistHtml.SaveHtmlToFile(HtmlContent, htmlFilePath);
-                //AssistHtml.ConvertHtmlToPdf(HtmlContent, Path.ChangeExtension(htmlFilePath, ".pdf"));
             }
             catch (Exception e)
             {
