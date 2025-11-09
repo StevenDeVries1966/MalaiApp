@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using DataLayer.Classes;
+using System.Linq;
 
 namespace AiWpf.ViewModels
 {
@@ -14,11 +15,13 @@ namespace AiWpf.ViewModels
         private int _year = 2025;
         private string _clientCode = "IMC";
         private ObservableCollection<DtoClient> _clients;
+        private List<int> _months;
 
         public MainWindowViewModel()
         {
             _workedHours = new ObservableCollection<DtoWorkedHours>();
             _clients = new ObservableCollection<DtoClient>();
+            _months = Enumerable.Range(1, 12).ToList();
             LoadDataCommand = new RelayCommand(LoadData);
 
             // Load clients
@@ -44,6 +47,16 @@ namespace AiWpf.ViewModels
             set
             {
                 _clients = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<int> Months
+        {
+            get => _months;
+            set
+            {
+                _months = value;
                 OnPropertyChanged();
             }
         }
