@@ -16,12 +16,14 @@ namespace AiWpf.ViewModels
         private string _clientCode = "IMC";
         private ObservableCollection<DtoClient> _clients;
         private List<int> _months;
+        private List<int> _years;
 
         public MainWindowViewModel()
         {
             _workedHours = new ObservableCollection<DtoWorkedHours>();
             _clients = new ObservableCollection<DtoClient>();
             _months = Enumerable.Range(1, 12).ToList();
+            _years = Enumerable.Range(2025, 5).ToList(); // 2025 to 2030
             LoadDataCommand = new RelayCommand(LoadData);
 
             // Load clients
@@ -57,6 +59,16 @@ namespace AiWpf.ViewModels
             set
             {
                 _months = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<int> Years
+        {
+            get => _years;
+            set
+            {
+                _years = value;
                 OnPropertyChanged();
             }
         }

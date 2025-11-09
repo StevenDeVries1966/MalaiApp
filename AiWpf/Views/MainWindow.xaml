@@ -1,101 +1,103 @@
 <Window x:Class="AiWpf.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModels="clr-namespace:AiWpf.ViewModels"
-    xmlns:System="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d"
+ xmlns:viewModels="clr-namespace:AiWpf.ViewModels"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+  mc:Ignorable="d"
         Title="Worked Hours" Height="600" Width="1200"
-     WindowStartupLocation="CenterScreen">
+    WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
-        <viewModels:MainWindowViewModel />
+   <viewModels:MainWindowViewModel />
   </Window.DataContext>
 
-  <Grid Margin="10">
-        <Grid.RowDefinitions>
+    <Grid Margin="10">
+  <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-  <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-      </Grid.RowDefinitions>
+     </Grid.RowDefinitions>
 
         <!-- Filter Panel -->
-        <GroupBox Grid.Row="0" Header="Filters" Padding="10" Margin="0,0,0,10">
-    <Grid>
-  <Grid.ColumnDefinitions>
-    <ColumnDefinition Width="Auto"/>
-          <ColumnDefinition Width="150"/>
-     <ColumnDefinition Width="20"/>
-          <ColumnDefinition Width="Auto"/>
-           <ColumnDefinition Width="150"/>
-           <ColumnDefinition Width="20"/>
-               <ColumnDefinition Width="Auto"/>
-           <ColumnDefinition Width="250"/>
+     <GroupBox Grid.Row="0" Header="Filters" Padding="10" Margin="0,0,0,10">
+     <Grid>
+          <Grid.ColumnDefinitions>
+       <ColumnDefinition Width="Auto"/>
+    <ColumnDefinition Width="150"/>
+  <ColumnDefinition Width="20"/>
+ <ColumnDefinition Width="Auto"/>
+  <ColumnDefinition Width="150"/>
         <ColumnDefinition Width="20"/>
-          <ColumnDefinition Width="Auto"/>
-    </Grid.ColumnDefinitions>
+    <ColumnDefinition Width="Auto"/>
+   <ColumnDefinition Width="250"/>
+<ColumnDefinition Width="20"/>
+     <ColumnDefinition Width="Auto"/>
+       </Grid.ColumnDefinitions>
 
-  <TextBlock Grid.Column="0" Text="Month:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-  <ComboBox Grid.Column="1" 
-            SelectedItem="{Binding Month, UpdateSourceTrigger=PropertyChanged}"
-   ItemsSource="{Binding Months}"
-                VerticalAlignment="Center"/>
-
-   <TextBlock Grid.Column="3" Text="Year:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <TextBox Grid.Column="4" Text="{Binding Year, UpdateSourceTrigger=PropertyChanged}" 
+     <TextBlock Grid.Column="0" Text="Month:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+       <ComboBox Grid.Column="1" 
+         SelectedItem="{Binding Month, UpdateSourceTrigger=PropertyChanged}"
+      ItemsSource="{Binding Months}"
        VerticalAlignment="Center"/>
 
-       <TextBlock Grid.Column="6" Text="Client Code:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-              <ComboBox Grid.Column="7" 
-           SelectedValuePath="clt_code"
-       DisplayMemberPath="DisplayName"
-       SelectedValue="{Binding ClientCode, UpdateSourceTrigger=PropertyChanged}"
+     <TextBlock Grid.Column="3" Text="Year:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+     <ComboBox Grid.Column="4" 
+    SelectedItem="{Binding Year, UpdateSourceTrigger=PropertyChanged}"
+         ItemsSource="{Binding Years}"
+  VerticalAlignment="Center"/>
+
+    <TextBlock Grid.Column="6" Text="Client Code:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+         <ComboBox Grid.Column="7" 
+     SelectedValuePath="clt_code"
+        DisplayMemberPath="DisplayName"
+      SelectedValue="{Binding ClientCode, UpdateSourceTrigger=PropertyChanged}"
        ItemsSource="{Binding Clients}"
- VerticalAlignment="Center"/>
+      VerticalAlignment="Center"/>
 
-     <Button Grid.Column="9" Content="Load Data" Command="{Binding LoadDataCommand}" 
-           Padding="15,5" MinWidth="100"/>
-          </Grid>
-        </GroupBox>
+       <Button Grid.Column="9" Content="Load Data" Command="{Binding LoadDataCommand}" 
+  Padding="15,5" MinWidth="100"/>
+            </Grid>
+   </GroupBox>
 
-    <!-- DataGrid -->
+        <!-- DataGrid -->
         <DataGrid Grid.Row="1" 
-          ItemsSource="{Binding WorkedHours}"
+        ItemsSource="{Binding WorkedHours}"
       SelectedItem="{Binding SelectedWorkedHour}"
-    AutoGenerateColumns="False"
-   CanUserAddRows="False"
-           IsReadOnly="True"
-            AlternatingRowBackground="LightGray"
- GridLinesVisibility="Horizontal"
-  HorizontalGridLinesBrush="DarkGray">
-  <DataGrid.Columns>
-  <DataGridTextColumn Header="Entry ID" Binding="{Binding entry_id}" Width="80"/>
-<DataGridTextColumn Header="Employee Code" Binding="{Binding emp_code}" Width="120"/>
+       AutoGenerateColumns="False"
+       CanUserAddRows="False"
+   IsReadOnly="True"
+     AlternatingRowBackground="LightGray"
+     GridLinesVisibility="Horizontal"
+ HorizontalGridLinesBrush="DarkGray">
+   <DataGrid.Columns>
+         <DataGridTextColumn Header="Entry ID" Binding="{Binding entry_id}" Width="80"/>
+     <DataGridTextColumn Header="Employee Code" Binding="{Binding emp_code}" Width="120"/>
     <DataGridTextColumn Header="Client Code" Binding="{Binding clt_code}" Width="100"/>
-                <DataGridTextColumn Header="Job Code" Binding="{Binding clt_job_code}" Width="100"/>
-         <DataGridTextColumn Header="Job Name" Binding="{Binding job_name}" Width="150"/>
-                <DataGridTextColumn Header="Date" Binding="{Binding date_display}" Width="100"/>
-         <DataGridTextColumn Header="Start Time" Binding="{Binding start_time, StringFormat='HH:mm'}" Width="100"/>
-         <DataGridTextColumn Header="End Time" Binding="{Binding end_time, StringFormat='HH:mm'}" Width="100"/>
-<DataGridTextColumn Header="Hours Worked" Binding="{Binding hours_worked_display}" Width="120"/>
-       <DataGridTextColumn Header="Minutes Worked" Binding="{Binding minutes_worked_display}" Width="120"/>
-     <DataGridTextColumn Header="Notes" Binding="{Binding notes}" Width="*" MinWidth="150"/>
-     </DataGrid.Columns>
+   <DataGridTextColumn Header="Job Code" Binding="{Binding clt_job_code}" Width="100"/>
+      <DataGridTextColumn Header="Job Name" Binding="{Binding job_name}" Width="150"/>
+<DataGridTextColumn Header="Date" Binding="{Binding date_display}" Width="100"/>
+      <DataGridTextColumn Header="Start Time" Binding="{Binding start_time, StringFormat='HH:mm'}" Width="100"/>
+     <DataGridTextColumn Header="End Time" Binding="{Binding end_time, StringFormat='HH:mm'}" Width="100"/>
+      <DataGridTextColumn Header="Hours Worked" Binding="{Binding hours_worked_display}" Width="120"/>
+ <DataGridTextColumn Header="Minutes Worked" Binding="{Binding minutes_worked_display}" Width="120"/>
+       <DataGridTextColumn Header="Notes" Binding="{Binding notes}" Width="*" MinWidth="150"/>
+   </DataGrid.Columns>
         </DataGrid>
 
-        <!-- Status Bar -->
-     <StatusBar Grid.Row="2" Margin="0,10,0,0">
-  <StatusBarItem>
-                <TextBlock>
-  <Run Text="Total Records: "/>
-      <Run Text="{Binding WorkedHours.Count, Mode=OneWay}"/>
-                </TextBlock>
+      <!-- Status Bar -->
+        <StatusBar Grid.Row="2" Margin="0,10,0,0">
+ <StatusBarItem>
+        <TextBlock>
+     <Run Text="Total Records: "/>
+     <Run Text="{Binding WorkedHours.Count, Mode=OneWay}"/>
+     </TextBlock>
             </StatusBarItem>
-    <Separator/>
-  <StatusBarItem>
-            <TextBlock Text="{Binding SelectedWorkedHour.emp_code, StringFormat='Selected Employee: {0}', FallbackValue='No selection'}"/>
-    </StatusBarItem>
-        </StatusBar>
+        <Separator/>
+    <StatusBarItem>
+        <TextBlock Text="{Binding SelectedWorkedHour.emp_code, StringFormat='Selected Employee: {0}', FallbackValue='No selection'}"/>
+       </StatusBarItem>
+  </StatusBar>
     </Grid>
 </Window>
