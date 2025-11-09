@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using DataLayer.Classes;
+using DocumentFormat.OpenXml.Bibliography;
+using System.Windows;
 
 namespace AiWpf
 {
@@ -8,12 +10,8 @@ namespace AiWpf
         {
             base.OnStartup(e);
 
-            // Launch the DtoClientWindow on startup
-            var dtoClientWindow = new AddClientWindow();
-            dtoClientWindow.Show();
-            //// Launch the DtoClientWindow on startup
-            //var dtoClientWindow = new DtoClientWindow();
-            //dtoClientWindow.Show();
+            Globals.ConMan = new MalaiContext(Globals.ConnectionString);
+            List<DtoWorkedHours> lstWorkedHours  = Globals.ConMan?.GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", 10, 2025, "IMC", out _)!;
         }
     }
 }
