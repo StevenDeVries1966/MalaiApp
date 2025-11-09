@@ -17,19 +17,20 @@ namespace AiWpf.ViewModels
         private ObservableCollection<DtoClient> _clients;
         private List<int> _months;
         private List<int> _years;
+        private bool _isInitializing = true;
 
         public MainWindowViewModel()
         {
             _workedHours = new ObservableCollection<DtoWorkedHours>();
             _clients = new ObservableCollection<DtoClient>();
             _months = Enumerable.Range(1, 12).ToList();
-            _years = Enumerable.Range(2025, 5).ToList(); // 2025 to 2030
-            LoadDataCommand = new RelayCommand(LoadData);
+            _years = Enumerable.Range(2023, 8).ToList(); // 2023 to 2030
 
             // Load clients
             LoadClients();
 
             // Load initial data
+            _isInitializing = false;
             LoadData();
         }
 
@@ -88,8 +89,15 @@ namespace AiWpf.ViewModels
             get => _month;
             set
             {
-                _month = value;
-                OnPropertyChanged();
+                if (_month != value)
+                {
+                    _month = value;
+                    OnPropertyChanged();
+                    if (!_isInitializing)
+                    {
+                        LoadData();
+                    }
+                }
             }
         }
 
@@ -98,8 +106,15 @@ namespace AiWpf.ViewModels
             get => _year;
             set
             {
-                _year = value;
-                OnPropertyChanged();
+                if (_year != value)
+                {
+                    _year = value;
+                    OnPropertyChanged();
+                    if (!_isInitializing)
+                    {
+                        LoadData();
+                    }
+                }
             }
         }
 
@@ -108,12 +123,17 @@ namespace AiWpf.ViewModels
             get => _clientCode;
             set
             {
-                _clientCode = value;
-                OnPropertyChanged();
+                if (_clientCode != value)
+                {
+                    _clientCode = value;
+                    OnPropertyChanged();
+                    if (!_isInitializing)
+                    {
+                        LoadData();
+                    }
+                }
             }
         }
-
-        public ICommand LoadDataCommand { get; }
 
         private void LoadClients()
         {

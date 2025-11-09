@@ -55,10 +55,7 @@
       SelectedValue="{Binding ClientCode, UpdateSourceTrigger=PropertyChanged}"
        ItemsSource="{Binding Clients}"
       VerticalAlignment="Center"/>
-
-       <Button Grid.Column="9" Content="Load Data" Command="{Binding LoadDataCommand}" 
-  Padding="15,5" MinWidth="100"/>
-            </Grid>
+   </Grid>
    </GroupBox>
 
         <!-- DataGrid -->
