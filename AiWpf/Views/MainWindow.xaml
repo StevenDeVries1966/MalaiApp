@@ -141,6 +141,7 @@
    <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Margin" Value="0,3,10,3"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+   <Setter Property="TextAlignment" Value="Right"/>
        </Style>
     <Style TargetType="TextBox">
               <Setter Property="IsReadOnly" Value="True"/>
@@ -166,12 +167,6 @@
               <TextBlock Grid.Row="4" Grid.Column="0" Text="Week:" Style="{StaticResource LabelStyle}"/>
              <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding week, Mode=OneWay}"/>
 
-       <TextBlock Grid.Row="5" Grid.Column="0" Text="Month:" Style="{StaticResource LabelStyle}"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding month, Mode=OneWay}"/>
-
-<TextBlock Grid.Row="6" Grid.Column="0" Text="Year:" Style="{StaticResource LabelStyle}"/>
-              <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding year, Mode=OneWay}"/>
-
         <TextBlock Grid.Row="7" Grid.Column="0" Text="Date:" Style="{StaticResource LabelStyle}"/>
    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding date_display, Mode=OneWay}"/>
 
@@ -179,7 +174,7 @@
        <xctk:DateTimePicker Grid.Row="8" Grid.Column="1" 
      Value="{Binding start_time, Mode=TwoWay}"
                Format="Custom"
-    FormatString="yyyy-MM-dd HH:mm:ss"
+    FormatString="HH:mm"
   Margin="0,3,0,3"
   Background="WhiteSmoke"
      VerticalAlignment="Center"/>
@@ -188,7 +183,7 @@
        <xctk:DateTimePicker Grid.Row="9" Grid.Column="1" 
      Value="{Binding end_time, Mode=TwoWay}"
           Format="Custom"
-    FormatString="yyyy-MM-dd HH:mm:ss"
+    FormatString="HH:mm"
   Margin="0,3,0,3"
   Background="WhiteSmoke"
   VerticalAlignment="Center"/>
