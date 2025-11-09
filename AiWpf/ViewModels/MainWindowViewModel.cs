@@ -13,12 +13,17 @@ namespace AiWpf.ViewModels
         private int _month = 10;
         private int _year = 2025;
         private string _clientCode = "IMC";
+        private ObservableCollection<DtoClient> _clients;
 
         public MainWindowViewModel()
         {
             _workedHours = new ObservableCollection<DtoWorkedHours>();
+            _clients = new ObservableCollection<DtoClient>();
             LoadDataCommand = new RelayCommand(LoadData);
-      
+
+            // Load clients
+            LoadClients();
+
             // Load initial data
             LoadData();
         }
@@ -29,6 +34,16 @@ namespace AiWpf.ViewModels
             set
             {
                 _workedHours = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<DtoClient> Clients
+        {
+            get => _clients;
+            set
+            {
+                _clients = value;
                 OnPropertyChanged();
             }
         }
@@ -75,6 +90,25 @@ namespace AiWpf.ViewModels
 
         public ICommand LoadDataCommand { get; }
 
+        private void LoadClients()
+        {
+            if (Globals.ConMan == null)
+            {
+                return;
+            }
+
+            Globals.ConMan.GetAllClients();
+
+            Clients.Clear();
+            if (Globals.ConMan.LstClients != null)
+            {
+                foreach (var client in Globals.ConMan.LstClients)
+                {
+                    Clients.Add(client);
+                }
+            }
+        }
+
         private void LoadData()
         {
             if (Globals.ConMan == null)
@@ -82,16 +116,15 @@ namespace AiWpf.ViewModels
                 return;
             }
 
-            List<DtoWorkedHours> hours = Globals.ConMan.GetDataClientMonth<DtoWorkedHours>(
-                "GetDataClientMonth", 
-                Month, 
-                Year, 
-                ClientCode, 
+            var data = Globals.ConMan.GetDataClientMonth<DtoWorkedHours>(
+                "GetDataClientMonth",
+                Month,
+                Year,
+                ClientCode,
                 out string message);
-            Globals.ConMan.GetAllClients();
 
             WorkedHours.Clear();
-            foreach (var item in hours)
+            foreach (var item in data)
             {
                 WorkedHours.Add(item);
             }

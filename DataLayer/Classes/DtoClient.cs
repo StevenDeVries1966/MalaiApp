@@ -37,5 +37,7 @@ namespace DataLayer.Classes
         public double retainer_AS001 { get; set; }
         public string report_type { get; set; }
 
+        public string DisplayName => $"{clt_code} - {clt_name}";
+
     }
 }
