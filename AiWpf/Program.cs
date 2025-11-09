@@ -1,6 +1,7 @@
 ﻿using DataLayer.Classes;
 using DocumentFormat.OpenXml.Bibliography;
 using System.Windows;
+using AiWpf.Views;
 
 namespace AiWpf
 {
@@ -11,7 +12,10 @@ namespace AiWpf
             base.OnStartup(e);
 
             Globals.ConMan = new MalaiContext(Globals.ConnectionString);
-            List<DtoWorkedHours> lstWorkedHours  = Globals.ConMan?.GetDataClientMonth<DtoWorkedHours>("GetDataClientMonth", 10, 2025, "IMC", out _)!;
+            
+            // Create and show the main window
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
         }
     }
 }
