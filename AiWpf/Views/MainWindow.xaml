@@ -6,7 +6,8 @@
         xmlns:viewModels="clr-namespace:AiWpf.ViewModels"
         xmlns:views="clr-namespace:AiWpf.Views"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+   mc:Ignorable="d"
         Title="Worked Hours" Height="600" Width="1400"
         WindowStartupLocation="CenterScreen">
 
@@ -175,10 +176,22 @@
    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding date_display, Mode=OneWay}"/>
 
             <TextBlock Grid.Row="8" Grid.Column="0" Text="Start Time:" Style="{StaticResource LabelStyle}"/>
-       <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding start_time, StringFormat='yyyy-MM-dd HH:mm:ss', Mode=OneWay}"/>
+       <xctk:DateTimePicker Grid.Row="8" Grid.Column="1" 
+     Value="{Binding start_time, Mode=TwoWay}"
+               Format="Custom"
+    FormatString="yyyy-MM-dd HH:mm:ss"
+  Margin="0,3,0,3"
+  Background="WhiteSmoke"
+     VerticalAlignment="Center"/>
 
             <TextBlock Grid.Row="9" Grid.Column="0" Text="End Time:" Style="{StaticResource LabelStyle}"/>
-      <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding end_time, StringFormat='yyyy-MM-dd HH:mm:ss', Mode=OneWay}"/>
+       <xctk:DateTimePicker Grid.Row="9" Grid.Column="1" 
+     Value="{Binding end_time, Mode=TwoWay}"
+          Format="Custom"
+    FormatString="yyyy-MM-dd HH:mm:ss"
+  Margin="0,3,0,3"
+  Background="WhiteSmoke"
+  VerticalAlignment="Center"/>
 
   <TextBlock Grid.Row="10" Grid.Column="0" Text="Hours Worked:" Style="{StaticResource LabelStyle}"/>
           <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding hours_worked_display, Mode=OneWay}"/>
