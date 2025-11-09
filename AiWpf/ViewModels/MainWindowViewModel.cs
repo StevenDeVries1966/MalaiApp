@@ -82,15 +82,16 @@ namespace AiWpf.ViewModels
                 return;
             }
 
-            var data = Globals.ConMan.GetDataClientMonth<DtoWorkedHours>(
+            List<DtoWorkedHours> hours = Globals.ConMan.GetDataClientMonth<DtoWorkedHours>(
                 "GetDataClientMonth", 
                 Month, 
                 Year, 
                 ClientCode, 
                 out string message);
+            Globals.ConMan.GetAllClients();
 
             WorkedHours.Clear();
-            foreach (var item in data)
+            foreach (var item in hours)
             {
                 WorkedHours.Add(item);
             }
