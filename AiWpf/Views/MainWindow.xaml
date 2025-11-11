@@ -1,4 +1,4 @@
-<Window x:Class="AiWpf.Views.MainWindow"
+﻿<Window x:Class="AiWpf.Views.MainWindow"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -86,7 +86,7 @@
       <DataGridTextColumn Header="Entry ID" Binding="{Binding entry_id}" Width="80"/>
         <DataGridTextColumn Header="Employee Code" Binding="{Binding emp_code}" Width="120"/>
   <DataGridTextColumn Header="Client Code" Binding="{Binding clt_code}" Width="100"/>
-           <DataGridTextColumn Header="Job Code" Binding="{Binding clt_job_code}" Width="100"/>
+           <!--<DataGridTextColumn Header="Job Code" Binding="{Binding clt_job_code}" Width="100"/>-->
 <DataGridTextColumn Header="Job Name" Binding="{Binding job_name}" Width="150"/>
    <DataGridTextColumn Header="Date" Binding="{Binding date_display}" Width="100"/>
          <DataGridTextColumn Header="Start Time" Binding="{Binding start_time, StringFormat='HH:mm'}" Width="100"/>
@@ -156,10 +156,17 @@
          <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding emp_code, Mode=OneWay}"/>
 
          <TextBlock Grid.Row="1" Grid.Column="0" Text="Client Code:" Style="{StaticResource LabelStyle}"/>
-          <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding clt_code, Mode=OneWay}"/>
+    <ComboBox Grid.Row="1" Grid.Column="1"
+ SelectedValuePath="clt_code"
+ DisplayMemberPath="DisplayName"
+       SelectedValue="{Binding clt_code, Mode=TwoWay}"
+            ItemsSource="{Binding DataContext.Clients, RelativeSource={RelativeSource AncestorType=Window}}"
+   Margin="0,3,0,3"
+  Background="WhiteSmoke"
+    VerticalAlignment="Center"/>
 
-           <TextBlock Grid.Row="2" Grid.Column="0" Text="Job Code:" Style="{StaticResource LabelStyle}"/>
-             <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding clt_job_code, Mode=OneWay}"/>
+           <!--<TextBlock Grid.Row="2" Grid.Column="0" Text="Job Code:" Style="{StaticResource LabelStyle}"/>
+             <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding clt_job_code, Mode=OneWay}"/>-->
 
               <TextBlock Grid.Row="3" Grid.Column="0" Text="Job Name:" Style="{StaticResource LabelStyle}"/>
   <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding job_name, Mode=OneWay}"/>

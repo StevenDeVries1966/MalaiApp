@@ -8,7 +8,7 @@ namespace DataLayer.Classes
         {
             emp_code = employeeCode;
             clt_code = clientCode;
-            clt_job_code = clientJobCode;
+            //clt_job_code = clientJobCode;
             start_time = start;
             end_time = end;
             notes = notes;
@@ -22,7 +22,7 @@ namespace DataLayer.Classes
         public int emp_id { get; set; }
         public string emp_code { get; set; }
         public string clt_code { get; set; }
-        public string clt_job_code { get; set; }
+        //public string clt_job_code { get; set; }
         public string job_name { get; set; }
         public int job_id { get; set; }
         public int week { get; set; }

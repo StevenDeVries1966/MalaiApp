@@ -206,7 +206,7 @@ namespace DataLayer.Classes
                                 // Add parameters if your stored procedure has any
                                 cmd.Parameters.AddWithValue("@emp_code", item.emp_code);
                                 cmd.Parameters.AddWithValue("@clt_code", item.clt_code);
-                                cmd.Parameters.AddWithValue("@clt_job_code", item.clt_job_code);
+                                //cmd.Parameters.AddWithValue("@clt_job_code", item.clt_job_code);
                                 // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
                                 cmd.Parameters.AddWithValue("@notes", item.notes ?? "");
                                 cmd.Parameters.AddWithValue("@start_time", item.start_time);
