@@ -47,7 +47,6 @@
                     <DataGridTextColumn Header="Entry ID" Binding="{Binding entry_id}" Width="80" />
                     <DataGridTextColumn Header="Employee Code" Binding="{Binding emp_code}" Width="120" />
                     <DataGridTextColumn Header="Client Code" Binding="{Binding clt_code}" Width="100" />
-                    <!--<DataGridTextColumn Header="Job Code" Binding="{Binding clt_job_code}" Width="100"/>-->
                     <DataGridTextColumn Header="Job Name" Binding="{Binding job_name}" Width="150" />
                     <DataGridTextColumn Header="Date" Binding="{Binding date_display}" Width="100" />
                     <DataGridTextColumn Header="Start Time" Binding="{Binding start_time, StringFormat='HH:mm'}" Width="100" />
@@ -103,18 +102,16 @@
                             <ComboBox Grid.Row="0" Grid.Column="1" SelectedValuePath="emp_code" DisplayMemberPath="display_name" SelectedValue="{Binding emp_code, Mode=TwoWay}" ItemsSource="{Binding DataContext.Employees, RelativeSource={RelativeSource AncestorType=Window}}" Margin="0,3,0,3" Background="WhiteSmoke" VerticalAlignment="Center" />
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Client Code:" Style="{StaticResource LabelStyle}" />
                             <ComboBox Grid.Row="1" Grid.Column="1" SelectedValuePath="clt_code" DisplayMemberPath="DisplayName" SelectedValue="{Binding clt_code, Mode=TwoWay}" ItemsSource="{Binding DataContext.Clients, RelativeSource={RelativeSource AncestorType=Window}}" Margin="0,3,0,3" Background="WhiteSmoke" VerticalAlignment="Center" />
-                            <!--<TextBlock Grid.Row="2" Grid.Column="0" Text="Job Code:" Style="{StaticResource LabelStyle}"/>
-             <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding clt_job_code, Mode=OneWay}"/>-->
-                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Job Name:" Style="{StaticResource LabelStyle}" />
+                           <TextBlock Grid.Row="3" Grid.Column="0" Text="Job Name:" Style="{StaticResource LabelStyle}" />
                             <ComboBox Grid.Row="3" Grid.Column="1" SelectedValuePath="job_id" DisplayMemberPath="job_name" SelectedValue="{Binding job_id, Mode=TwoWay}" ItemsSource="{Binding DataContext.Jobs, RelativeSource={RelativeSource AncestorType=Window}}" Margin="0,3,0,3" Background="WhiteSmoke" VerticalAlignment="Center" />
                             <TextBlock Grid.Row="4" Grid.Column="0" Text="Week:" Style="{StaticResource LabelStyle}" />
                             <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding week, Mode=OneWay}" />
                             <TextBlock Grid.Row="7" Grid.Column="0" Text="Date:" Style="{StaticResource LabelStyle}" />
                             <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding date_display, Mode=OneWay}" />
                             <TextBlock Grid.Row="8" Grid.Column="0" Text="Start Time:" Style="{StaticResource LabelStyle}" />
-                            <xctk:DateTimePicker Grid.Row="8" Grid.Column="1" Value="{Binding start_time, Mode=TwoWay}" Format="Custom" FormatString="HH:mm" Margin="0,3,0,3" Background="WhiteSmoke" VerticalAlignment="Center" />
+                            <xctk:TimePicker Grid.Row="8" Grid.Column="1" Value="{Binding start_time, Mode=TwoWay}" Format="Custom" FormatString="HH:mm" Margin="0,3,0,3" Background="WhiteSmoke" VerticalAlignment="Center" />
                             <TextBlock Grid.Row="9" Grid.Column="0" Text="End Time:" Style="{StaticResource LabelStyle}" />
-                            <xctk:DateTimePicker Grid.Row="9" Grid.Column="1" Value="{Binding end_time, Mode=TwoWay}" Format="Custom" FormatString="HH:mm" Margin="0,3,0,3" Background="WhiteSmoke" VerticalAlignment="Center" />
+                            <xctk:TimePicker Grid.Row="9" Grid.Column="1" Value="{Binding end_time, Mode=TwoWay}" Format="Custom" FormatString="HH:mm" Margin="0,3,0,3" Background="WhiteSmoke" VerticalAlignment="Center" />
                             <TextBlock Grid.Row="10" Grid.Column="0" Text="Hours Worked:" Style="{StaticResource LabelStyle}" />
                             <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding hours_worked_display, Mode=OneWay}" />
                             <TextBlock Grid.Row="11" Grid.Column="0" Text="Minutes Worked:" Style="{StaticResource LabelStyle}" />
@@ -141,3 +138,4 @@
         </StatusBar>
     </Grid>
 </Window>
+
