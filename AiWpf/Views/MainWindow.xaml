@@ -107,7 +107,8 @@
                             <TextBlock Grid.Row="4" Grid.Column="0" Text="Week:" Style="{StaticResource LabelStyle}" />
                             <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding week, Mode=OneWay}" />
                             <TextBlock Grid.Row="7" Grid.Column="0" Text="Date:" Style="{StaticResource LabelStyle}" />
-                            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding date_display, Mode=OneWay}" />
+                            <!--<TextBox Grid.Row="7" Grid.Column="1" Text="{Binding date_display, Mode=OneWay}" />-->
+                            <DatePicker Grid.Row="7" Grid.Column="1" SelectedDate="{Binding start_time, Mode=TwoWay, StringFormat='yyyy-MM-dd'}"/>
                             <TextBlock Grid.Row="8" Grid.Column="0" Text="Start Time:" Style="{StaticResource LabelStyle}" />
                             <xctk:TimePicker Grid.Row="8" Grid.Column="1" Value="{Binding start_time, Mode=TwoWay}" Format="Custom" FormatString="HH:mm" Margin="0,3,0,3" Background="WhiteSmoke" VerticalAlignment="Center" />
                             <TextBlock Grid.Row="9" Grid.Column="0" Text="End Time:" Style="{StaticResource LabelStyle}" />
