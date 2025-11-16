@@ -1,0 +1,22 @@
+﻿{
+   "ConnectionStringName": "dab-connection-string",
+   "Dacpac": null,
+   "DatabaseType": 3,
+   "MergeDacpacs": false,
+   "Optional": false,
+   "ProjectPath": "D:\\_GitMe\\MalaiApp\\Database_2026",
+   "Tables": [
+      {
+         "Name": "[dbo].[Client]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Client_ReportType]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ReportType]",
+         "ObjectType": 0
+      }
+   ]
+}

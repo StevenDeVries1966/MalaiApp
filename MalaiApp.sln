@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.7.34018.315
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11206.111 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{7BCC1BFC-45EB-41F9-B84B-19324E92FB7D}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{6069265E-F7B9-45D6-9A2D-E0A822E25AD3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AiWpf", "AiWpf\AiWpf.csproj", "{7F87B74F-7F29-4C96-A243-B0FD00DB6D42}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database_2026", "Database_2026\Database_2026.sqlproj", "{268E2D83-16B7-4C84-BBF8-1FB971C78558}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,12 @@ Global
 		{7F87B74F-7F29-4C96-A243-B0FD00DB6D42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F87B74F-7F29-4C96-A243-B0FD00DB6D42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F87B74F-7F29-4C96-A243-B0FD00DB6D42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{268E2D83-16B7-4C84-BBF8-1FB971C78558}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{268E2D83-16B7-4C84-BBF8-1FB971C78558}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{268E2D83-16B7-4C84-BBF8-1FB971C78558}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{268E2D83-16B7-4C84-BBF8-1FB971C78558}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{268E2D83-16B7-4C84-BBF8-1FB971C78558}.Release|Any CPU.Build.0 = Release|Any CPU
+		{268E2D83-16B7-4C84-BBF8-1FB971C78558}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
